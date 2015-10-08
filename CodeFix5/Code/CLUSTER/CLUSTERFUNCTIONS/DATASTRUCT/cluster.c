@@ -1920,7 +1920,6 @@ int addNodeToCluster( ClusterLL clLL, MidPoint mp){
 		if(tempNode->next==NULL){
 			//If next ClusterLL is NULL then must create a new one
 			if(tempclLL->next==NULL){
-				printf("Made it here 0\n");
 				addNodeNewCluster(&tempclLL, mp);
 				return 0;
 

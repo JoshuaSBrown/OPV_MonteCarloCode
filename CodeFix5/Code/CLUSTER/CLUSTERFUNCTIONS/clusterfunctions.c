@@ -52,7 +52,7 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 
 	//Calculating full Marcus Coefficient;
 
-	printf("MarcusJ0 %g hbar %g gamma %g SiteDistance %g\n",MarcusJ0,hbar,gamma,SiteDistance);
+	//printf("MarcusJ0 %g hbar %g gamma %g SiteDistance %g\n",MarcusJ0,hbar,gamma,SiteDistance);
 	MarcusCoeff = pow(MarcusJ0,2)/hbar * pow(M_PI/(4*reOrgEnergy*KT),1/2)*exp(2*gamma*SiteDistance);
 
 	//MasterM values
@@ -85,7 +85,7 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 				SNj = getSN(snA, i1,j,k);
 				v[0] = MarcusCoeff*hoppingRate(getEnergy(SNj) - getEnergy(SNi) + electricEnergyX, KT, reOrgEnergy);
 
-				printf("Value of rage v0 %g MarcusCoeff %g Energy SNj %g Energy SNi %g electricEnergyX %g KT %g reOrgEnergy %g\n",v[0],MarcusCoeff,getEnergy(SNj), getEnergy(SNi), electricEnergyX, KT, reOrgEnergy);
+				//printf("Value of rage v0 %g MarcusCoeff %g Energy SNj %g Energy SNi %g electricEnergyX %g KT %g reOrgEnergy %g\n",v[0],MarcusCoeff,getEnergy(SNj), getEnergy(SNi), electricEnergyX, KT, reOrgEnergy);
 
 				//Site in front of site SNi
 				i1=(i+1)%getAlen(snA);
@@ -132,7 +132,7 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 
 				for(l=0;l<6;l++){
 
-					printf("Index %d v[%d] %g log10(v[%d]) %g  round(log10(v[%d])) %g\n",getIndex(snA,i,j,k),l,v[l],l,log10(v[l]),l,round(log10(v[l])));
+					//printf("Index %d v[%d] %g log10(v[%d]) %g  round(log10(v[%d])) %g\n",getIndex(snA,i,j,k),l,v[l],l,log10(v[l]),l,round(log10(v[l])));
 					rv=setE(MasterM,getIndex(snA,i,j,k)+1,(l+1),round(log10(v[l])));
 					//Also record the actual rates
 					rv=setE(MasterM,getIndex(snA,i,j,k)+1,6+(l+1), v[l]);
@@ -453,7 +453,7 @@ ArbArray SortOrderMag(const int TotalOrders,const int orderLow, const_ArbArray m
 		rv = addToOrLL(ArLL, element, getMP(mpA,Mid_ID) );
 	}
 
-	printArbArray(ArLL);
+//	printArbArray(ArLL);
 
 	return ArLL;
 }
@@ -519,8 +519,8 @@ ArbArray ClusterSort(const int TotalOrders,const int orderLow, const_ArbArray Ar
 		}
 	}
 
-	printf("Printing Cluster Array.\n");
-	printArbArray(ClArLL, orderLow);
+	//printf("Printing Cluster Array.\n");
+	//printArbArray(ClArLL, orderLow);
 
 	return ClArLL;
 }
@@ -760,7 +760,7 @@ int FilterCluster(const int TotalOrders,const int orderLow,const_matrix MasterM,
 			if (DeleteCluster==0){
 				//Check to see if there is a percolation pathway
 				//If there is will delete the cluster
-				printf("***************BEGINNING PERCOLATION CHECK***********\n");
+				//printf("***************BEGINNING PERCOLATION CHECK***********\n");
 				DeleteCluster = FeelPercolation( TempClLL, snA, PeriodicY, PeriodicZ );
 			}
 
@@ -875,13 +875,13 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 	}
 
-	printf("Set Matrices\n");
-	printf("Printing LeftELec\n");
-	printMatrix(NearLeftElec);
-	printf("Printing RightElec\n");
-	printMatrix(NearRightElec);
-	printf("Printing Available Nodes Matrix\n");
-	printMatrix(AvailableNodes);
+//	printf("Set Matrices\n");
+//	printf("Printing LeftELec\n");
+//	printMatrix(NearLeftElec);
+//	printf("Printing RightElec\n");
+//	printMatrix(NearRightElec);
+//	printf("Printing Available Nodes Matrix\n");
+//	printMatrix(AvailableNodes);
 
 	//Looking at the boundaries determining if cluster
 	//spans the length of the sample
@@ -3138,7 +3138,7 @@ int CalculateSumAndP(const int TotalOrders, const_SNarray snA, ArbArray * ClArLL
 	for(element=0;element<TotalOrders;element++){
 		TempClLL=(ClusterLL) getArbElement(*ClArLL,element);
 
-		printClusterLL(TempClLL);
+		//printClusterLL(TempClLL);
 
 		if(TempClLL==NULL) {
 			//printf("Cluster Empty\n");
@@ -3179,21 +3179,14 @@ int CalculateSumAndP(const int TotalOrders, const_SNarray snA, ArbArray * ClArLL
 					tempNode = getNextNode(tempNode);
 				}
 				mtxProbNeigh = duplicateMatrix(mtxProb);
-				printf("Printing mtxProb\n");	
-				printMatrix(mtxProb);
-				printf("Printing mtxProbNeigh\n");	
-				printMatrix(mtxProbNeigh);
 				DivideEachElementCol( &mtxProbNeigh,1, PneighTotal);
 
-				printf("Printing mtxProbNeigh again\n");	
-				printMatrix(mtxProbNeigh);
 				double rateN = 0.0;
 				//This function calculates the amount of time on average
 				//a charge will spend on a given site within the cluster
 				//mtxDwellTime is normalized so it is actually a ratio and not a time
 				countNeighOpts = SumOfCol(mtxHopOpt,2);
 				matrix mtxTimes = newMatrix(countNeighOpts,1);
-				printClusterLL(TempClLL);
 				mtxDwellTime = CalculateDwellTimeAndRateN(&TempClLL,&mtxTimes,mtxProbNeigh, MasterM,\
 						snA, &rateN, PeriodicX, PeriodicY, PeriodicZ);
 
@@ -3201,23 +3194,18 @@ int CalculateSumAndP(const int TotalOrders, const_SNarray snA, ArbArray * ClArLL
 				//amount of time a charge will take to hop to a given 
 				//neighbor site. 
 				tempNode = getStartNode(TempClLL);
-				printClusterLL(TempClLL);
 				mtxProbNeighDwell = CalculateProbNeighDwell(countNeighOpts,mtxDwellTime,mtxProb,\
 						tempNode,MasterM,snA, rateN,\
 						PeriodicX, PeriodicY, PeriodicZ);
 
-				printClusterLL(TempClLL);
 				//Now we calculate the pval for the cluster
 				//pval - Stay in Cluster
 				//pval - Hop off cluster
 				//pval - sites off cluster
 				//pval - sites within cluster
 				CalculatePvalNeigh(&TempClLL, mtxTimes, mtxProbNeighDwell);
-				//printClusterLL(TempClLL);
 
-				printClusterLL(TempClLL);
 				CalculatePvalNodes(&TempClLL, mtxProb, mtxDwellTime);
-				printClusterLL(TempClLL);
 
 
 
@@ -3355,13 +3343,13 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 			//6 hop above				index - 5
 			Node_ID = getNode_id(tempNode);
 
-			printf("Node_id %d inc %d\n",Node_ID,inc);
+			//printf("Node_id %d inc %d\n",Node_ID,inc);
 			getLoc( &i, &j, &k, Node_ID, snA);
 
 			if(getFlagFro(tempNode)==1){
 				//Node in front is within the cluster
 				Node_IDFro = getIndFroP(snA,i,j,k);
-				printf("Node in front of %d is %d\n",Node_ID, Node_IDFro);
+				//printf("Node in front of %d is %d\n",Node_ID, Node_IDFro);
 				Row = FindRowOfMatchInCol(mtxHopOpt, Node_IDFro, 3);
 				Row2 = FindRowOfMatchInCol(mtxProb, Node_IDFro,2);
 				//printf("Row %d Row2 %d\n",Row,Row2);
@@ -3371,7 +3359,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 			if(getFlagBeh(tempNode)==1){
 				//Node behind is within the cluster
 				Node_IDBeh = getIndBehP(snA,i,j,k);
-				printf("Node behind %d is %d\n",Node_ID, Node_IDBeh);
+				//printf("Node behind %d is %d\n",Node_ID, Node_IDBeh);
 				Row = FindRowOfMatchInCol(mtxHopOpt, Node_IDBeh,3);
 				Row2 = FindRowOfMatchInCol(mtxProb, Node_IDBeh,2);
 				//printf("Row %d Row2 %d\n",Row,Row2);
@@ -3382,7 +3370,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 			if(getFlagLef(tempNode)==1){
 				//Node behind is within the cluster
 				Node_IDLef = getIndLefP(snA,i,j,k);
-				printf("Node to the left of %d is %d\n",Node_ID, Node_IDLef);
+				//printf("Node to the left of %d is %d\n",Node_ID, Node_IDLef);
 				Row = FindRowOfMatchInCol(mtxHopOpt, Node_IDLef,3);
 				Row2 = FindRowOfMatchInCol(mtxProb, Node_IDLef,2);
 				//printf("Row %d Row2 %d\n",Row,Row2);
@@ -3393,7 +3381,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 			if(getFlagRig(tempNode)==1){
 				//Node behind is within the cluster
 				Node_IDRig = getIndRigP(snA,i,j,k);
-				printf("Node to the Right of %d is %d\n",Node_ID, Node_IDRig);
+				//printf("Node to the Right of %d is %d\n",Node_ID, Node_IDRig);
 				Row = FindRowOfMatchInCol(mtxHopOpt, Node_IDRig,3);
 				Row2 = FindRowOfMatchInCol(mtxProb, Node_IDRig,2);
 				//printf("Row %d Row2 %d\n",Row,Row2);
@@ -3403,7 +3391,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 			if(getFlagBel(tempNode)==1){
 				//Node behind is within the cluster
 				Node_IDBel = getIndBelP(snA,i,j,k);
-				printf("Node below %d is %d\n",Node_ID, Node_IDBel);
+				//printf("Node below %d is %d\n",Node_ID, Node_IDBel);
 				Row = FindRowOfMatchInCol(mtxHopOpt, Node_IDBel,3);
 				Row2 = FindRowOfMatchInCol(mtxProb, Node_IDBel,2);
 				//printf("Row %d Row2 %d\n",Row,Row2);
@@ -3414,7 +3402,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 			if(getFlagAbo(tempNode)==1){
 				//Node behind is within the cluster
 				Node_IDAbo = getIndAboP(snA,i,j,k);
-				printf("Node above %d is %d\n",Node_ID, Node_IDAbo);
+				//printf("Node above %d is %d\n",Node_ID, Node_IDAbo);
 				Row = FindRowOfMatchInCol(mtxHopOpt, Node_IDAbo,3);
 				Row2 = FindRowOfMatchInCol(mtxProb, Node_IDAbo,2);
 				//printf("Row %d Row2 %d\n",Row,Row2);
@@ -3424,7 +3412,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 
 			val = (SumOfCol(mtxProbNew,1)+getE(mtxProb,inc,1))/2;
 
-			printf("Prob of site %d val: %g\n",Node_ID,val);
+			//printf("Prob of site %d val: %g\n",Node_ID,val);
 			setE(mtxProb,inc,1,val);
 			inc++;
 			tempNode = getNextNode(tempNode);
@@ -3508,9 +3496,9 @@ matrix CalculateProbNeighDwell(const int countNeighOpts,\
 			if(getFlagLef(tempNode)!=1){
 				Val2 = getE(mtxProb,Row,1)*getE(MasterM, getIndex(snA,i,j,k)+1,9)*\
 							 (1/rateN)*dwelltemp;
-				printf("Node ID %d Inc %d\t",Node_ID,inc);
-				printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,9));
-				printf("Prob %g\n",getE(mtxProb,Row,1));
+				//printf("Node ID %d Inc %d\t",Node_ID,inc);
+				//printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,9));
+				//printf("Prob %g\n",getE(mtxProb,Row,1));
 				setE(mtxProbNeighDwell,inc2,1,Val2);
 				setE(mtxProbNeighDwell,inc2,2,getIndexLeftP(snA,Node_ID));
 				inc2++;
@@ -3522,9 +3510,9 @@ matrix CalculateProbNeighDwell(const int countNeighOpts,\
 			if(getFlagRig(tempNode)!=1){
 				Val2 = getE(mtxProb,Row,1)*getE(MasterM, getIndex(snA,i,j,k)+1,10)*\
 							 (1/rateN)*dwelltemp;
-				printf("Node ID %d Inc %d\t",Node_ID,inc);
-				printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,10));
-				printf("Prob %g\n",getE(mtxProb,Row,1));
+				//printf("Node ID %d Inc %d\t",Node_ID,inc);
+				//printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,10));
+				//printf("Prob %g\n",getE(mtxProb,Row,1));
 				setE(mtxProbNeighDwell,inc2,1,Val2);
 				setE(mtxProbNeighDwell,inc2,2,getIndexRightP(snA,Node_ID));
 				inc2++;
@@ -3536,9 +3524,9 @@ matrix CalculateProbNeighDwell(const int countNeighOpts,\
 			if(getFlagBel(tempNode)!=1){
 				Val2 = getE(mtxProb,Row,1)*getE(MasterM, getIndex(snA,i,j,k)+1,11)*\
 							 (1/rateN)*dwelltemp;
-				printf("Node ID %d Inc %d\t",Node_ID,inc);
-				printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,11));
-				printf("Prob %g\n",getE(mtxProb,Row,1));
+				//printf("Node ID %d Inc %d\t",Node_ID,inc);
+				//printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,11));
+				//printf("Prob %g\n",getE(mtxProb,Row,1));
 				setE(mtxProbNeighDwell,inc2,1,Val2);
 				setE(mtxProbNeighDwell,inc2,2,getIndexBelowP(snA,Node_ID));
 				inc2++;
@@ -3550,9 +3538,9 @@ matrix CalculateProbNeighDwell(const int countNeighOpts,\
 			if(getFlagAbo(tempNode)!=1){
 				Val2 = getE(mtxProb,Row,1)*getE(MasterM, getIndex(snA,i,j,k)+1,12)*\
 							 (1/rateN)*dwelltemp;
-				printf("Node ID %d Inc %d\t",Node_ID,inc);
-				printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,12));
-				printf("Prob %g\n",getE(mtxProb,Row,1));
+				//printf("Node ID %d Inc %d\t",Node_ID,inc);
+				//printf("Increment %d Val %g dwelltemp %g MasterM %g\t",inc2,Val2,dwelltemp,getE(MasterM, getIndex(snA,i,j,k)+1,12));
+				//printf("Prob %g\n",getE(mtxProb,Row,1));
 				setE(mtxProbNeighDwell,inc2,1,Val2);
 				setE(mtxProbNeighDwell,inc2,2,getIndexAboveP(snA,Node_ID));
 				inc2++;
@@ -3574,13 +3562,13 @@ matrix CalculateDwellTimeAndRateN(ClusterLL *  TempClLL,matrix * mtxTimes, const
 		const int PeriodicY,\
 		const int PeriodicZ){
 
-	printSNarray(snA);
-	printMatrix(MasterM);
-	printf("printing mtxProbNeigh third time\n");
-	printMatrix(mtxProbNeigh);
-	printClusterLL(*TempClLL);
-	printMatrix(*mtxTimes);
-	printf("PeriodicX %d PeriodicY %d PeriodicZ %d rateN %g\n",PeriodicX,PeriodicY,PeriodicZ,*rateN);
+	//printSNarray(snA);
+	//printMatrix(MasterM);
+	//printf("printing mtxProbNeigh third time\n");
+	//printMatrix(mtxProbNeigh);
+	//printClusterLL(*TempClLL);
+	//printMatrix(*mtxTimes);
+	//printf("PeriodicX %d PeriodicY %d PeriodicZ %d rateN %g\n",PeriodicX,PeriodicY,PeriodicZ,*rateN);
 
 	//Now need to multiply each mtxProbNeigh by the appropriate hoprate
 	//Only for the sites that are within the clusters need to cycle 
@@ -3754,7 +3742,7 @@ int CalculatePvalNeigh(ClusterLL * TempClLL,const_matrix mtxTimes, const_matrix 
 			if(ID==Node_ID){
 				//printf("rows %d inc2 %d\n",getRows(mtxProbNeighDwell),inc2);
 				val += getE(mtxProbNeighDwell,inc,1);
-				printf("\nSetting pval of Node %d with val %g\n",Node_ID, val);
+				//printf("\nSetting pval of Node %d with val %g\n",Node_ID, val);
 				setNeighNodeNew_p(NeighNod,val);
 				time = getE(mtxTimes,inc2,1);
 				setNeighNode_t(NeighNod, time, inc2);
@@ -3961,8 +3949,10 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX,\
 }
 
 int SaveCluster( char * FileName, int OrderL, SNarray snA, double electricEnergyX,\
-		double electricEnergyY, double electricEnergyZ,\
-		ArbArray ClArLL1, double kT, ParameterFrame PF){
+								double electricEnergyY, double electricEnergyZ,\
+								ArbArray ClArLL1, double kT, ParameterFrame PF,\
+								Electrode elXb, Electrode elXf, Electrode elYl,\
+								Electrode elYr, Electrode elZb, Electrode elZa){
 
 	if(snA==NULL || ClArLL1 == NULL || PF==NULL){
 		printf("WARNING could not save Cluster file\n");
@@ -4134,16 +4124,306 @@ int SaveCluster( char * FileName, int OrderL, SNarray snA, double electricEnergy
 
 		printf("Finished Parameter Frame to File\n");
 
+		SNarray snAtemp;
+		matrix mtx;
+		SiteNode sn;
+		Point pt;
+		ClusterLL ClLL;
+		int ClusterID;
+		//We know how many electrodes there should be by looking
+		//at XElecOn YElecOn and ZElecOn in the parameter frame
+		if(PFget_XElecOn(PF)==1){
+			if(elXb==NULL || elXf==NULL){
+				printf("ERROR electrodes Xb and Xf are NULL when trying to save\n");
+				exit(1);
+			}
+			//Sum alpha Charges FermiEnergy
+			fprintf(ClusterOut,"%g\t%g\t%d\t%g\n",getElectrode_Sum(elXb),getElectrode_alpha(elXb),\
+					   getElectrode_Charges(elXb),getElectrode_FermiEnergy(elXb));
+
+			mtx = (matrix) getElectrode_HopRates(elXb);
+			
+			//print rates
+			for(i=0;i<getRows(mtx);i++){
+				for(j=0;j<getCols(mtx);j++){
+					//print i j rate
+					fprintf(ClusterOut,"%d %d %g\n",i,j,getE(mtx,i+1,j+1));
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+
+			snAtemp = (SNarray) getElectrode_AdjacentSites(elXb);
+
+			for(i=0;i<getAlen(snAtemp);i++){
+				for(j=0;j<getAwid(snAtemp);j++){
+					for(k=0;k<getAhei(snAtemp);k++){
+						
+						sn = getSN(snAtemp,i,j,k);
+
+						ClLL = (ClusterLL) getClusterList(sn);
+						if(ClLL!=NULL){
+							ClusterID = getCluster_id(ClLL);
+						}else{
+							ClusterID = -1;
+						}
+
+						pt = (Point) getPoint(sn);
+						if(pt==NULL){
+							printf("ERROR point should not be NULL if sn exists\n");
+							exit(1);
+						}
+
+						fprintf(ClusterOut,"%d\t%d\t%d\t%g\t%d\t%g\t%g\t%g\t%d\t%g\t%g\t%g\t%g\t%g\t%g\t%g\n",i,j,k,getEnergy(sn),getDwelStat(sn),getVisFreq(sn),getVis(sn),getTime(sn),ClusterID,getsum(sn),getSN_p(sn,0),getSN_p(sn,1),getSN_p(sn,2),getSN_p(sn,3),getSN_p(sn,4),getSN_p(sn,5));
+
+
+					}
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+			//Sum alpha Charges FermiEnergy
+			fprintf(ClusterOut,"%g\t%g\t%d\t%g\n",getElectrode_Sum(elXf),getElectrode_alpha(elXf),\
+					   getElectrode_Charges(elXf),getElectrode_FermiEnergy(elXf));
+
+			mtx = (matrix) getElectrode_HopRates(elXf);
+			
+			//print rates
+			for(i=0;i<getRows(mtx);i++){
+				for(j=0;j<getCols(mtx);j++){
+					//print i j rate
+					fprintf(ClusterOut,"%d %d %g\n",i,j,getE(mtx,i+1,j+1));
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+
+			snAtemp = (SNarray) getElectrode_AdjacentSites(elXf);
+
+			for(i=0;i<getAlen(snAtemp);i++){
+				for(j=0;j<getAwid(snAtemp);j++){
+					for(k=0;k<getAhei(snAtemp);k++){
+						
+						sn = getSN(snAtemp,i,j,k);
+
+						ClLL = (ClusterLL) getClusterList(sn);
+						if(ClLL!=NULL){
+							ClusterID = getCluster_id(ClLL);
+						}else{
+							ClusterID = -1;
+						}
+
+						pt = (Point) getPoint(sn);
+						if(pt==NULL){
+							printf("ERROR point should not be NULL if sn exists\n");
+							exit(1);
+						}
+
+						fprintf(ClusterOut,"%d\t%d\t%d\t%g\t%d\t%g\t%g\t%g\t%d\t%g\t%g\t%g\t%g\t%g\t%g\t%g\n",i,j,k,getEnergy(sn),getDwelStat(sn),getVisFreq(sn),getVis(sn),getTime(sn),ClusterID,getsum(sn),getSN_p(sn,0),getSN_p(sn,1),getSN_p(sn,2),getSN_p(sn,3),getSN_p(sn,4),getSN_p(sn,5));
+
+
+					}
+				}
+			}
+		}
+
+
+		if(PFget_YElecOn(PF)==1){
+			if(elYl==NULL || elYr==NULL){
+				printf("ERROR electrodes Yl and Yr are NULL when trying to save\n");
+				exit(1);
+			}
+			
+			//Sum alpha Charges FermiEnergy
+			fprintf(ClusterOut,"%g\t%g\t%d\t%g\n",getElectrode_Sum(elYl),getElectrode_alpha(elYl),\
+					   getElectrode_Charges(elYl),getElectrode_FermiEnergy(elYl));
+
+			mtx = (matrix) getElectrode_HopRates(elYl);
+			
+			//print rates
+			for(i=0;i<getRows(mtx);i++){
+				for(j=0;j<getCols(mtx);j++){
+					//print i j rate
+					fprintf(ClusterOut,"%d %d %g\n",i,j,getE(mtx,i+1,j+1));
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+
+			snAtemp = (SNarray) getElectrode_AdjacentSites(elYl);
+
+			for(i=0;i<getAlen(snAtemp);i++){
+				for(j=0;j<getAwid(snAtemp);j++){
+					for(k=0;k<getAhei(snAtemp);k++){
+						
+						sn = getSN(snAtemp,i,j,k);
+
+						ClLL = (ClusterLL) getClusterList(sn);
+						if(ClLL!=NULL){
+							ClusterID = getCluster_id(ClLL);
+						}else{
+							ClusterID = -1;
+						}
+
+						pt = (Point) getPoint(sn);
+						if(pt==NULL){
+							printf("ERROR point should not be NULL if sn exists\n");
+							exit(1);
+						}
+
+						fprintf(ClusterOut,"%d\t%d\t%d\t%g\t%d\t%g\t%g\t%g\t%d\t%g\t%g\t%g\t%g\t%g\t%g\t%g\n",i,j,k,getEnergy(sn),getDwelStat(sn),getVisFreq(sn),getVis(sn),getTime(sn),ClusterID,getsum(sn),getSN_p(sn,0),getSN_p(sn,1),getSN_p(sn,2),getSN_p(sn,3),getSN_p(sn,4),getSN_p(sn,5));
+
+
+					}
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+			//Sum alpha Charges FermiEnergy
+			fprintf(ClusterOut,"%g\t%g\t%d\t%g\n",getElectrode_Sum(elYr),getElectrode_alpha(elYr),\
+					   getElectrode_Charges(elYr),getElectrode_FermiEnergy(elYr));
+
+			mtx = (matrix) getElectrode_HopRates(elYr);
+			
+			//print rates
+			for(i=0;i<getRows(mtx);i++){
+				for(j=0;j<getCols(mtx);j++){
+					//print i j rate
+					fprintf(ClusterOut,"%d %d %g\n",i,j,getE(mtx,i+1,j+1));
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+
+			SNarray snAtemp = (SNarray) getElectrode_AdjacentSites(elYr);
+
+			for(i=0;i<getAlen(snAtemp);i++){
+				for(j=0;j<getAwid(snAtemp);j++){
+					for(k=0;k<getAhei(snAtemp);k++){
+						
+						sn = getSN(snAtemp,i,j,k);
+
+						ClLL = (ClusterLL) getClusterList(sn);
+						if(ClLL!=NULL){
+							ClusterID = getCluster_id(ClLL);
+						}else{
+							ClusterID = -1;
+						}
+
+						pt = (Point) getPoint(sn);
+						if(pt==NULL){
+							printf("ERROR point should not be NULL if sn exists\n");
+							exit(1);
+						}
+
+						fprintf(ClusterOut,"%d\t%d\t%d\t%g\t%d\t%g\t%g\t%g\t%d\t%g\t%g\t%g\t%g\t%g\t%g\t%g\n",i,j,k,getEnergy(sn),getDwelStat(sn),getVisFreq(sn),getVis(sn),getTime(sn),ClusterID,getsum(sn),getSN_p(sn,0),getSN_p(sn,1),getSN_p(sn,2),getSN_p(sn,3),getSN_p(sn,4),getSN_p(sn,5));
+
+
+					}
+				}
+			}
+		}
+		if(PFget_ZElecOn(PF)==1){
+			if(elZb==NULL || elZa==NULL){
+				printf("ERROR electrodes Zb and Za are NULL when trying to save\n");
+				exit(1);
+			}
+			
+			//Sum alpha Charges FermiEnergy
+			fprintf(ClusterOut,"%g\t%g\t%d\t%g\n",getElectrode_Sum(elZb),getElectrode_alpha(elZb),\
+					   getElectrode_Charges(elZb),getElectrode_FermiEnergy(elZb));
+
+			mtx = (matrix) getElectrode_HopRates(elZb);
+			
+			//print rates
+			for(i=0;i<getRows(mtx);i++){
+				for(j=0;j<getCols(mtx);j++){
+					//print i j rate
+					fprintf(ClusterOut,"%d %d %g\n",i,j,getE(mtx,i+1,j+1));
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+
+			snAtemp = (SNarray) getElectrode_AdjacentSites(elZb);
+
+			for(i=0;i<getAlen(snAtemp);i++){
+				for(j=0;j<getAwid(snAtemp);j++){
+					for(k=0;k<getAhei(snAtemp);k++){
+						
+						sn = getSN(snAtemp,i,j,k);
+
+						ClLL = (ClusterLL) getClusterList(sn);
+						if(ClLL!=NULL){
+							ClusterID = getCluster_id(ClLL);
+						}else{
+							ClusterID = -1;
+						}
+
+						pt = (Point) getPoint(sn);
+						if(pt==NULL){
+							printf("ERROR point should not be NULL if sn exists\n");
+							exit(1);
+						}
+
+						fprintf(ClusterOut,"%d\t%d\t%d\t%g\t%d\t%g\t%g\t%g\t%d\t%g\t%g\t%g\t%g\t%g\t%g\t%g\n",i,j,k,getEnergy(sn),getDwelStat(sn),getVisFreq(sn),getVis(sn),getTime(sn),ClusterID,getsum(sn),getSN_p(sn,0),getSN_p(sn,1),getSN_p(sn,2),getSN_p(sn,3),getSN_p(sn,4),getSN_p(sn,5));
+
+
+					}
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+			//Sum alpha Charges FermiEnergy
+			fprintf(ClusterOut,"%g\t%g\t%d\t%g\n",getElectrode_Sum(elZa),getElectrode_alpha(elZa),\
+					   getElectrode_Charges(elZa),getElectrode_FermiEnergy(elZa));
+
+			mtx = (matrix) getElectrode_HopRates(elZa);
+			
+			//print rates
+			for(i=0;i<getRows(mtx);i++){
+				for(j=0;j<getCols(mtx);j++){
+					//print i j rate
+					fprintf(ClusterOut,"%d %d %g\n",i,j,getE(mtx,i+1,j+1));
+				}
+			}
+			
+			fprintf(ClusterOut,"\n");
+
+			SNarray snAtemp = (SNarray) getElectrode_AdjacentSites(elZa);
+
+			for(i=0;i<getAlen(snAtemp);i++){
+				for(j=0;j<getAwid(snAtemp);j++){
+					for(k=0;k<getAhei(snAtemp);k++){
+						
+						sn = getSN(snAtemp,i,j,k);
+
+						ClLL = (ClusterLL) getClusterList(sn);
+						if(ClLL!=NULL){
+							ClusterID = getCluster_id(ClLL);
+						}else{
+							ClusterID = -1;
+						}
+
+						pt = (Point) getPoint(sn);
+						if(pt==NULL){
+							printf("ERROR point should not be NULL if sn exists\n");
+							exit(1);
+						}
+
+						fprintf(ClusterOut,"%d\t%d\t%d\t%g\t%d\t%g\t%g\t%g\t%d\t%g\t%g\t%g\t%g\t%g\t%g\t%g\n",i,j,k,getEnergy(sn),getDwelStat(sn),getVisFreq(sn),getVis(sn),getTime(sn),ClusterID,getsum(sn),getSN_p(sn,0),getSN_p(sn,1),getSN_p(sn,2),getSN_p(sn,3),getSN_p(sn,4),getSN_p(sn,5));
+
+					}
+				}
+			}
+		}
+
 		int totalElem;
 		int totalNodes;
 		int totalNeighNodes;
 		int totalHops;
-		int ClusterID;
-		ClusterLL ClLL;
 		NeighNode NeiN;
 		Node nd;
-		SiteNode sn;
-		Point pt;
 
 		fprintf(ClusterOut,"%d\n\n",getAtotal(snA));
 		for(i=0;i<getAlen(snA);i++){

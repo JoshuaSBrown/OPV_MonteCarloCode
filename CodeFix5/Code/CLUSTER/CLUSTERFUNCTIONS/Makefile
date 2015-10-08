@@ -3,10 +3,16 @@ CC = gcc
 CFLAGS = -lm -Wall -Wextra -std=gnu99 -pedantic -g 
 
 # Targets
-ALL : test_clusterfunctions
+ALL : test_clusterfunctions test_clusterfunctions2 test_clusterfunctions3
 
 test_clusterfunctions : test_clusterfunctions.c clusterfunctions.o sitenode.o matrix.o linklist.o cluster.o montecarlo.o read.o
 	$(CC) $(CFLAGS) test_clusterfunctions.c clusterfunctions.o sitenode.o matrix.o linklist.o cluster.o montecarlo.o read.o -o test_clusterfunctions
+
+test_clusterfunctions2 : test_clusterfunctions2.c clusterfunctions.o sitenode.o matrix.o linklist.o cluster.o montecarlo.o read.o
+	$(CC) $(CFLAGS) test_clusterfunctions2.c clusterfunctions.o sitenode.o matrix.o linklist.o cluster.o montecarlo.o read.o -o test_clusterfunctions2
+
+test_clusterfunctions3 : test_clusterfunctions3.c clusterfunctions.o sitenode.o matrix.o linklist.o cluster.o montecarlo.o read.o
+	$(CC) $(CFLAGS) test_clusterfunctions3.c clusterfunctions.o sitenode.o matrix.o linklist.o cluster.o montecarlo.o read.o -o test_clusterfunctions3
 
 montecarlo.o : MONTECARLO/montecarlo.c
 	$(CC) $(CFLAGS) -c MONTECARLO/montecarlo.c -o montecarlo.o

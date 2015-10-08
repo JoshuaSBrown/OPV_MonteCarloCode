@@ -197,9 +197,6 @@ int resizeRow(matrix * mtx, int Row){
 
 
 	*mtx = mtxnew;
-	printf("Resize Matrix current\n");
-	printMatrix(mtxnew);
-	printMatrix(*mtx);
 
 	return 0;
 }

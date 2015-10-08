@@ -36,472 +36,6 @@ int main() {
 	//Calculating full Marcus Coefficient;
 	double MarcusCoeff = pow(MarcusJ0,2)/hbar * pow(M_PI/(4*reOrgEnergy*KT),1/2)*exp(2*gamma*SiteDistance);
 
-	//mem_init();
-
-	printf("Testing:CalculateAllHops\n");
-
-	SNarray snA = newSNarray( 3,3,3);
-	assert(snA!=NULL);
-	matrix mtx = CalculateAllHops(NULL, 1,0,0, 1, 1,SiteDistance,AttemptToHop,gamma, 0, 0, 0);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, -1,1, SiteDistance,AttemptToHop,gamma,0, 0, 0);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,-1, 0, 0);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,2, 0, 0);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, -1, 0);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, 2, 0);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, 0, -1);
-	assert(mtx==NULL);
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, 0, 2);
-	assert(mtx==NULL);
-
-	printf("Testing Non periodic conditions\n");
-	mtx = CalculateAllHops(snA, 0,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, 0, 0);
-	assert(mtx!=NULL);
-
-	int i;
-	int j;
-	double elem;
-	double elem2;
-	double val = -0.25;
-	double val2 = MarcusCoeff*exp( val );
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-
-			if(elem!=0){
-				printf("Index %d elem %g val2 %g\n",i,elem,val2);
-				assert(elem== val2 );
-			}
-
-		}
-	}
-	
-	deleteMatrix(mtx);
-	/////////////////////////////////////////////////////////////////////////////////
-	printf("Testing full periodic conditions in x, y and z\n");
-	mtx = CalculateAllHops(snA, 0,0,0, 1,1, SiteDistance,AttemptToHop,gamma,1, 1, 1);
-	assert(mtx!=NULL);
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-			elem2 = getE(mtx,i,j-6);
-			assert(elem == val2 );
-			assert(elem2 == 17);
-		}
-	}
-
-	deleteMatrix(mtx);
-
-	printf("Testing periodic in x\n");
-	mtx = CalculateAllHops(snA, 0,0,0, 1,1, SiteDistance,AttemptToHop,gamma,1, 0, 0);
-	assert(mtx!=NULL);
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-			elem2 = getE(mtx,i,j-6);
-			if(j==7 || j==8){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}else if(elem!=0){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}
-		}
-	}
-
-	deleteMatrix(mtx);
-
-	printf("Testing periodic in y\n");
-	mtx = CalculateAllHops(snA, 0,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, 1, 0);
-	assert(mtx!=NULL);
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-			elem2 = getE(mtx,i,j-6);
-			if(j==9 || j==10){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}else if(elem!=0){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}
-		}
-	}
-
-	deleteMatrix(mtx);
-
-	printf("Testing periodic in z\n");
-	mtx = CalculateAllHops(snA, 0,0,0, 1,1, SiteDistance,AttemptToHop,gamma,0, 0, 1);
-	assert(mtx!=NULL);
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-			elem2 = getE(mtx,i,j-6);
-			if(j==11 || j==12){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}else if(elem!=0){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}
-		}
-	}
-
-	deleteMatrix(mtx);
-	printf("Testing reverse bias\n");
-	mtx = CalculateAllHops(snA, -1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,1, 1, 1);
-	assert(mtx!=NULL);
-
-	double val3 = MarcusCoeff*exp(-1);
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-			elem2 = getE(mtx,i,j-6);
-			if(j==7 ){
-				assert(elem == MarcusCoeff );
-				assert(elem2 == 17);
-			}else if(j==8){
-				assert(elem==val3);
-				assert(elem2 == 16);
-			}else if(elem!=0){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}
-		}
-	}
-
-	deleteMatrix(mtx);
-	
-	////////////////////////////////////////////////////////////////////////////////
-	printf("Testing forward bias\n");
-	mtx = CalculateAllHops(snA, 1,0,0, 1,1, SiteDistance,AttemptToHop,gamma,1, 1, 1);
-	assert(mtx!=NULL);
-
-	for(i=1;i<=getRows(mtx);i++){
-		for(j=7;j<=getCols(mtx);j++){
-			elem = getE(mtx,i,j);
-			elem2 = getE(mtx,i,j-6);
-			if(j==8 ){
-				assert(elem == MarcusCoeff );
-				assert(elem2 == 17);
-			}else if(j==7){
-				assert(elem==val3);
-				assert(elem2 == 16);
-			}else if(elem!=0){
-				assert(elem == val2 );
-				assert(elem2 == 17);
-			}
-		}
-	}
-
-	printf("Testing:MPsort\n");
-
-	int orderL=0;
-	int orderH=0;
-	int MidPtsTotal=0;
-
-
-	ArbArray mpA = MPsort( NULL, &orderH, &MidPtsTotal, mtx, snA, 1, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, NULL, &MidPtsTotal, mtx, snA, 1, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, NULL, mtx, snA, 1, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, NULL, snA, 1, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, NULL, 1, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, -1, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, -1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 1, -1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 2, 1, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 2, 1);
-	assert(mpA==NULL);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 1, 2);
-	assert(mpA==NULL);
-
-	SNarray snA2 = newSNarray( 3,4,3);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA2, 1, 1, 1);
-	assert(mpA==NULL);
-	matrix mtx2 = newMatrix(2,12);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx2, snA, 1, 1, 1);
-	assert(mpA==NULL);
-	matrix mtx3 = newMatrix(getAtotal(snA),11);
-	deleteArbArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx3, snA, 1, 1, 1);
-	assert(mpA==NULL);
-
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 1, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==81);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-	
-	deleteAllMidPointArray(&mpA);
-
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 0, 1, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==72);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 0, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==72);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 1, 0);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==72);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 0, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==72);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 0, 0, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==63);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 0, 1, 0);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==63);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 0, 0, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==63);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 0, 0, 0);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==54);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	deleteMatrix(mtx);
-	mtx = CalculateAllHops(snA, 2,0,0, 1, 1, SiteDistance,AttemptToHop,gamma,1, 1, 1);
-	assert(mtx!=NULL);
-	printMatrix(mtx);
-
-	deleteAllMidPointArray(&mpA);
-	mpA = MPsort( &orderL, &orderH, &MidPtsTotal, mtx, snA, 1, 1, 1);
-
-	printf("orderL %d orderH %d MidPtsTotal %d TotalsnA %d\n",orderL,orderH,MidPtsTotal,getAtotal(snA));
-	assert(mpA!=NULL);
-	assert(orderL==16);
-	assert(orderH==17);
-	assert(MidPtsTotal==81);
-	assert(getElementsReserved(mpA)==getElementsUsed(mpA));
-
-	printf("Testing:SortOrderMag\n");
-
-	ArbArray Arb2 = SortOrderMag( 0, orderL, mpA);
-	assert(Arb2==NULL);
-	deleteArbArray(&Arb2);
-	Arb2 = SortOrderMag( orderH-orderL+1, orderL, NULL);
-	assert(Arb2==NULL);
-	deleteArbArray(&Arb2);
-	Arb2 = SortOrderMag( orderH-orderL, orderL, mpA);
-	assert(Arb2==NULL);
-	deleteArbArray(&Arb2);
-	Arb2 = SortOrderMag( orderH-orderL+1, orderL, mpA);
-	assert(Arb2!=NULL);
-
-	OrderMagLL OMLL = (OrderMagLL) getArbElement( Arb2, 0);
-	assert(getOMLL_size(OMLL)==27);
-	MidPoint mp3 = getOMLLstartMP( OMLL );
-	assert(mp3!=NULL);
-	assert(getMP_order(mp3)==16);
-
-	OMLL = (OrderMagLL) getArbElement( Arb2, 1);
-	assert(getOMLL_size(OMLL)==54);
-	mp3 = getOMLLstartMP( OMLL );
-	assert(mp3!=NULL);
-	assert(getMP_order(mp3)==17);
-
-	printf("Testing:ClusterSort\n");
-	ArbArray Arb3 = ClusterSort( orderH-orderL+1, orderL, NULL);
-	assert(Arb3==NULL);
-	deleteArbArray(&Arb3);
-	Arb3 = ClusterSort( 0, orderL, Arb2);
-	assert(Arb3==NULL);
-	deleteArbArray(&Arb3);
-	Arb3 = ClusterSort( 3, orderL, Arb2);
-	assert(Arb3==NULL);
-	
-	int TotalOrders = orderH-orderL+1;
-	//Sorts Midpoints into clusters based on their order of
-	//magnitude and stores them as node data structures
-	//Does not ween out degenerate states
-	deleteArbArray(&Arb3);
-	Arb3 = ClusterSort( orderH-orderL+1, orderL, Arb2);
-	assert(Arb3!=NULL);
-
-	ClusterLL clLL = (ClusterLL) getArbElement( Arb3, 0);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(getCluster_numNodes(clLL)==3);
-	clLL = getNextClusterLL(clLL);
-	assert(clLL==NULL);
-	ClusterLL clLL2 = (ClusterLL) getArbElement( Arb3, 1);
-	assert(getCluster_numNodes(clLL2)==9);
-	clLL2 = getNextClusterLL(clLL2);
-	assert(getCluster_numNodes(clLL2)==9);
-	clLL2 = getNextClusterLL(clLL2);
-	assert(getCluster_numNodes(clLL2)==9);
-	clLL2 = getNextClusterLL(clLL2);
-	assert(clLL2==NULL);
-
-	printf("Testing:FilterCluster\n");
-	printArbArray(mpA);
-	printSNarray(snA);
-
-	int PeriodicX = 1;
-	int PeriodicY = 1;
-	int PeriodicZ = 1;
-
-	rv = FilterCluster( 0, orderL, mtx, &Arb3, snA, PeriodicX, PeriodicY, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New1\n");
-	rv = FilterCluster( TotalOrders, orderL, NULL, &Arb3, snA, PeriodicX, PeriodicY, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New2\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, NULL, snA, PeriodicX, PeriodicY, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New3\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, NULL, PeriodicX, PeriodicY, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New4\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, -1, PeriodicY, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New5\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, PeriodicX, -1, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New6\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, PeriodicX, PeriodicY, -1, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New7\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, 2, PeriodicY, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New8\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, PeriodicX, 2, PeriodicZ, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-	printf("New9\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, PeriodicX, PeriodicY, 2, XElecOn, YElecOn, ZElecOn);
-	assert(rv==-1);
-
-	printf("New10\n");
-	rv = FilterCluster( TotalOrders, orderL, mtx, &Arb3, snA, 1, 1, 1, XElecOn, YElecOn, ZElecOn);
-	assert(rv==0);
-	assert(getElementsUsed(Arb3)==0);
-	assert((ClusterLL) getArbElement(Arb3,0)==NULL);
-
-	printf("Testing:PrintCheck\n");
-	rv = PrintCheck( 0, orderL, Arb3, snA, mtx);
-	assert(rv==-1);
-	rv = PrintCheck( TotalOrders, orderL, NULL, snA, mtx);
-	assert(rv==-1);
-	rv = PrintCheck( TotalOrders, orderL, Arb3, NULL, mtx);
-	assert(rv==-1);
-	rv = PrintCheck( TotalOrders, orderL, Arb3, snA, NULL);
-	assert(rv==-1);
-	rv = PrintCheck( TotalOrders, orderL, Arb3, snA, mtx);
-	assert(rv==0);
-
-	//Deleting datastructures
-	deleteAllMidPointArray(&mpA);
-	deleteMatrix(mtx);
-	deleteMatrix(mtx2);
-	deleteMatrix(mtx3);
-	deleteSNarray(snA);
-	deleteSNarray(snA2);
-	deleteArbArray(&Arb2);
-	deleteArbArray(&Arb3);
-	
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	//There should be no clusters
 	
@@ -519,44 +53,46 @@ int main() {
 	//Create an artificial trap in snAT which in increment length is
 	//length 0-2 width 0-3 and height 0-2
 	SiteNode snT = getSN(snAT,1,1,1);
-	printSNarray(snAT);
+	//printSNarray(snAT);
 	rv = setEnergy(snT, -3);
 	assert(rv==0);
 	snT = getSN(snAT,1,2,1);
 	rv = setEnergy(snT, -3);
 	assert(rv==0);
-	printSNarray(snAT);
+	//printSNarray(snAT);
 	//Testing Periodic x,y and z 0 biasX 0 biasY 0 biasZ KT=1 and reOrgEnergy=1
-	printf("\n\n\nCase Study T Periodic Conditions\n\n\n");
+	printf("\nCase Study T Periodic Conditions\n");
 	matrix mtxT = CalculateAllHops(snAT, 0,0,0, 1,1, SiteDistance,AttemptToHop,gamma,PeriodicXT, PeriodicYT, PeriodicZT);
-	printMatrix(mtxT);
+	//printMatrix(mtxT);
 	//Sorts all the data into midpoints
 	ArbArray mpAT = MPsort( &OrderLT, &OrderHT, &MidPtsTotalT, mtxT, snAT, PeriodicXT, PeriodicYT, PeriodicZT);
 	//Sorts midpoints into Nodes in link lists. Each element of mpAT is composed of a
 	//link list all of the same order of magnitude
-	printf("Order Low %d Order High %d\n",OrderLT, OrderHT);
-	printf("oooooooooooooooooooooooooooooooooooooooooooo\n");
-	printArbArray(mpAT);
-	printf("oooooooooooooooooooooooooooooooooooooooooooo\n");
+	//printf("Order Low %d Order High %d\n",OrderLT, OrderHT);
+	//printf("oooooooooooooooooooooooooooooooooooooooooooo\n");
+	//printArbArray(mpAT);
+	//printf("oooooooooooooooooooooooooooooooooooooooooooo\n");
 	ArbArray ArbT2 = SortOrderMag( OrderHT-OrderLT+1, OrderLT, mpAT);
 	assert(ArbT2!=NULL);
 	int TotalOrdersT = OrderHT-OrderLT+1;
 	//Sorts nodes into clusters
-	printf("********************************************\n");
-	printArbArray(ArbT2, OrderLT);
-	printf("********************************************\n");
+	//printf("********************************************\n");
+	//printArbArray(ArbT2, OrderLT);
+	//printf("********************************************\n");
 	ArbArray ArbT = ClusterSort( TotalOrdersT, OrderLT, ArbT2);
-	printf("TotalOrdersT %d OrderLowT %d Elements used by ArbT2 %d\n",TotalOrdersT, OrderLT, getElementsUsed(ArbT2));
+	//printf("TotalOrdersT %d OrderLowT %d Elements used by ArbT2 %d\n",TotalOrdersT, OrderLT, getElementsUsed(ArbT2));
 	assert(ArbT!=NULL);
 	//Filtering Cluster
 	rv = FilterCluster( TotalOrdersT, OrderLT, mtxT, &ArbT, snAT, PeriodicXT, PeriodicYT, PeriodicZT, XElecOnT, YElecOnT, ZElecOnT);
 	assert(rv==0);
-	printf("****************CHECK***********************\n");
+	//printf("****************CHECK***********************\n");
 	rv = PrintCheck( TotalOrdersT, OrderLT, ArbT, snAT, mtxT);
 	//Because the cluster is smaller energy than the rest of the nodes the rest
 	//of the nodes are not considered to be a cluster
 
 	deleteArbArray(&ArbT2);
+
+	/*
 	////////////////////////////////////////////////////////////////////////////////////////
 	//Case Study no clusters Periodic
 	int OrderLU;
@@ -1350,6 +886,7 @@ int main() {
 	deleteArbArray(&ArbB2);
 	deleteArbArray(&ArbB);
 	//atexit(mem_term);
+	*/
 	/*
 		 printf("\nCreating Matrix with data to test cluster functions\n");
 		 SNarray snA=newSNarray(SLength,SWidth,SHeight);

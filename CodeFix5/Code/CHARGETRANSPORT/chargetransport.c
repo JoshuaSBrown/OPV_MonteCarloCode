@@ -1264,6 +1264,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 	double MarcusJ0;
 	double MarcusCoeff;
 	double KT;
+	double OrderL;
 
 	//Initializing Variables from parameter frame
 	SLength = PFget_Len(PF);
@@ -1317,7 +1318,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		if(clusterfileExist==0){
 			//The cluster file exists already so lets just load what was saved
 			LoadCluster_Data( &FileName[0], &OrderL, &snA, electricEnergyX,\
-												electricEnergyY, electricEnergyZ, &ClArLL, kT);
+												electricEnergyY, electricEnergyZ, &ClArLL, KT);
 
 		}else{
 			//Initialize Site Energies
@@ -1371,7 +1372,8 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 									 &ClArLL,KT,PF);
 
 			SaveCluster( &FileName[0], OrderL, snA, electricEnergyX,\
-									 electricEnergyY, electricEnergyZ, ClArLL, KT, PF);
+									 electricEnergyY, electricEnergyZ, ClArLL, KT, PF,
+									 *elXb, *elXf, *elYl, *elYr, *elZb, *elZa);
 
 			PrintFile_xyz(OrderL, snA, &ClArLL, &FileName[0]);
 			printFile_Energy(snA, &FileName[0], electricEnergyX,\
@@ -1393,10 +1395,10 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		//Charge Array chA is created in here
 		printf("Loading Charge and Site information from .ckpt\n");
 		Load_CheckPt_Data( t, snA, chA, Sequence,\
-	//Movie start point
 				FutureSite, FileNameCheckPtVersion, n,nc, nca,\
 				&Num_elXb, &Num_elXf, &Num_elYl, &Num_elYr,\
 				&Num_elZb, &Num_elZa,Vx,Vy,Vz);
+		
 		if(FutureSite==NULL || Sequence==NULL || chA==NULL){
 			printf("ERROR in the load_checkPt_Data function a datastructure\n");
 			printf("Has been found to be NULL\n");
@@ -1429,6 +1431,13 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 			setElectrode_Charges(*elZa,Num_elZa);
 		}
 
+		if(clusterfileExist==0){
+			//The .cluster file exists we have already loaded the site information
+			//We only want to load cluster information
+			LoadCluster_Only( &FileName[0], &OrderL, &snA, electricEnergyX,\
+												electricEnergyY, electricEnergyZ, &ClArLL, kT);
+		}
+	
 	}else{
 		printf("ERROR found in Pre_randomWalk value of checkptstatus %d\n",CheckPtStatus);
 		exit(1);

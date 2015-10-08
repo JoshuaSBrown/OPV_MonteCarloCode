@@ -141,7 +141,8 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX, \
 */
 int SaveCluster(char * FileName, int OrderL, SNarray  snA, double electricEnergyX,\
 								double electricEnergyY, double electricEnergyZ, ArbArray ClArLL1,\
-								double kT, ParameterFrame PF);
+								double kT, ParameterFrame PF, Electrode elXb, Electrode elXf,\
+								Electrode elYl, Electrode elYr, Electrode elZb, Electrode elZa);
 
 /* This function will load all the information needed to simulate clusters if it
 	 was previously calculated
@@ -153,7 +154,7 @@ int LoadCluster(char * FileName, int * OrderL, SNarray * snA, double * electricE
 
 int LoadCluster_Data( char * FileName, int * OrderL, SNarray * snA, double electricEnergyX,\
 											double electricEnergyY, double electricEnergyZ,\
-											ArbArraty *ClArLL1, double kT);
+											ArbArray *ClArLL1, double kT);
 
 int LoadCluster_Only(char * FileName, int * OrderL, SNarray * snA, double electricEnergyX,\
 										 double electricEnergyY, double electricEnergyZ,\

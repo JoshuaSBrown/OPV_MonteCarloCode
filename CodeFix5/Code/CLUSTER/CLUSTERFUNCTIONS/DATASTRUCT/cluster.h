@@ -450,7 +450,7 @@ int getCluster_numNodes(const_ClusterLL clLL);
 
 /* sets the electrode attribute for the cluster link list
 	 1 - cluster is next to right electrode (x = length, y = width, z = height)
-	 0 - cluster is next to left electrode (x = 0, y = 0, z = 0) 
+	 0 - cluster is next to left electrode (x = 0, y = 0, z = 0)
 */
 int setCluster_elecX(ClusterLL clLL, int Elec);
 int setCluster_elecY(ClusterLL clLL, int Elec);

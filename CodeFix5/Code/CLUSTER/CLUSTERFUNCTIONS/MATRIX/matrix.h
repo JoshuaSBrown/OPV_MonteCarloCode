@@ -93,14 +93,14 @@ int matchExist(const_matrix mtx, double match);
 int matchExistCol(const_matrix mtx, int col, double match);
 
 /* Searches through the matrix mtx and find any
-	 elements with the save value as match
+	 elements with the same value as match
 	 these elements are replaced with the value
 	 replace
 */
 int matchReplace(matrix mtx, double match, double replace);
 
 /* Searches through the column col in the matrix
-	 mtx finds the first value that matches match 
+	 mtx finds the first value that matches 
 	 and returns the row. 
 */
 int FindRowOfMatchInCol(const_matrix mtx, double match, int col);

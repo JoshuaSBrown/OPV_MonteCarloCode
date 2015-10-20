@@ -66,6 +66,12 @@ struct _ClusterLL{
 	double time;
 	Node startNode;
 	NeighLL Neigh;
+	int elecXF_id;
+	int elecXB_id;
+	int elecYR_id;
+	int elecYL_id;
+	int elecZB_id;
+	int elecZA_id;
 	Electrode elecXF;
 	Electrode elecXB;
 	Electrode elecYR;
@@ -985,6 +991,14 @@ ClusterLL newClusterLL(int ID){
 	clLL->time=0;
 	clLL->startNode=NULL;
 	clLL->Neigh=NULL;
+
+	clLL->elecXF_id = 0;
+	clLL->elecXB_id = 0;
+	clLL->elecYL_id = 0;
+	clLL->elecYR_id = 0;
+	clLL->elecZB_id = 0;
+	clLL->elecZA_id = 0;
+
 	clLL->elecXF=NULL;
 	clLL->elecXB=NULL;
 	clLL->elecYL=NULL;
@@ -1100,6 +1114,7 @@ int deleteAllClusterLL(ClusterLL *clLL){
 			(*clLL)->Neigh=NULL;
 		}
 
+		/*
 		//Deleting Electrode
 		if((*clLL)->elecXF!=NULL){
 			deleteElectrode(&((*clLL)->elecXF));
@@ -1125,7 +1140,7 @@ int deleteAllClusterLL(ClusterLL *clLL){
 			deleteElectrode(&((*clLL)->elecZB));
 			(*clLL)->elecZB=NULL;
 		}
-
+*/
 		(*clLL)->next=NULL;
 		free((*clLL));
 		*clLL=NULL;
@@ -1175,6 +1190,8 @@ int deleteAllClusterLL(ClusterLL *clLL){
 			(*clLL)->Neigh=NULL;
 		}
 	}
+
+	/*
 	//Deleting Electrode
 	if((*clLL)->elecXF!=NULL){
 		deleteElectrode(&((*clLL)->elecXF));
@@ -1200,7 +1217,7 @@ int deleteAllClusterLL(ClusterLL *clLL){
 		deleteElectrode(&((*clLL)->elecZB));
 		(*clLL)->elecZB=NULL;
 	}
-
+*/
 	//Freeing (*clLL)
 	free((*clLL));
 	*clLL=NULL;
@@ -1335,6 +1352,103 @@ int getCluster_numNodes(const_ClusterLL clLL){
 	return clLL->numNodes;
 }
 
+int setCluster_elecXFid(ClusterLL * clLL, int Elec){
+	if(clLL==NULL){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( Elec<0 || Elec>1){
+		return -1;
+	}
+
+	(*clLL)->elecXF_id = Elec;
+	return 0;
+
+}
+
+int setCluster_elecXBid(ClusterLL * clLL, int Elec){
+	if(clLL==NULL){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( Elec<0 || Elec>1){
+		return -1;
+	}
+
+	(*clLL)->elecXB_id = Elec;	
+	
+	return 0;
+
+}
+
+int setCluster_elecYLid(ClusterLL * clLL, int Elec){
+	if(clLL==NULL){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( Elec<0 || Elec>1){
+		return -1;
+	}
+
+	(*clLL)->elecYL_id = Elec;
+	return 0;
+
+}
+
+int setCluster_elecYRid(ClusterLL * clLL, int Elec){
+	if(clLL==NULL){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( Elec<0 || Elec>1){
+		return -1;
+	}
+
+	(*clLL)->elecYR_id = Elec;
+	return 0;
+
+}
+
+int setCluster_elecZBid(ClusterLL * clLL, int Elec){
+	if(clLL==NULL){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( Elec<0 || Elec>1){
+		return -1;
+	}
+
+	(*clLL)->elecZB_id = Elec;
+	return 0;
+
+}
+
+int setCluster_elecZAid(ClusterLL * clLL, int Elec){
+	if(clLL==NULL){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( Elec<0 || Elec>1){
+		return -1;
+	}
+
+	(*clLL)->elecZA_id = Elec;
+	return 0;
+
+}
+
 int setCluster_elecXid(ClusterLL * clLL, int Elec){
 	if(clLL==NULL || Elec<0 || Elec>1 ){
 		return -1;
@@ -1345,7 +1459,7 @@ int setCluster_elecXid(ClusterLL * clLL, int Elec){
 	}
 
 	if(Elec==0){
-		if( (*clLL)->elecXB!=NULL){
+		if( (*clLL)->elecXB_id!=0){
 			//If the above statement is triggered
 			//It means the electrode has already
 			//been recorded
@@ -1353,14 +1467,14 @@ int setCluster_elecXid(ClusterLL * clLL, int Elec){
 			//Elec value 1 front side
 			return -1;
 		}else{
-			(*clLL)->elecXB = newElectrode();
+			(*clLL)->elecXB_id = 1;
 			return 0;
 		}
 	}else{
-		if((*clLL)->elecXF!=NULL){
+		if((*clLL)->elecXF_id!=0){
 			return -1;
 		}else{
-			(*clLL)->elecXF = newElectrode();
+			(*clLL)->elecXF_id = 1;
 			return 0;
 		}
 	}
@@ -1375,23 +1489,22 @@ int setCluster_elecYid(ClusterLL * clLL, int Elec){
 	}
 
 	if(Elec==0){
-		if((*clLL)->elecYL!=NULL){
+		if((*clLL)->elecYL_id!=0){
 			return -1;
 		}else{
-			(*clLL)->elecYL = newElectrode();
-			printf("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\n\n\n");
+			(*clLL)->elecYL_id = 1;
 			return 0;
 		}
 	}else{
 
-		if((*clLL)->elecYR!=NULL){
+		if((*clLL)->elecYR_id!=0){
 			//If the above statement is triggered
 			//Electrode has already been stored
 			//Elec value 0 left side 
 			//Elec value 1 right side
 			return -1;
 		}else{
-			(*clLL)->elecYR = newElectrode();
+			(*clLL)->elecYR_id = 1;
 			return 0;
 		}
 	}
@@ -1407,7 +1520,7 @@ int setCluster_elecZid(ClusterLL * clLL, int Elec){
 	}
 
 	if(Elec==0){
-		if((*clLL)->elecZB!=NULL){
+		if((*clLL)->elecZB_id!=0){
 			//If the above statement is triggered
 			//It meand the bottom electrode has already 
 			//been recorded
@@ -1415,18 +1528,131 @@ int setCluster_elecZid(ClusterLL * clLL, int Elec){
 			//Elec value 1 above side
 			return -1;
 		}else{
-			(*clLL)->elecZB = newElectrode();
+			(*clLL)->elecZB_id = 1;
 			return 0;
 		}
 
 	}else{
-		if((*clLL)->elecZA!=NULL){
+		if((*clLL)->elecZA_id!=0){
 			return -1;
 		}else{
-			(*clLL)->elecZA = newElectrode();
+			(*clLL)->elecZA_id = 1;
 			return 0;
 		}
 	}
+}
+
+int setCluster_elecXF(ClusterLL * clLL, Electrode Elec ){
+	
+	if(clLL==NULL ){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecXF_id!=1 && Elec==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecXF_id!=0 && Elec!=NULL){
+		return -1;
+	}
+
+	(*clLL)->elecXF = Elec;
+	return 0;
+}
+
+int setCluster_elecXB(ClusterLL * clLL, Electrode Elec ){
+	
+	if(clLL==NULL ){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecXB_id!=1 && Elec==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecXB_id!=0 && Elec!=NULL){
+		return -1;
+	}
+
+	(*clLL)->elecXB = Elec;
+	return 0;
+}
+int setCluster_elecYR(ClusterLL * clLL, Electrode Elec ){
+	
+	if(clLL==NULL ){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecYR_id!=1 && Elec==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecYR_id!=0 && Elec!=NULL){
+		return -1;
+	}
+
+	(*clLL)->elecYR = Elec;
+	return 0;
+}
+
+int setCluster_elecYL(ClusterLL * clLL, Electrode Elec ){
+	
+	if(clLL==NULL ){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecYL_id!=1 && Elec==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecYL_id!=0 && Elec!=NULL){
+		return -1;
+	}
+
+	(*clLL)->elecYL = Elec;
+	return 0;
+}
+
+int setCluster_elecZA(ClusterLL * clLL, Electrode Elec ){
+	
+	if(clLL==NULL ){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecZA_id!=1 && Elec==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecZA_id!=0 && Elec!=NULL){
+		return -1;
+	}
+
+	(*clLL)->elecZA = Elec;
+	return 0;
+}
+
+int setCluster_elecZB(ClusterLL * clLL, Electrode Elec ){
+	
+	if(clLL==NULL ){
+		return -1;
+	}
+	if(*clLL==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecZB_id!=1 && Elec==NULL){
+		return -1;
+	}
+	if( (*clLL)->elecZB_id!=0 && Elec!=NULL){
+		return -1;
+	}
+
+	(*clLL)->elecZB = Elec;
+	return 0;
 }
 
 int setCluster_elecXsum(ClusterLL clLL, double sum, int Elec){
@@ -1576,6 +1802,54 @@ int addToCluster_elecZsum(ClusterLL clLL, double val, int Elec){
 		}
 	}
 	return 0;
+}
+
+int getCluster_elecidXB(const_ClusterLL clLL){
+	if(clLL==NULL){
+		return -1;
+	}
+
+	return clLL->elecXB_id;
+}
+
+int getCluster_elecidXF(const_ClusterLL clLL){
+	if(clLL==NULL){
+		return -1;
+	}
+
+	return clLL->elecXF_id;
+}
+
+int getCluster_elecidYL(const_ClusterLL clLL){
+	if(clLL==NULL){
+		return -1;
+	}
+
+	return clLL->elecYL_id;
+}
+
+int getCluster_elecidYR(const_ClusterLL clLL){
+	if(clLL==NULL){
+		return -1;
+	}
+
+	return clLL->elecYR_id;
+}
+
+int getCluster_elecidZB(const_ClusterLL clLL){
+	if(clLL==NULL){
+		return -1;
+	}
+
+	return clLL->elecZB_id;
+}
+
+int getCluster_elecidZA(const_ClusterLL clLL){
+	if(clLL==NULL){
+		return -1;
+	}
+
+	return clLL->elecZA_id;
 }
 
 double getCluster_elecXsum(const_ClusterLL clLL, int Elec){

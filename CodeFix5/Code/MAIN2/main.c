@@ -69,6 +69,7 @@ int main(void){
 	int CheckFileExist;
 	int CheckPointNum;
 	int count;
+	int OrderL;
 	double electricFieldX;
 	double electricFieldY;
 	double electricFieldZ;
@@ -211,8 +212,8 @@ int main(void){
 								&ClArLL, KT, PF);
 
 						SaveCluster( &FileName[0], OrderL, snA, electricEnergyX,\
-												 electricEnergyY, electricEnergyZ, ClArLL1,\
-												 KT, PF);
+												 electricEnergyY, electricEnergyZ, ClArLL,\
+												 KT, PF, elXb, elXf, elYl, elYr, elZb, elZa);
 
 						PrintFile_xyz(OrderL,snA, &ClArLL, &FileName[0]);
 						printFileEnergy(snA, &FileName[0],\

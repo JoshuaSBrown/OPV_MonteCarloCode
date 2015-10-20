@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -47,7 +48,7 @@ linklist newLinkList( int id ){
 	LLNode node = newLLNode( id);
 	
 	if(node==NULL){
-		deleteLL( LL);
+		deleteLL( &LL);
 		return NULL;
 	}
 
@@ -71,7 +72,7 @@ linklist newBlankLinkList(){
 	return LL;
 }
 
-int deleteLL( linklist LL){
+int deleteLL(linklist * LL){ //deleting entire linked list
 	if(LL==NULL){
 		return -1;
 	}
@@ -79,18 +80,20 @@ int deleteLL( linklist LL){
 	LLNode tempNode;
 	LLNode tempNode2;
 
-	tempNode = LL->start;
+	tempNode = (*LL)->start;
 	while (tempNode!=NULL){
 		tempNode2=tempNode;
 		tempNode = tempNode->next;
 		deleteLLNode(tempNode2);
 	}
 
-	free(LL);
+	free((*LL));
+
+	*LL = NULL;
 	return 0;
 }
 
-int deleteLLNode( LLNode node){
+int deleteLLNode( LLNode node){ //deleting separate node, not part of linked list
 	if(node==NULL){
 		return -1;
 	}
@@ -148,7 +151,7 @@ int addLLNode(linklist LL, int id){
 	return 0;
 }
 
-int removeLLNode(linklist LL, int id){
+int removeLLNode(linklist LL, int id){ //deleting one node from the linked list
 	if(LL==NULL || id<0){
 		return -1;
 	}

@@ -31,7 +31,7 @@ matrix  newMatrix(int rows, int cols) {
   m->cols = cols;
 
   //set all data to 0
-  int i;
+ 	int i;
 	int j;
   for (i = 1; i<=rows; i++){
 		for (j=1;j<=cols;j++) {
@@ -117,8 +117,7 @@ int printMatrix(const_matrix mtx) {
 		}
 		printf("\n");
 	}
-
-	return 0;
+return 0;
 }
 
 int printRandomEnergyFilesijk(const_matrix mtx) {

@@ -1,3 +1,4 @@
+
 #ifndef _LINKLIST_H_
 #define _LINKLIST_H_
 
@@ -19,7 +20,7 @@ typedef struct _LLNode const * const_LLNode;
 */
 LLNode newLLNode(int id);
 
-/* Creates a new linkl list starting with the
+/* Creates a new link list starting with the
 	 LLNode of id and length 1
 */
 linklist newLinkList(int id);
@@ -31,7 +32,7 @@ linklist newBlankLinkList();
 /* Deletes the LL and all the nodes
 	 within it
 */
-int deleteLL( linklist LL);
+int deleteLL( linklist * LL);
 
 /* Deletes only the LLNode node
 */
@@ -42,7 +43,7 @@ int deleteLLNode(LLNode node);
 */
 LLNode nextLLNode(LLNode node);
 
-/* Adds a node with id id to the linklist
+/* Adds a node with an id to the linklist
 	 LL if a node does not already exist with
 	 that identity. Also increments the length
 	 of the LL

@@ -233,7 +233,7 @@ int setNeighNodeNew_p(NeighNode NeighNod, double pval);
 */
 int setNeighNode_p(NeighNode NeighNod, double pval, int Elem);
 
-/* Sets the time of moving to this neighboing node
+/* Sets the time of moving to this neighboring node
 	 given that it takes the hop reoute specified by 
 	 Elem.
 */
@@ -287,7 +287,7 @@ int setElectrode_alpha(Electrode el, double alpha);
 */
 double getElectrode_alpha(Electrode el);
 
-/* Sets the femi energy of the electrode
+/* Sets the fermi energy of the electrode
 */
 int setElectrode_FermiEnergy(Electrode el, double FermiE);
 
@@ -692,7 +692,7 @@ int ArbArrayCheck(const_ArbArray Arb);
 
 int deleteAllMidPointArray(ArbArray * Arb);
 
-/* This fucntion deletes the arbitray array according to
+/* This function deletes the arbitray array according to
 	 it's type if it is of type 0 it only deletes the Order
 	 of magnitude data structure and does not delete the 
 	 Mid Points. 

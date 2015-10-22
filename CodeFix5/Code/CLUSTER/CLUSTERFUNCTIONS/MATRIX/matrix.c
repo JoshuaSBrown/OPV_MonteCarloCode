@@ -54,7 +54,7 @@ matrix  newMatrixSet(int rows, int cols, double set) {
   m->rows = rows;
   m->cols = cols;
 
-  //set all data to 0
+  //set all data to 0 //set all data to set?
   int i;
 	int j;
   for (i = 1; i<=rows; i++){
@@ -289,7 +289,7 @@ int matchExistCol(const_matrix mtx, int col, double match){
 		}
 	}
 
-	return 0;
+	return 0; //why not a neg, so we know it doesn't exist?
 }
 
 int matchReplace(matrix mtx, double match, double replace){
@@ -320,7 +320,7 @@ int FindRowOfMatchInCol(const_matrix mtx, double match, int col){
 		}
 	}
 
-	return -1;
+	return -1; 
 }
 
 double SumOfRow(matrix mtx, int row){

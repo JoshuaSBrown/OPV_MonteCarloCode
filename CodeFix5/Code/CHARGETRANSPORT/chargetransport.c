@@ -1264,7 +1264,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 	double MarcusJ0;
 	double MarcusCoeff;
 	double KT;
-	double OrderL;
+	int OrderL;
 
 	//Initializing Variables from parameter frame
 	SLength = PFget_Len(PF);
@@ -1317,8 +1317,8 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 
 		if(clusterfileExist==0){
 			//The cluster file exists already so lets just load what was saved
-			LoadCluster_Data( &FileName[0], &OrderL, &snA, electricEnergyX,\
-												electricEnergyY, electricEnergyZ, &ClArLL, KT);
+			LoadCluster_Data( &FileName[0], &OrderL, snA, electricEnergyX,\
+												electricEnergyY, electricEnergyZ, ClArLL, KT);
 
 		}else{
 			//Initialize Site Energies
@@ -1367,20 +1367,24 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 
 		if(clusterfileExist==-1){
 			//Go ahead and calculate clusters and save
-			FindCluster( &OrderL, snA, electricEnergyX,\
+			FindCluster( &OrderL, (*snA), electricEnergyX,\
 									 electricEnergyY, electricEnergyZ,\
-									 &ClArLL,KT,PF);
+									 ClArLL,KT,PF);
 
-			SaveCluster( &FileName[0], OrderL, snA, electricEnergyX,\
-									 electricEnergyY, electricEnergyZ, ClArLL, KT, PF,
+			ConnectClusterElec( ClArLL,\
+												(*elXb), (*elXf), (*elYl), (*elYr),\
+												(*elZb), (*elZa) );
+
+			SaveCluster( &FileName[0], OrderL, (*snA), electricEnergyX,\
+									 electricEnergyY, electricEnergyZ, (*ClArLL), KT, PF,
 									 *elXb, *elXf, *elYl, *elYr, *elZb, *elZa);
 
-			PrintFile_xyz(OrderL, snA, &ClArLL, &FileName[0]);
-			printFile_Energy(snA, &FileName[0], electricEnergyX,\
+			PrintFile_xyz(OrderL, (*snA), ClArLL, &FileName[0]);
+			printFileEnergy((*snA), &FileName[0], electricEnergyX,\
 					 						electricEnergyY, electricEnergyZ,PF);
 
-			PrintNeighFile_xyz(OrderL, snA, &ClArLL, &FileName[0]);
-			printMatrix(FutureSite);
+			PrintNeighFile_xyz(OrderL, (*snA), ClArLL, &FileName[0]);
+			printMatrix(*FutureSite);
 
 		}
 
@@ -1411,6 +1415,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		initElec(electricEnergyX, electricEnergyY, electricEnergyZ, MarcusCoeff,\
 				KT, *snA,elXb, elXf, elYl, elYr, elZb, elZa, PF);
 
+
 		printf("Updating number of charges on electrodes based on .ckpt\n");
 		if(elXb!=NULL){
 			setElectrode_Charges(*elXb,Num_elXb);
@@ -1434,9 +1439,13 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		if(clusterfileExist==0){
 			//The .cluster file exists we have already loaded the site information
 			//We only want to load cluster information
-			LoadCluster_Only( &FileName[0], &OrderL, &snA, electricEnergyX,\
-												electricEnergyY, electricEnergyZ, &ClArLL, kT);
+			LoadCluster_Only( &FileName[0], &OrderL, snA, electricEnergyX,\
+												electricEnergyY, electricEnergyZ, ClArLL, KT);
 		}
+		
+		ConnectClusterElec( ClArLL,\
+												(*elXb), (*elXf), (*elYl), (*elYr),\
+												(*elZb), (*elZa) );
 	
 	}else{
 		printf("ERROR found in Pre_randomWalk value of checkptstatus %d\n",CheckPtStatus);
@@ -2365,7 +2374,6 @@ int UpdateOccTime(SNarray * snA,Charge * ch, double time, ParameterFrame PF){
 	int XElecOn;
 	int YElecOn;
 	int ZElecOn;
-	int index;
 
 	i = getCx(*ch);
 	j = getCy(*ch);
@@ -2483,13 +2491,13 @@ int CheckPt_Cluster(const double Vx,const double Vy,const double Vz,const double
 	struct stat st;
 	char FileName[256];
 	FILE *file;
-	FileName[0] = '\0'
+	FileName[0] = '\0';
  	sprintf(FileName,"CHECKFILE/DataT%gVx%gVy%gVz%gR%d",T,Vx,Vy,Vz,r);
 
 	if(stat("CLUSTERFILE",&st)==0){
 		//CHECKPOINT Cluster directory does exist
 
-		if(file = fopen(FileName,"r")){
+		if((file=fopen(FileName,"r"))){
 			fclose(file);
 			printf("Cluster file exists\n");
 			return 0;

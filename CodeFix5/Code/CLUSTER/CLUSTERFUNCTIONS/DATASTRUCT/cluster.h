@@ -448,13 +448,24 @@ int getCluster_id(const_ClusterLL clLL);
 */
 int getCluster_numNodes(const_ClusterLL clLL);
 
+int setCluster_elecXBid(ClusterLL * clLL, int Elec);
+int setCluster_elecXFid(ClusterLL * clLL, int Elec);
+int setCluster_elecYLid(ClusterLL * clLL, int Elec);
+int setCluster_elecYRid(ClusterLL * clLL, int Elec);
+int setCluster_elecZBid(ClusterLL * clLL, int Elec);
+int setCluster_elecZAid(ClusterLL * clLL, int Elec);
+
 /* sets the electrode attribute for the cluster link list
-	 1 - cluster is next to right electrode (x = length, y = width, z = height)
-	 0 - cluster is next to left electrode (x = 0, y = 0, z = 0)
+	 Electrode objectect Elec is connected to the cluster
+	 will return -1 if the cluster was not previously identified
+	 as being next to the electrode
 */
-int setCluster_elecX(ClusterLL clLL, int Elec);
-int setCluster_elecY(ClusterLL clLL, int Elec);
-int setCluster_elecZ(ClusterLL clLL, int Elec);
+int setCluster_elecXB(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecXF(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecYR(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecYL(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecZB(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecZA(ClusterLL * clLL, Electrode Elec);
 
 /* Sets the hop probability attribute for electrodes
 	 along the X axis
@@ -476,6 +487,14 @@ int setCluster_elecZsum(ClusterLL clLL, double val, int Elec);
 int addToCluster_elecXsum(ClusterLL clLL, double val, int Elec);
 int addToCluster_elecYsum(ClusterLL clLL, double val, int Elec);
 int addToCluster_elecZsum(ClusterLL clLL, double val, int Elec);
+
+int getCluster_elecidXB(const_ClusterLL clLL);
+int getCluster_elecidXF(const_ClusterLL clLL);
+int getCluster_elecidYL(const_ClusterLL clLL);
+int getCluster_elecidYR(const_ClusterLL clLL);
+int getCluster_elecidZB(const_ClusterLL clLL);
+int getCluster_elecidZA(const_ClusterLL clLL);
+
 
 /* Gets the hop probability to the electrode
 */
@@ -524,6 +543,13 @@ int getCluster_numNeigh(const_ClusterLL clLL);
 /* gets the size of the cluster the number of nodes in it
 */
 int getCluster_numNodes(const_ClusterLL clLL);
+
+int setCluster_elecXF(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecXB(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecYR(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecYL(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecZB(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecZA(ClusterLL * clLL, Electrode Elec);
 
 /* Sets the id of the electrodes
 	 0 - back side 1 - front side

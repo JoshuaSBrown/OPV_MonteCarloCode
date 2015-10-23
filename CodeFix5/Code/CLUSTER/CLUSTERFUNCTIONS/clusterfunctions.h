@@ -116,6 +116,13 @@ int CalculatePvalNodes(ClusterLL * TempClLL, matrix mtxProb, matrix mtxDwellTime
 */
 int ConnectClusterSN(int TotalOrders, SNarray snA, ArbArray ClArLL);
 
+/* Connects the appropriate clusters with the correct electrodes
+*/
+int ConnectClusterElec( ArbArray * ClArLL,\
+												Electrode elXB, Electrode elXF,\
+												Electrode elYL, Electrode elYR,\
+												Electrode elZB, Electrode elZA);
+
 /* Find Cluster function is designed to:
 	 1. Calculate the hop rates between all sites
 	 2. If the hop rates are of the same order of magnitude

@@ -1349,24 +1349,6 @@ int main() {
 	deleteMatrix(mtxB);
 	deleteArbArray(&ArbB2);
 	deleteArbArray(&ArbB);
-	//atexit(mem_term);
-	/*
-		 printf("\nCreating Matrix with data to test cluster functions\n");
-		 SNarray snA=newSNarray(SLength,SWidth,SHeight);
-		 double electricField;
-		 double electricEnergy;
-
-		 electricField = voltage /(SLength*SiteDistance);
-		 electricEnergy= SiteDistance*electricField;
-
-		 initSite(electricEnergy, snA);
-
-		 printf("\nCalling FindCluster Function\n");
-
-		 ArbArray ClArLL;
-		 ArbArray NeighClArLL;
-
-		 FindCluster(snA, electricEnergy,0,0, &ClArLL, &NeighClArLL);
-	 */
+	
 	return 0;
 }

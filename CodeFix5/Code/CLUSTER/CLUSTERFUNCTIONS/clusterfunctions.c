@@ -924,7 +924,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 	//Using non periodic conditions in the x examining whether
 	//the cluster spans the length of the sample 
 	if (IsCluster!=0){
-		deleteLL(LL);
+		deleteLL(&LL);
 		deleteMatrix(AvailableNodes);
 		deleteMatrix(NearLeftElec);
 		deleteMatrix(NearRightElec);
@@ -1006,7 +1006,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1016,7 +1016,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1026,7 +1026,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1036,7 +1036,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1046,7 +1046,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1055,7 +1055,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1144,7 +1144,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1154,7 +1154,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1164,7 +1164,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1174,7 +1174,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1184,7 +1184,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1193,7 +1193,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1282,7 +1282,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1292,7 +1292,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1302,7 +1302,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1312,7 +1312,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1322,7 +1322,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1331,7 +1331,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1420,7 +1420,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1430,7 +1430,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1440,7 +1440,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1450,7 +1450,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1460,7 +1460,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1469,7 +1469,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1558,7 +1558,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1568,7 +1568,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1578,7 +1578,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1588,7 +1588,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1598,7 +1598,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1607,7 +1607,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1695,7 +1695,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1705,7 +1705,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1715,7 +1715,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1725,7 +1725,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1734,7 +1734,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1743,7 +1743,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1829,7 +1829,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1839,7 +1839,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1849,7 +1849,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1859,7 +1859,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1869,7 +1869,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1878,7 +1878,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1962,7 +1962,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1972,7 +1972,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1982,7 +1982,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1992,7 +1992,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -2001,7 +2001,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -2010,7 +2010,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -2027,7 +2027,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 		}
 	}
 
-	deleteLL(LL);
+	deleteLL(&LL);
 	deleteMatrix(AvailableNodes);
 	deleteMatrix(NearLeftElec);
 	deleteMatrix(NearRightElec);
@@ -2189,12 +2189,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDFro);
 
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}else{
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}
@@ -2206,12 +2206,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDBeh);
 
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}else{
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}
@@ -2308,7 +2308,7 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							}
 						}else{
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}
@@ -2319,14 +2319,14 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							//If ID is -1 means it's outside the boundaries
 
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}else{
 								rv = addNeighNodeToCluster(&TempClLL, Node_IDBeh);
 							}
 						}else{
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}
@@ -2417,12 +2417,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDFro);
 
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}else{
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}
@@ -2434,12 +2434,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDBeh);
 
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}else{
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}
@@ -2532,12 +2532,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDFro);
 
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}else{
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}
@@ -2549,12 +2549,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDBeh);
 
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}else{
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}
@@ -2646,14 +2646,14 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							//Add NeighNode to the linklist
 
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}else{
 								rv = addNeighNodeToCluster(&TempClLL, Node_IDFro);
 							}
 						}else{
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}
@@ -2664,14 +2664,14 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							//If ID is -1 means it's outside the boundaries
 
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}else{
 								rv = addNeighNodeToCluster(&TempClLL, Node_IDBeh);
 							}
 						}else{
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}
@@ -2763,12 +2763,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							//Add NeighNode to the linklist
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDFro);
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}else{
 							if(Elec_Fro==-1){
-								//Add the Front Electrode as a neighbor to the cluster
+								//Identify Front Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,1);
 							}
 						}
@@ -2780,12 +2780,12 @@ int CalculateNeighNodes(int TotalOrders, int orderLow, ArbArray * ClArLL, SNarra
 							rv = addNeighNodeToCluster(&TempClLL, Node_IDBeh);
 
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}else{
 							if(Elec_Beh==-1){ 
-								//Add the left Electrode as a neighbor to the cluster
+								//Identify left Electrode as a neighbor to the cluster
 								setCluster_elecXid(&TempClLL,0);
 							}
 						}
@@ -3789,6 +3789,57 @@ int CalculatePvalNodes(ClusterLL * TempClLL, matrix mtxProb, matrix mtxDwellTime
 	return 0;
 }
 
+
+int ConnectClusterElec( ArbArray * ClArLL,\
+												Electrode elXB, Electrode elXF,\
+												Electrode elYL, Electrode elYR,\
+												Electrode elZB, Electrode elZA){
+
+	if(ClArLL==NULL){
+		printf("WARNING ClArLL non existant in Connect ClusterElec\n");
+		return -1;
+	}
+	if(*ClArLL==NULL){
+		printf("WARNING ClArLL non existant in Connect ClusterElec\n");
+		return -1;
+	}
+
+	if(elXB==NULL || elXF==NULL){
+		printf("WARNING elXF or elXB non existant in Connect ClusterElec\n");
+		return -1;
+	}
+	if(elYL==NULL || elYR==NULL){
+		printf("WARNING elYL or elYR non existant in Connect ClusterElec\n");
+		return -1;
+	}
+	if(elZB==NULL || elZA==NULL){
+		printf("WARNING elZA or elZB non existant in Connect ClusterElec\n");
+		return -1;
+	}
+
+	int TotalOrders;
+	int element;
+	TotalOrders = getElementsReserved(*ClArLL);
+	ClusterLL TempClLL;
+
+	for(element=0;element<TotalOrders;element++){
+		TempClLL = (ClusterLL) getArbElement(*ClArLL,element);
+
+		if(TempClLL!=NULL){
+			while(TempClLL!=NULL){
+				setCluster_elecXF(&TempClLL, elXF);		
+				setCluster_elecXB(&TempClLL, elXB);		
+				setCluster_elecYR(&TempClLL, elYR);		
+				setCluster_elecYL(&TempClLL, elYL);		
+				setCluster_elecZB(&TempClLL, elZB);		
+				setCluster_elecZA(&TempClLL, elZA);		
+				TempClLL=getNextClusterLL(TempClLL);
+			}
+		}
+	}
+	return 0;
+}
+
 int ConnectClusterSN( int TotalOrders, SNarray snA, ArbArray ClArLL){
 
 	if(snA==NULL || ClArLL==NULL){
@@ -4477,8 +4528,12 @@ int SaveCluster( char * FileName, int OrderL, SNarray snA, double electricEnergy
 					totalNodes = getCluster_numNodes(ClLL);	
 					totalNeighNodes = getCluster_numNeigh(ClLL);
 					//ID of Cluster followed by the cluster p val, time and sum 
-					fprintf(ClusterOut,"%d\t%g\t%g\t%g\n",getCluster_id(ClLL),getCluster_time(ClLL),\
-							getCluster_Sum(ClLL),getCluster_p(ClLL));
+					fprintf(ClusterOut,"%d\t%g\t%g\t%g\t%d\t%d\t%d\t%d\t%d\t%d\n",\
+							getCluster_id(ClLL),getCluster_time(ClLL),\
+							getCluster_Sum(ClLL),getCluster_p(ClLL),\
+							getCluster_elecidXB(ClLL),getCluster_elecidXF(ClLL),\
+							getCluster_elecidYL(ClLL),getCluster_elecidYR(ClLL),\
+							getCluster_elecidZB(ClLL),getCluster_elecidZA(ClLL));
 					fprintf(ClusterOut,"%d\n",totalNodes);
 					//Print node id, pval of nodes and flags of the nodes
 
@@ -4855,6 +4910,14 @@ int LoadCluster( char * FileName, int * OrderL, SNarray * snA, double *electricE
 				int totalNeigh;
 				int totalHops;
 				int clusterNum;
+				
+				int elecXFid;
+				int elecXBid;
+				int elecYRid;
+				int elecYLid;
+				int elecZAid;
+				int elecZBid;
+
 				double ClusterTime;
 				double ClusterSum;
 				double ClusterP;
@@ -4872,7 +4935,7 @@ int LoadCluster( char * FileName, int * OrderL, SNarray * snA, double *electricE
 					fscanf(ClusterIn,"%d",&totalClusters);
 					printf("TotalNumber of Clusters %d\n",totalClusters);
 					for(clusterNum=0;clusterNum<totalClusters;clusterNum++){
-						fscanf(ClusterIn,"%d %lf %lf %lf",&ClusterID,&ClusterTime,&ClusterSum,&ClusterP);
+						fscanf(ClusterIn,"%d %lf %lf %lf %d %d %d %d %d %d",&ClusterID,&ClusterTime,&ClusterSum,&ClusterP, &elecXBid, &elecXFid, &elecYLid, &elecYRid, &elecZBid, &elecZAid);
 						printf("ClusterID %d\n",ClusterID);
 						ClLL = newClusterLL(ClusterID);
 						printf("1\n");
@@ -4881,6 +4944,14 @@ int LoadCluster( char * FileName, int * OrderL, SNarray * snA, double *electricE
 						setCluster_time(ClLL,ClusterTime);
 						printf("3\n");
 						setCluster_p(ClLL,ClusterP);
+						
+						setCluster_elecXBid(&ClLL, elecXBid);
+						setCluster_elecXFid(&ClLL, elecXFid);
+						setCluster_elecYLid(&ClLL, elecYLid);
+						setCluster_elecYRid(&ClLL, elecYRid);
+						setCluster_elecZBid(&ClLL, elecZBid);
+						setCluster_elecZAid(&ClLL, elecZAid);
+						
 						printf("TotalNodes %d\n",totalNodes);
 						fscanf(ClusterIn,"%d",&totalNodes);
 						setArbElement(ClArLL1, count, (void *) ClLL);
@@ -4968,7 +5039,7 @@ int LoadCluster( char * FileName, int * OrderL, SNarray * snA, double *electricE
 
 int LoadCluster_Data( char * FileName, int * OrderL, SNarray * snA, double electricEnergyX,\
 		double electricEnergyY, double electricEnergyZ,\
-		ArbArray *ClArLL1, double kT){
+		ArbArray * ClArLL1, double kT){
 
 	int totalSites;
 	int intvar;
@@ -5254,6 +5325,14 @@ int LoadCluster_Data( char * FileName, int * OrderL, SNarray * snA, double elect
 				int totalNeigh;
 				int totalHops;
 				int clusterNum;
+
+				int elecXFid;
+				int elecXBid;
+				int elecYRid;
+				int elecYLid;
+				int elecZAid;
+				int elecZBid;
+
 				double ClusterTime;
 				double ClusterSum;
 				double ClusterP;
@@ -5271,7 +5350,7 @@ int LoadCluster_Data( char * FileName, int * OrderL, SNarray * snA, double elect
 					fscanf(ClusterIn,"%d",&totalClusters);
 					printf("TotalNumber of Clusters %d\n",totalClusters);
 					for(clusterNum=0;clusterNum<totalClusters;clusterNum++){
-						fscanf(ClusterIn,"%d %lf %lf %lf",&ClusterID,&ClusterTime,&ClusterSum,&ClusterP);
+						fscanf(ClusterIn,"%d %lf %lf %lf %d %d %d %d %d %d",&ClusterID,&ClusterTime,&ClusterSum,&ClusterP, &elecXBid, &elecXFid, &elecYLid, &elecYRid, &elecZBid, &elecZAid);
 						printf("ClusterID %d\n",ClusterID);
 						ClLL = newClusterLL(ClusterID);
 						printf("1\n");
@@ -5280,9 +5359,17 @@ int LoadCluster_Data( char * FileName, int * OrderL, SNarray * snA, double elect
 						setCluster_time(ClLL,ClusterTime);
 						printf("3\n");
 						setCluster_p(ClLL,ClusterP);
+						
+						setCluster_elecXBid(&ClLL, elecXBid);
+						setCluster_elecXFid(&ClLL, elecXFid);
+						setCluster_elecYLid(&ClLL, elecYLid);
+						setCluster_elecYRid(&ClLL, elecYRid);
+						setCluster_elecZBid(&ClLL, elecZBid);
+						setCluster_elecZAid(&ClLL, elecZAid);
+						
 						printf("TotalNodes %d\n",totalNodes);
 						fscanf(ClusterIn,"%d",&totalNodes);
-						setArbElement(ClArLL1, count, (void *) ClLL);
+						setArbElement((*ClArLL1), count, (void *) ClLL);
 						printf("Setting element of ArbArray\n");		
 						//Connect with the site nodes
 						for(count4=0;count4<getRows(mtx);count4++){
@@ -5652,6 +5739,14 @@ int LoadCluster_Only( char * FileName, int * OrderL, SNarray * snA, double elect
 				int totalNeigh;
 				int totalHops;
 				int clusterNum;
+				
+				int elecXFid;
+				int elecXBid;
+				int elecYRid;
+				int elecYLid;
+				int elecZAid;
+				int elecZBid;
+
 				double ClusterTime;
 				double ClusterSum;
 				double ClusterP;
@@ -5669,7 +5764,7 @@ int LoadCluster_Only( char * FileName, int * OrderL, SNarray * snA, double elect
 					fscanf(ClusterIn,"%d",&totalClusters);
 					printf("TotalNumber of Clusters %d\n",totalClusters);
 					for(clusterNum=0;clusterNum<totalClusters;clusterNum++){
-						fscanf(ClusterIn,"%d %lf %lf %lf",&ClusterID,&ClusterTime,&ClusterSum,&ClusterP);
+						fscanf(ClusterIn,"%d %lf %lf %lf %d %d %d %d %d %d",&ClusterID,&ClusterTime,&ClusterSum,&ClusterP, &elecXBid, &elecXFid, &elecYLid, &elecYRid, &elecZBid, &elecZAid);
 						printf("ClusterID %d\n",ClusterID);
 						ClLL = newClusterLL(ClusterID);
 						printf("1\n");
@@ -5678,6 +5773,14 @@ int LoadCluster_Only( char * FileName, int * OrderL, SNarray * snA, double elect
 						setCluster_time(ClLL,ClusterTime);
 						printf("3\n");
 						setCluster_p(ClLL,ClusterP);
+						
+						setCluster_elecXBid(&ClLL, elecXBid);
+						setCluster_elecXFid(&ClLL, elecXFid);
+						setCluster_elecYLid(&ClLL, elecYLid);
+						setCluster_elecYRid(&ClLL, elecYRid);
+						setCluster_elecZBid(&ClLL, elecZBid);
+						setCluster_elecZAid(&ClLL, elecZAid);
+						
 						printf("TotalNodes %d\n",totalNodes);
 						fscanf(ClusterIn,"%d",&totalNodes);
 						setArbElement(ClArLL1, count, (void *) ClLL);

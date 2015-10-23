@@ -47,29 +47,33 @@ int main() {
 	matrix mtxrv; 
 	mtx = newMatrix(row, col);
 
-	printf("Testing: newMatrix returning null\n");
-	mtxrv=newMatrix(-1,1);
+	printf("Testing: newMatrix\n");
+	mtxrv=newMatrix(0,1);
 	assert(mtxrv==NULL);
-	mtxrv=newMatrix(1,-1);
+	mtxrv=newMatrix(1,0);
 	assert(mtxrv==NULL);
+	printf("Expecting matrix of 0's\n");
+	mtxrv= newMatrix(5,5); 
+	assert (mtxrv!=NULL);
 
-	printf("************\n\n");
-	printf("Testing: newMatrix, expecting matrix of 0's\n");
-	printf("Testing: printMatrix with functional mtx\n");
-	rv = printMatrix(mtx);
+	printf("Testing: printMatrix\n");
+	rv=printMatrix(NULL);
+	assert(rv==-1);
+	rv= printMatrix(mtxrv);
 	assert(rv==0);
 
 	printf("Testing: setE with functional mtx\n");
+	rv=setE(5, 2, 5, 12); 
+	assert(rv==-1);
 	rv= setE(mtx, 2, 3, 343.1);
 	assert(rv==0);
 	rv= setE(mtx,3,2,902.8);
 	assert(rv==0);
-	printf("************\n\n");
 	printMatrix(mtx);
-
 	printf("Testing: setE returns null properly\n");
 	rv = setE(mtx,-1, col, val);
 	assert(rv==-2);
+	rv=setE(NULL,-1, col, val);
 	rv = setE(mtx,15, col, val);
 	assert(rv==-2);
 	rv = setE(mtx,row, -1, val);
@@ -84,7 +88,6 @@ int main() {
 	drv= getE(mtx,3,2);
 	//printf("%g\n",drv);
 	assert(drv==902.8);
-
 	printf("Testing: getE returns null properly\n");
 	drv = getE(mtx,-1, col);
 	assert(drv==-2);
@@ -94,25 +97,12 @@ int main() {
 	assert(drv==-2);
 	drv = getE(mtx,row, 15);
 	assert(drv==-2);
-
-	printf("Testing: deleteMatrix\n");
-	rv=deleteMatrix(mtx);
-	assert(rv==0);
-
-	matrix mtx3 = newMatrixSet(row,15,15.7);
-	printf("Testing if printRandomEnergyFilesijk doesn't work with a 15-column matrices\n");
-	rv= printRandomEnergyFilesijk(mtx3); 
-	assert(rv==-1);
-	printf("Testing: getRows\n"); 
-	rv= getRows(mtx3); 
-	assert(rv==4);
-	printf("Testing: getCols\n"); 
-	rv=getCols(mtx3); 
-	assert(rv==15);
-	
+	drv=getE(NULL,row, col);
+	assert(drv==-1); 
+		
 	printf("Testing: resizeRow\n");
 	matrix mtx4 = NULL;
-	rv = resizeRow(&mtx4,3);
+	rv = resizeRow(&mtx4,3); //why the ampersand?
 	assert(rv==-1);
 	mtx4 = newMatrix(5,3);
 	printMatrix(mtx4);
@@ -128,11 +118,43 @@ int main() {
 	printMatrix(mtx4);
 	rv = resizeRow(&mtx4,6);
 	assert(rv==0);
-	setE(mtx4,6,2,-12.3);
+	/*setE(mtx4,6,2,-12.3);
 	printMatrix(mtx4);
+*/
+
+	matrix mtx3 = newMatrix(row,15);
+	printf("Testing: printRandomEnergyFilesijk\n");
+	rv= printRandomEnergyFilesijk(mtx3); 
+	assert(rv==-1);
+	printf("Testing: getRows\n"); 
+	rv= getRows(mtx3); 
+	assert(rv==4);
+	printf("Testing: getCols\n"); 
+	rv=getCols(mtx3); 
+	assert(rv==15);
+	resizeRow(mtx3,3);
+	rv=printRandomEnergyFilesijk(mtx3);
+	assert(rv==0); 
+
+	printf("Testing: deleteMatrix\n");
+	rv=deleteMatrix(NULL);
+	assert(rv=-1);
+	rv=deleteMatrix(mtx);
+	assert(rv==0);
+	
 
 	deleteMatrix(mtx3);
-	deleteMatrix(mtx4);
+
+	printf("Testing: duplicateMatrix");
+	mtx5=duplicateMatrix(NULL);
+	assert(mtx5=NULL);
+	mtx5=duplicateMatrix(mtx4);
+	assert(mtx5!=NULL);
+	printMatrix(mtx4);
+	printMatrix(mtx5); 
+
+
+
 
 	//atexit(mem_term);
 	/*

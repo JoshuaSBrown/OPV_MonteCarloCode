@@ -551,6 +551,13 @@ int setCluster_elecYL(ClusterLL * clLL, Electrode Elec);
 int setCluster_elecZB(ClusterLL * clLL, Electrode Elec);
 int setCluster_elecZA(ClusterLL * clLL, Electrode Elec);
 
+int setCluster_elecXF(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecXB(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecYR(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecYL(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecZB(ClusterLL * clLL, Electrode Elec);
+int setCluster_elecZA(ClusterLL * clLL, Electrode Elec);
+
 /* Sets the id of the electrodes
 	 0 - back side 1 - front side
 	 0 - left side 1 - right side

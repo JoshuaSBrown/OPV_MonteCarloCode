@@ -1865,10 +1865,8 @@ int randomWalk( SNarray snA,int CheckptNum,\
 
 				printf("SaveTime %Lg TStep %g SaveCount %d Nstep_av %d Movie %d MovieFrames %d\n",SaveTime,TStep,SaveCount,Nstep_av,Movie,MovieFrames);
 
-				if((SaveCount%Nstep_av)==0 && Movie<MovieFrames){
-					printf("Should have entered the printMovie Routine\n");
+				if((SaveCount%Nstep_av)==0 ){
 					SaveCount = 1;
-					printMovie(&Movie,FileName,snA);
 					SaveTime = fmod(SaveTime, (long double)TStep);
 					SaveDataPoint( &CurrentInc, &NumAvgVel, nc, XElecOn, YElecOn, ZElecOn,\
 							&Xcurrent, &Ycurrent, &Zcurrent, &timeArray,\
@@ -1881,7 +1879,10 @@ int randomWalk( SNarray snA,int CheckptNum,\
 							&Xdrain, &Ydrain, &Zdrain, &Xsource, &Ysource,&Zsource,\
 							ElectricFieldX, ElectricFieldY, ElectricFieldZ,\
 							FileName);
-
+					if(Movie<MovieFrames){
+						printf("Should have entered the printMovie Routine\n");
+						printMovie(&Movie,FileName,snA);
+					}
 				}
 
 				time(&later);
@@ -2027,11 +2028,9 @@ int randomWalk( SNarray snA,int CheckptNum,\
 				//before recording
 				SaveCount++;
 
-				if((SaveCount%Nstep_av)==0 && Movie<MovieFrames){
+				if((SaveCount%Nstep_av)==0){
 					//Saving Data
 					SaveCount = 1;
-					printf("Should have entered the printMovie Routine\n");
-					printMovie(&Movie,FileName,snA);
 					SaveTime = fmod(SaveTime,(long double)TStep);
 
 					SaveDataPoint( &CurrentInc, &NumAvgVel, nc, XElecOn, YElecOn, ZElecOn,\
@@ -2046,6 +2045,10 @@ int randomWalk( SNarray snA,int CheckptNum,\
 							ElectricFieldX, ElectricFieldY, ElectricFieldZ,\
 							FileName);
 
+					if(Movie<MovieFrames){
+						printf("Should have entered the printMovie Routine\n");
+						printMovie(&Movie,FileName,snA);
+					}
 					//printMatrix(System);
 					//printMatrix(timeArray);
 

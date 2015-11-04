@@ -5,7 +5,7 @@
 //#include "../../../MEM/mem.h"
 #include "matrix.h"
 
-int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
+int main() {
 	
 	//mem_init();
 	printf("Testing: functions with mtx as null \n");
@@ -63,8 +63,8 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	assert(rv==0);
 
 	printf("Testing: setE with functional mtx\n");
-	rv=setE(mtx, 2, 5, 12); 
-	assert(rv==0);
+	rv=setE(5, 2, 5, 12); 
+	assert(rv==-1);
 	rv= setE(mtx, 2, 3, 343.1);
 	assert(rv==0);
 	rv= setE(mtx,3,2,902.8);
@@ -132,7 +132,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	printf("Testing: getCols\n"); 
 	rv=getCols(mtx3); 
 	assert(rv==15);
-	resizeRow(&mtx3,3);
+	resizeRow(mtx3,3);
 	rv=printRandomEnergyFilesijk(mtx3);
 	assert(rv==0); 
 
@@ -141,119 +141,44 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	assert(rv=-1);
 	rv=deleteMatrix(mtx);
 	assert(rv==0);
+	
+
+	deleteMatrix(mtx3);
 
 	printf("Testing: duplicateMatrix");
-	matrix mtx5=duplicateMatrix(NULL);
+	mtx5=duplicateMatrix(NULL);
 	assert(mtx5=NULL);
 	mtx5=duplicateMatrix(mtx4);
 	assert(mtx5!=NULL);
 	printMatrix(mtx4);
 	printMatrix(mtx5); 
 
-	printf("Testing: newMatrixSet\n");
-	mtxrv=newMatrixSet(0,1,5);
-	assert(mtxrv==NULL);
-	mtxrv=newMatrixSet(1,0,4);
-	assert(mtxrv==NULL);
-	mtxrv=newMatrixSet(row,col,14);
-	printf("Expect matrix of 14's: ");
-	printMatrix(mtxrv);
-
-	printf("Testing:setAllRowsinCol");
-	rv=setAllRowsInCol(mtxrv,0,val);
-	assert(rv==-1);
-	rv=setAllRowsInCol(mtxrv,10,val);
-	assert(rv==-1);
-	rv=setAllRowsInCol(NULL,2,val);
-	assert(rv==-1);
-	rv=setAllRowsInCol(mtxrv,2,2);
-	assert(rv==0);
-	printMatrix(mtxrv);
-
-	printf("Testing:DivideEachElementInCol"); //may be problems due to *matrix
-	rv=DivideEachElementCol(NULL,2,val);
-	assert(rv==-1);
-	rv=DivideEachElementCol(&mtxrv,0,val);
-	assert(rv==-1);
-	rv=DivideEachElementCol(&mtxrv,15,val);
-	assert(rv==-1);
-	rv=DivideEachElementCol(&mtxrv,2,2);
-	assert(rv=0);
-	printMatrix(mtxrv); 
-
-	printf("Testing: setAll");
-	rv=setAll(NULL,val);
-	assert(rv==-1);
-	rv=setAll(mtxrv,100);
-	assert(rv==0);
-	
-	printf("Testing: DivideEachElement"); //may be problems due to *matrix
-	rv=DivideEachElement(&mtxrv,25);
-	assert(rv==0);
-	rv=DivideEachElement(NULL,25);
-	assert(rv==-1);
-	//rv=DivideEachElement(mtxrv,25); //how to test !*mtx without NULL?
-	assert(rv==-1);
-
-	printf("Testing: SumOfCol");
-	drv=SumOfCol(NULL,val);
-	assert(drv==-1);
-	drv=SumOfCol(mtxrv,0);
-	assert(drv==-1);
-	drv=SumOfCol(mtxrv,15);
-	assert(drv==-1);
-	drv=SumOfCol(mtxrv,3);
-	assert(drv!=-1);
-	
-	printf("Testing: SumOfRow");
-	drv=SumOfRow(NULL,val);
-	assert(drv==-1);
-	drv=SumOfRow(mtxrv,0);
-	assert(drv==-1);
-	drv=SumOfRow(mtxrv,15);
-	assert(drv==-1);
-	drv=SumOfRow(mtxrv,3);
-	assert(drv!=-1);
-	
-	setE(mtxrv,2,2,13);
-	printf("Testing: FindRowOfMatchInCol"); //may be problem w/ cont_matrix mtx
-	FindRowOfMatchInCol(NULL,13,2);  
-	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,13,15);
-	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,0,15);
-	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,13,1);
-	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,13,2);
-	assert(rv==0);
 
 
-	setE(mtxrv,1,2,15);
-	printf("Testing: matchReplace");
-	rv=matchReplace(NULL,15,4);
-	assert(rv==-1);
-	rv=matchReplace(mtxrv,15,4);
-	assert(rv==0);
-
-	printf("Testing: matchExistCol");
-	rv=matchExistCol(NULL,col,4);
-	assert(rv==-1);
-	rv=matchExistCol(mtxrv,0,4);
-	assert(rv==-1);
-	rv=matchExistCol(mtxrv,5,4);
-	assert(rv==-1);
-	rv=matchExistCol(mtxrv,col,val);
-	assert(rv==0);
-	rv=matchExistCol(mtxrv,col,4);
-	assert(rv==1); //or at least !0
-
-	printf("Testing: matchExist");
-	rv=matchExist(NULL,val);
-	assert(rv==-1);
-	rv=matchExist(mtxrv,4);
-	assert(rv==0);
 
 	//atexit(mem_term);
+	/*
+	printf("************\n\n");
+
+	printf("Testing: newMatrixSet, expecting matrix of 5.5's\n");
+	matrix mtx2 = newMatrixSet(row,col,5.5);
+	printMatrix(mtx2);
+	printf("Testing: newMatrixSet returns null properly\n");
+	mtxrv=newMatrixSet(-2,0,val);
+	assert(mtxrv==NULL);
+	mtxrv=newMatrixSet(0,-2,val);
+	assert(mtxrv==NULL);
+
+	printf("\n************\n\n");
+	printf("Testing the setAll command\n");
+	printf("Changing default to 32.1\n");
+	rv=setAll(mtx2, 32.1);
+	assert(rv==0); 
+	printMatrix(mtx2);
+	printf("Testing if printRandomEnergyFilesijk works with a 3-column matrix\n");
+	rv= printRandomEnergyFilesijk(mtx); 
+	assert(rv==0);
+	//printf("Changing matrix to 15 columns of 15.7 \n");
+*/
 	return 0;
 }

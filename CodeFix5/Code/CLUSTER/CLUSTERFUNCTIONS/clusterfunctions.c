@@ -924,7 +924,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 	//Using non periodic conditions in the x examining whether
 	//the cluster spans the length of the sample 
 	if (IsCluster!=0){
-		deleteLL(LL);
+		deleteLL(&LL);
 		deleteMatrix(AvailableNodes);
 		deleteMatrix(NearLeftElec);
 		deleteMatrix(NearRightElec);
@@ -1006,7 +1006,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1016,7 +1016,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1026,7 +1026,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1036,7 +1036,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1046,7 +1046,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1055,7 +1055,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1144,7 +1144,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1154,7 +1154,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1164,7 +1164,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1174,7 +1174,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1184,7 +1184,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1193,7 +1193,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1282,7 +1282,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1292,7 +1292,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1302,7 +1302,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1312,7 +1312,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1322,7 +1322,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1331,7 +1331,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1420,7 +1420,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1430,7 +1430,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1440,7 +1440,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1450,7 +1450,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1460,7 +1460,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1469,7 +1469,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1558,7 +1558,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1568,7 +1568,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1578,7 +1578,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1588,7 +1588,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1598,7 +1598,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1607,7 +1607,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1695,7 +1695,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1705,7 +1705,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1715,7 +1715,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1725,7 +1725,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1734,7 +1734,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1743,7 +1743,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1829,7 +1829,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagLef(tempNode)==1){
 							if (RElec==Lef){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1839,7 +1839,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagRig(tempNode)==1){
 							if (RElec==Rig){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1849,7 +1849,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if( getFlagAbo(tempNode)==1){
 							if (RElec==Abo){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1859,7 +1859,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagBel(tempNode)==1){
 							if (RElec==Bel){
 								//This means delete the Cluster
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1869,7 +1869,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1878,7 +1878,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
-								deleteLL(LL);
+								deleteLL(&LL);
 								deleteMatrix(AvailableNodes);
 								deleteMatrix(NearLeftElec);
 								deleteMatrix(NearRightElec);
@@ -1962,7 +1962,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagLef(tempNode)==1){
 								if (RElec==Lef){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1972,7 +1972,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagRig(tempNode)==1){
 								if (RElec==Rig){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1982,7 +1982,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if( getFlagAbo(tempNode)==1){
 								if (RElec==Abo){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -1992,7 +1992,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagBel(tempNode)==1){
 								if (RElec==Bel){
 									//This means delete the Cluster
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -2001,7 +2001,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -2010,7 +2010,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
-									deleteLL(LL);
+									deleteLL(&LL);
 									deleteMatrix(AvailableNodes);
 									deleteMatrix(NearLeftElec);
 									deleteMatrix(NearRightElec);
@@ -2027,7 +2027,7 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 		}
 	}
 
-	deleteLL(LL);
+	deleteLL(&LL);
 	deleteMatrix(AvailableNodes);
 	deleteMatrix(NearLeftElec);
 	deleteMatrix(NearRightElec);

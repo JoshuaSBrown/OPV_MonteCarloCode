@@ -234,7 +234,7 @@ int setNeighNodeNew_p(NeighNode NeighNod, double pval);
 int setNeighNode_p(NeighNode NeighNod, double pval, int Elem);
 
 /* Sets the time of moving to this neighboring node
-	 given that it takes the hop reoute specified by 
+	 given that it takes the hop route specified by 
 	 Elem.
 */
 int setNeighNode_t(NeighNode NeighNod, double time, int Elem);
@@ -367,7 +367,7 @@ int setNeighLL_start(NeighLL Nei, NeighNode NeighNod);
 int setNeighLL_numNeigh(NeighLL Nei, int NumNei);
 
 /////////////////////////////////////////////////////////
-//Tools for accessing Hop data structure
+//Tools for accessing Hop data structure (no getters puroposefully)
 Hop newHop(void);
 
 //Deletes all Hops linked to the hop h

@@ -10,7 +10,7 @@
 
 struct _MidPoint{
 	int id;
-	int orderMag;
+	int orderMag; //log(HopRate)
 	//Neigbors between the mid points
 	int nei1;
 	int nei2;
@@ -25,7 +25,7 @@ struct _OrderMagLL{
 
 struct _Node{
 	int id;
-	double p;
+	double p; 
 	Node next;
 	int flag[6];
 };
@@ -101,7 +101,7 @@ MidPoint newMidPoint(int order,int Mid_ID, int nei1, int nei2){
 
 	//Can not be combined with above if statement if the Midpoint is 
 	//successfully created but there is a problem with one of the
-	//parameters than it would need to be deleted. 
+	//parameters then it would need to be deleted. 
 	if(mp==NULL ){
 		return NULL;
 	}
@@ -131,6 +131,9 @@ int printMP(const_MidPoint mp){
 }
 
 int getMP_order(const_MidPoint mp){
+	if(mp==NULL){ //added condition
+		return -1;
+	}
 	return mp->orderMag;
 }
 
@@ -177,17 +180,29 @@ OrderMagLL newOrLL(int orderMag){
 	OrderMagLL OMLL= (OrderMagLL) malloc(sizeof(struct _OrderMagLL));
 	if(OMLL==NULL){
 		return NULL;
-	}
 	OMLL->orderMag=orderMag;
 	OMLL->size=0;
 	OMLL->start=NULL;
 	return OMLL;
 }
 
-int deleteOrLL(OrderMagLL OMLL){
-	if(OMLL==NULL){
-		return -1;
+int checkNewOrLL(OrderMagLL OMLL, MidPoint mp){ //use when adding newMidPoint to OMLL
+	if(OMLL==NULL || mp==NULL){
+		return -1; 
 	}
+	while(mp != NULL){
+		if(OMLL->orderMag != mp->orderMag ){
+			return -1;
+		}
+		mp=mp->next;
+	}
+	return 0;
+}
+
+int deleteOrLL(OrderMagLL OMLL){ //used only if no midpoints
+	if(OMLL==NULL || OMLL->start!=NULL){
+		return -1;
+	}	
 	free(OMLL);
 	return 0;
 }
@@ -223,7 +238,7 @@ int deleteAllOrLL(OrderMagLL OMLL){
 	return 0;
 }
 
-int printOrLL( const_OrderMagLL OMLL) {
+int printOrLL(const_OrderMagLL OMLL) {
 
 	if (OMLL==NULL){
 		return -1;
@@ -514,7 +529,7 @@ int setNextNeighNode(NeighNode * NeighNod,NeighNode * NeighNod2){
 		return -1;
 	}
 	
-	if(*NeighNod==NULL || *NeighNod2==NULL){
+	if(*NeighNod==NULL || *NeighNod2==NULL){ //don't know how to test
 		return -1;
 	}
 
@@ -524,7 +539,7 @@ int setNextNeighNode(NeighNode * NeighNod,NeighNode * NeighNod2){
 }
 
 NeighNode getNextNeigh(const_NeighNode NeighNod){
-	if(NeighNod==NULL){
+	if(NeighNod==NULL || NeighNod->next==NULL){ //second condition (added)?
 		return NULL;
 	}
 	return NeighNod->next;
@@ -556,7 +571,6 @@ int setNeighNode_p(NeighNode NeighNod, double pval, int Elem){
 	if (NeighNod==NULL || pval<0.0){
 		return -1;
 	}
-
 	if (NeighNod->start==NULL || Elem>NeighNod->hoplength || Elem<1){
 		return -1;
 	}
@@ -578,8 +592,7 @@ int setNeighNode_t(NeighNode NeighNod, double time, int Elem){
 		return -1;
 	}
 
-	if (NeighNod->start==NULL || Elem>NeighNod->hoplength || Elem<1){
-		return -1;
+	if (NeighNod->start==NULL || Elem>NeighNod->hoplength || Elem<1){			return -1;
 	}
 
 	int inc=1;
@@ -604,6 +617,7 @@ double getNeighNode_p(const_NeighNode NeighNod, int Elem){
 
 	if (NeighNod->start==NULL || Elem>NeighNod->hoplength || Elem<1){
 		printf("There is no hop array\n");
+		return -1;
 	}
 
 	int inc=1;
@@ -701,7 +715,7 @@ int deleteElectrode(Electrode * el){
 }
 
 int setElectrode_alpha(Electrode el, double alpha){
-	if(el==NULL){
+	if(el==NULL || alpha<=0){
 		return -1;
 	}
 
@@ -758,6 +772,9 @@ int setElectrode_FermiEnergy(Electrode el, double FermiE){
 }
 
 double getElectrode_FermiEnergy(Electrode el){
+	if(el==NULL){
+		return -1;
+	}
 	return el->FermiEnergy;
 }
 
@@ -769,7 +786,7 @@ int setElectrode_HopRates(Electrode el, void * HopS){
 	return 0;
 }
 
-void * getElectrode_HopRates(Electrode el){
+void * getElectrode_HopRates(Electrode el){ 
 	if(el==NULL){
 		return NULL;
 	}
@@ -920,7 +937,7 @@ Hop newHop(void){
 	return h;
 }
 
-int deleteAllHop(Hop h){
+int deleteAllHop(Hop h){//come back to deleteNeighNode
 
 	if(h==NULL){
 		return -1;
@@ -928,11 +945,11 @@ int deleteAllHop(Hop h){
 	Hop temp;
 	while( h->next!=NULL){
 		temp = h->next;
-		h->next=NULL;
+		h->next=NULL; //why necessary?
 		free(h);
 		h = temp;
 	}
-	h->next=NULL;
+	h->next=NULL; //necessary condition, why restated here?
 	free(h);
 
 	return 0;
@@ -971,7 +988,7 @@ int setHop_next(Hop h, Hop h2){
 	}
 	h->next = h2;
 	return 0;
-}
+}	
 ////////////////////////////////////////////////////////////////////////
 //Tools for accessing Clusters and Cluster Link List
 ClusterLL newClusterLL(int ID){

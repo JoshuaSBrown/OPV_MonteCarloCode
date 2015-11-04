@@ -19,6 +19,7 @@ int main() {
 	OrderMagLL OMLL;
 	Node nd;
 	Node nd2;
+	Hop h;
 	NeighNode Nei;
 	NeighNode Nei2;
 	Electrode el;
@@ -40,7 +41,7 @@ int main() {
 	assert(mp==NULL);
 	mp = newMidPoint(order, 0, nei1, nei2);
 	assert(mp!=NULL);
-	
+
 	printf("Testing:deleteMidPoint\n");
 	rv = deleteMidPoint(NULL);
 	assert(rv==-1);
@@ -100,6 +101,7 @@ int main() {
 	assert(rv==1);
 	rv=CompareNeiMidPoint(mp,mp6);
 	assert(rv==0);
+
 ///////////////////////////////////////////////////////////////////////////////
 //Order of Magnitude Link List
 
@@ -107,33 +109,75 @@ int main() {
 	OMLL = newOrLL(1);
 	assert(OMLL!=NULL);
 
+	printf("Testing:checkNewOrLL");
+	rv=checkNewOrLL(NULL,mp);
+	assert(rv==-1);
+	rv=checkNewOrLL(OMLL,NULL);
+	assert(rv==-1);
+	OMLL->start=newMidPoint(3,17,nei1,nei2);
+	deleteMidPoint(OMLL->start);
+	rv=checkNewOrLL(OMLL,OMLL->start);
+	assert(rv==-1);
+	mp=newMidPoint(1,15,nei1,nei2);
+	rv=checkNewOrLL(OMLL,mp);
+	assert(rv==0);
+
 	printf("Testing:deleteOrLL\n");
 	rv = deleteOrLL(NULL);
 	assert(rv==-1);
 	rv = deleteOrLL(OMLL);
+	assert(rv==-1);
+	rv=deleteOrLL(OMLL);
 	assert(rv==0);
 
-	printf("Testing:deleteAllOrLL\n");
-	OMLL = newOrLL(-2);
+	printf("Testing:deleteAllOrLL\n"); 
+	OMLL = newOrLL(order);
 	assert(OMLL!=NULL);
 	rv = deleteAllOrLL(NULL);
 	assert(rv==-1);
 	rv = deleteAllOrLL(OMLL);
 	assert(rv==0);
+	OMLL=newOrLL(-3);
+	OMLL->start=newMidPoint(order,6,nei1,nei2);
+	OMLL->start->next=newMidPoint(order,7,nei2,nei1);
+	rv=deleteAllorLL(OMLL);
+	assert(rv==0); 
+	OMLL=newOrLL(-4);
+	OMLL->start=newMidPoint(order,8,nei1,nei2);
+	OMLL->start->next=newMidPoint(order,9,nei1,nei2);
+	OMLL->start->next->next=newMidPoint(order,10,15,12);
+	rv=deleteAllorLL(OMLL);
+	assert(rv==0);
 
-	OMLL = newOrLL(2);
+	OMLL = newOrLL(5);
 	printf("Testing:printOrLL\n");
-	rv = printOrLL( NULL );
+	rv = printOrLL(NULL);
 	assert(rv==-1);
-	printf("Should print OrderMag of 2 and Size of LL of 0\n");
+	printf("Should print OrderMag of 5 and Size of LL of 0\n");
 	rv = printOrLL( OMLL );
 	assert(rv==0);
-	
-	printf("Testing:getOMLLstartMP\n");
+	OMLL->start=newMidPoint(5,5,nei1,nei2);
+	printf("Should print OrderMag of 5 and Size of 1\n");
+	rv=printOrLL(OMLL);
+	assert(rv==0);
+
+	printf("Testing:getOMLL_size\n");
+	rv=getOMLL_size(NULL);
+	assert(rv==-1);
+	rv=getOMLL_size(OMLL);
+	assert(rv==1);
+
+	printf("getOMLL_order\n");
+	rv=getOMLL_order(NULL);
+	assert(rv==-1);
+	rv=getOMLL_order(OMLL);
+	assert(rv==5);
+
+	printf("Testing:getOMLLstartMP\n"); //start here
 	mp = getOMLLstartMP(NULL);
 	assert(mp==NULL);
 	mp = getOMLLstartMP(OMLL);
-	assert(mp==NULL);
+	assert(mp!=NULL); //
 	deleteAllOrLL(OMLL);
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -166,10 +210,13 @@ int main() {
 	assert(rv==2);
 
 	printf("Testing:getNextNode\n");
-	nd2 = getNextNode(NULL);
+	Node nd2 = getNextNode(NULL);
 	assert(nd2==NULL);
 	nd2 = getNextNode(nd);
 	assert(nd2==NULL);
+	nd2=nd->next;
+	Node nd3=getNextNode(nd);
+	assert(nd3==nd2);
 	
 	printf("Testing:setNode_id\n");
 	rv = setNode_id(NULL,1);
@@ -192,7 +239,7 @@ int main() {
 	assert(rv==-1);
 	rv = setNode_p(nd,-2.3);
 	assert(rv==-1);
-	rv = setNode_p(nd,5.5);
+	rv = setNode_p(nd,5.5); //p-value can't be greater than 1? check clusterfunctions
 	assert(rv==0);
 	rvd = getNode_p(nd);
 	assert(rvd=5.5);
@@ -272,7 +319,7 @@ int main() {
 	assert(rv==0);
 	rv = getFlagAbo(nd);
 	assert(rv==1);
-	printf("Testing:setFlagAbo\n");
+	printf("Testing:setFlagBel\n");
 	rv = setFlagBel(NULL);
 	assert(rv==-1);
 	rv = setFlagBel(nd);
@@ -280,9 +327,8 @@ int main() {
 	rv = getFlagBel(nd);
 	assert(rv==1);
 	rv = deleteNode(nd);
-	//////////////////////////////////////////////////////////////////////
-		
-	assert(rv==0);
+
+	//assert(rv==0); //why needed?
 	nd = newNode(5);
 	assert(rv==0);
 	rv = getNode_id(nd);
@@ -294,11 +340,66 @@ int main() {
 	assert(rv==0);
 	rv = getFlagRig(nd);
 	assert(rv==1);
-	rv = deleteNode(nd);
+	rv=setFlag(NULL,3);
+	assert(rv==-1);
+	rv=setFlag(nd,-1);
+	assert(rv==-1);
+	rv=setFlag(nd,6);
+	assert(rv==-1);
+	deleteNode(nd);
+	deleteNode(nd2);
+	deleteNode(nd3);
+	//////////////////////////////////////////////////////////////////////
+	//Tools for accessing Hop
+	h=newHop();
+	printf("Testing:deleteAllHop\n");
+	rv=deleteAllHop(NULL);
+	assert(rv==-1);
+	rv=deleteAllHop(h);
+	assert(rv==0);
+	h=newHop();
+	Hop h2=newHop();
+	h2 = h->next;
+	rv=deleteAllHop(h);
+	assert(rv==0);
 
+	h=newHop();
+	printf("Testing:printHop\n");
+	rv=printHop(NULL);
+	assert(rv==-1);
+	printf("Expecting p and t = 0.0");
+	rv=printHop(h);
+	assert(rv==0);
+
+	printf("Testing:setHop_t\n");
+	rv==setHop_t(NULL,5);
+	assert(rv==-1);
+	rv==setHop_t(h,-5);
+	assert(rv==-1);
+	rv==setHop_t(h,5);
+	assert(rv==0);
+	
+	printf("Testing:setHop_p\n");
+	rv==setHop_p(NULL,51);
+	assert(rv==-1);
+	rv==setHop_p(h,51);
+	assert(rv==-1);
+	rv==setHop_p(h,51);
+	assert(rv==0);
+	printf("Expecting:t=5,p=51");
+	printHop(h);
+
+	printf("Testing:setHop_next\n");
+	h2=newHop();
+	rv=setHop_next(NULL,h2);
+	assert(rv==-1);
+	rv=setHop_next(h1,NULL);
+	assert(rv==-1);
+	rv=setHop_next(h1,h2);
+	assert(rv==0);
 	//////////////////////////////////////////////////////////////////////
 	printf("Testing:newNeighNode\n");
-	Nei = newNeighNode(-1);
+	NeighNode Nei = newNeighNode(-1);
 	assert(Nei==NULL);
 	Nei = newNeighNode(3);
 	assert(Nei!=NULL);
@@ -308,39 +409,64 @@ int main() {
 	assert(rv==-1);
 	rv = deleteNeighNode(Nei);
 	assert(rv==0);
-	
-	//////////////////////////////////////////////////////////////////////
+	Nei=newNeighNode(5);
+	Nei->start=newHop();
+	Nei->hoplength=1;
+	rv=deleteNeighNode(Nei);
+	assert(rv==0);
+
 	Nei = newNeighNode(5);
+	Nei->hoplength=2;
 	printf("Testing:printNeighNode\n");
 	rv = printNeighNode(NULL);
 	assert(rv==-1);
-	printf("Neigh ID should be 5\n");
+	printf("Neigh ID should be 5,hoplength 2\n");
 	rv = printNeighNode(Nei);
 	assert(rv==0);
 
 	printf("Testing:getNeighNode_p\n");
 	rvd = getNeighNode_p(NULL,1);
 	assert(rvd==-1.0);
-	rvd = getNeighNode_p(Nei,1);
+	rvd = getNeighNode_p(Nei,3);
 	assert(rvd==-1.0);
+	rvd=getNeighNode_p(Nei,-1);
+	assert(rvd==-1.0);
+	rvd=getNeighNode_p(Nei,1);
+	Nei->start->p=5.3;			
+	rvd=getNeighNode_p(Nei,1);
+	assert(rvd==5.3);
+
+	NeighNode Nei2=newNeighNode(12);
+	printf("Testing:setNextNeighNode\n");
+	rv=setNextNeighNode(&Nei,NULL);
+	assert(rv==-1);
+	rv=setNextNeighNode(NULL,&Nei2);
+	assert(rv==-1);
+	rv=setNextNeighNode(&Nei,&Nei2);
+	assert(rv==0);
 
 	printf("Testing:getNextNeigh\n");
 	Nei2 = getNextNeigh(NULL);
 	assert(Nei2==NULL);
 	Nei2 = getNextNeigh(Nei);
 	assert(Nei2==NULL);
+	assert(getNextNeigh(Nei)==Nei2);
 
 	printf("Testing:setNeighNodeNew_p\n");
 	rv = setNeighNodeNew_p(NULL,23.3);
 	assert(rv==-1);
 	rv = setNeighNodeNew_p(Nei,-12.3);
 	assert(rv==-1);
-	rvd = getNeighNode_p(Nei,1);
-	assert(rvd==-1.0);
 	rv = setNeighNodeNew_p(Nei,32.9);
 	assert(rv==0);
 	rvd = getNeighNode_p(Nei,1);
 	assert(rvd=32.9);
+
+	printf("Testing:getNeighNode_id\n");
+	rv=getNeighNode_id(NULL);
+	assert(rv==-1);
+	rv=getNeighNode_id(Nei2);
+	assert(rv==12);
 
 	printf("Testing:setNeighNode_id\n");
 	rv = setNeighNode_id(NULL,3);
@@ -351,7 +477,69 @@ int main() {
 	assert(rv==0);
 	rv = getNeighNode_id(Nei);
 	assert(rv==99);
-	deleteNeighNode(Nei);	
+	//deleteNeighNode(Nei);
+
+	printf("Testing:setNeighNode_p\n");
+	rv=setNeighNode_p(NULL,13.2,2);
+	assert(rv==-1);
+	rv==setNeighNode_p(Nei,-1.5,2);
+	assert(rv==-1);
+	rv=setNeighNode_p(Nei,13.2,0);
+	assert(rv==-1);
+	rv=setNeighNode_p(Nei,13.2,15);
+	assert(rv==-1);
+	rv=setNeighNode_p(Nei2,13.2,1);
+	assert(rv==-1);
+	rv=setNeighNode_p(Nei,13.2,1);
+	assert(rv==0);
+
+	printf("Testing:getNeighNode_t\n");
+	rv=getNeighNode_t(NULL,2);
+	assert(rv==-1);
+	rv=getNeighNode_t(Nei,0);
+	assert(rv==-1);
+	rv=getNeighNode_t(Nei,15);
+	assert(rv==-1);
+
+	printf("Testing:setNeighNode_t\n");
+	rv=setNeighNode_t(NULL,11.4,1);
+	assert(rv==-1);
+	rv==setNeighNode_t(Nei,-1.5,1);
+	assert(rv==-1);
+	rv=setNeighNode_t(Nei,11.4,0);
+	assert(rv==-1);
+	rv=setNeighNode_t(Nei,11.4,15);
+	assert(rv==-1);
+	rv=setNeighNode_t(Nei2,11.4,1); //for ->start==NULL?
+	assert(rv==-1);
+	rv=setNeighNode_t(Nei,11.4,1);
+	assert(rv==0);
+	rv=getNeighNode_t(Nei,2);
+	assert(rv==11.4);
+
+	printf("Testing: getNeighNode_hoplength\n");
+	rv=getNeighNode_hoplength(NULL);
+	assert(rv==-1);
+	rv==getNeighNode_hoplength(Nei);
+	assert(rv=2);
+
+	printf("Testing:setNeighNode_hopstart\n"); //no getter
+	rv=setNeighNode_hopstart(NULL,h);
+	assert(rv==-1);
+	rv=setNeighNode_hopstart(Nei,NULL);
+	assert(rv==-1);
+	rv=setNeighNode_hopstart(Nei,h);
+	assert(rv==0);
+
+	printf("Testing:setNeighNode_hoplength\n");
+	rv=setNeighNode_hoplength(NULL,5);
+	assert(rv==-1);
+	rv=setNeighNode_hoplength(Nei,0);
+	assert(rv==-1);
+	rv=setNeighnode_hoplength(Nei,5);
+	assert(rv==0);
+	assert(getNeighNode_hoplength(Nei)==5);
+
 	//////////////////////////////////////////////////////////////////////
 
 	printf("Testing:newElectrode\n");
@@ -364,7 +552,6 @@ int main() {
 	rv = deleteElectrode(&el);
 	assert(rv==0);
 
-	//////////////////////////////////////////////////////////////////////
 	printf("Testing:printElectrode\n");
 	rv = printElectrode(NULL);
 	assert(rv==-1);
@@ -372,7 +559,92 @@ int main() {
 	printf("Should print p of 0.0\n");
 	rv = printElectrode(el);
 	assert(rv==0);
+
+	printf("Testing:getElectrode_alpha\n");
+	assert(getElectrode_alpha(el)==0);
+
+	printf("Testing:setElectrode_alpha\n");
+	rv = setElectrode_alpha(NULL, 34);
+	assert(rv==-1);
+	rv = setElectrode_alpha(el, 12);
+	assert(rv==0);
+	assert(getElectrode_alpha(el)==12);
+
+	printf("Testing:getElectrode_Charges\n");	//start here
+	rv = getElectrode_Charges(NULL);
+	assert(rv==-1);
+	rv = getElectrode_Charges(el);
+	assert(rv==0);
+
+	printf("Testing:setElectrode_Charges\n");
+	rv = setElectrode_Charges(NULL, 1);
+	assert(rv==-1);
+	rv = setElectrode_Charges(el, -1);
+	assert(rv==-1);
+	assert(getElectrode_Charges(el)==0);
+	rv = setElectrode_Charges(el, 32);
+	assert(rv==0);
+	assert(getElectrode_Charges(el)==32);
+
+	printf("Testing:Electrode_addCharge\n");
+	rv = Electrode_addCharge(NULL);
+	assert(rv==-1);
+	rv = Electrode_addCharge(el);
+	assert(rv==0);
+	assert(getElectrode_Charges(el)==33);
+
+	printf("Testing:Electrode_minusCharge\n");
+	rv = Electrode_minusCharge(NULL);
+	assert(rv==-1);
+	rv = Electrode_minusCharge(el);
+	assert(rv==0);
+	assert(getElectrode_Charges(el)==32);
+
+	printf("Testing:getElectrode_FermiEnergy\n");
+	rvd = getElectrode_FermiEnergy(el);
+	assert(rvd==-1);
+	rvd = getElectrode_FermiEnergy(el);
+	assert(rvd==0.0);
+
+	printf("Testing:setElectrode_FermiEnergy\n"); //negative ok?
+	rv = setElectrode_FermiEnergy(NULL, 2.3);
+	assert(rv==-1);
+	rv = setElectrode_FermiEnergy(el, -1.1);
+	assert(rv==0);
+	assert(getElectrode_FermiEnergy(el)==-1.1);
+
+	printf("Testing:getElectrode_Sum\n");
+	rv = setElectrode_Sum(NULL, 12);
+	assert(rv==-1);
+	rv = setElectrode_Sum(el, -1);
+	assert(rv==-1);
+	assert(getElectrode_Sum(el)==0);
+	rv = setElectrode_Sum(el, 19);
+	assert(rv==0);
+	assert(getElectrode_Sum(el)==19);
 	deleteElectrode(&el);
+
+	printf("Testing:setElectrode_Sum\n");
+	rv=setElectrode_Sum(NULL,15.4);
+	assert(rv==-1);
+	rv=setElectrode_Sum(el,-1);
+	assert(rv==-1);
+	//start here
+
+	printf("Testing:printElectrode\n");
+
+
+	printf("Testing:getElectrode_HopRates\n");
+	assert(getElectrode_HopRates(NULL)==NULL);
+
+	printf("Testing:setElectrode_HopRates\n");
+
+
+	printf("Testing:getElectrode_AdjacentSites\n");
+	assert(getElectrode_AdjacentSites(NULL)==NULL);
+	
+	printf("Testing:setElectrode_AdjacentSites\n"); 
+	assert(setElectrode_AdjacentSites(NULL)==NULL);
 
 	//////////////////////////////////////////////////////////////////////
 	printf("Testing:newNeighLL\n");
@@ -1240,80 +1512,5 @@ int main() {
 	printf("Testing:deleteNeighNode\n");
 	rv = deleteNeighNode(Nei99);
 	assert(rv==0);
-
-	printf("Testing:newElectrode\n");
-	el = newElectrode();
-	assert(el!=NULL);
-	
-	printf("Testing:deleteElectrode\n");
-	rv = deleteElectrode(NULL);
-	assert(rv==-1);
-	rv = deleteElectrode(&el);
-	assert(rv==0);
-
-	printf("Testing:getElectrode_alpha\n");
-	el = newElectrode();
-	assert(el!=NULL);
-	assert(getElectrode_alpha(el)==0);
-
-	printf("Testing:setElectrode_alpha\n");
-	rv = setElectrode_alpha(NULL, 34);
-	assert(rv==-1);
-	assert(getElectrode_alpha(el)==0);
-	rv = setElectrode_alpha(el, 12);
-	assert(rv==0);
-	assert(getElectrode_alpha(el)==12);
-
-	printf("Testing:getElectrode_Charges\n");
-	rv = getElectrode_Charges(NULL);
-	assert(rv==-1);
-	rv = getElectrode_Charges(el);
-	assert(rv==0);
-
-	printf("Testing:setElectrode_Charges\n");
-	rv = setElectrode_Charges(NULL, 1);
-	assert(rv==-1);
-	rv = setElectrode_Charges(el, -1);
-	assert(rv==-1);
-	assert(getElectrode_Charges(el)==0);
-	rv = setElectrode_Charges(el, 32);
-	assert(rv==0);
-	assert(getElectrode_Charges(el)==32);
-
-	printf("Testing:Electrode_addCharge\n");
-	rv = Electrode_addCharge(NULL);
-	assert(rv==-1);
-	rv = Electrode_addCharge(el);
-	assert(rv==0);
-	assert(getElectrode_Charges(el)==33);
-
-	printf("Testing:Electrode_minusCharge\n");
-	rv = Electrode_minusCharge(NULL);
-	assert(rv==-1);
-	rv = Electrode_minusCharge(el);
-	assert(rv==0);
-	assert(getElectrode_Charges(el)==32);
-
-	printf("Testing:getElectrode_FermiEnergy\n");
-	rvd = getElectrode_FermiEnergy(el);
-	assert(rvd==0.0);
-
-	printf("Testing:setElectrode_FermiEnergy\n");
-	rv = setElectrode_FermiEnergy(NULL, 2.3);
-	assert(rv==-1);
-	rv = setElectrode_FermiEnergy(el, -1.1);
-	assert(rv==0);
-	assert(getElectrode_FermiEnergy(el)==-1.1);
-
-	printf("Testing:getElectrode_Sum\n");
-	rv = setElectrode_Sum(NULL, 12);
-	assert(rv==-1);
-	rv = setElectrode_Sum(el, -1);
-	assert(rv==-1);
-	assert(getElectrode_Sum(el)==0);
-	rv = setElectrode_Sum(el, 19);
-	assert(rv==0);
-	assert(getElectrode_Sum(el)==19);
-	deleteElectrode(&el);
 
 }

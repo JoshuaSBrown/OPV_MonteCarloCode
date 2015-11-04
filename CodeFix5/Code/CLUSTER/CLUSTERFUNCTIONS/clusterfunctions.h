@@ -21,7 +21,7 @@ matrix CalculateAllHops(const_SNarray snA, const double electricEnergyX, \
 ArbArray MPsort(int * orderL, int * orderH, int * MidPtsTotal, const_matrix MasterM, const_SNarray snA, \
 								const int PeriodicX, const int PeriodicY, const int PeriodicZ);
 
-/* Sorts the midpoints into an Array with link lists. Each element
+/* Sorts the midpoints into  a linked list with an Array. Each element
 	 of the array starts a link list. Every node in the link list is
 	 of the same order of magnitude.
 */

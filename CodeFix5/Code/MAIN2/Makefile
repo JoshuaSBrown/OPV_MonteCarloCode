@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -lm -o0 -Wall -Wextra -std=gnu99 -pedantic -ggdb 
+CFLAGS = -lm  -o0 -Wall -Wextra -std=gnu99 -pedantic -ggdb 
 
 # Targets
 ALL : run

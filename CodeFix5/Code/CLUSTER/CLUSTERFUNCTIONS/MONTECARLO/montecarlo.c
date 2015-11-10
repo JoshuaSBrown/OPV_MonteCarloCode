@@ -252,7 +252,7 @@ int CorrCal(const_matrix A,const int i,const int j,const int k,const double Rad,
 			*SumCor=1;
 		}
 	}
-	deleteMatrix(M);
+	deleteMatrix(&M);
 
 	return 0;
 }

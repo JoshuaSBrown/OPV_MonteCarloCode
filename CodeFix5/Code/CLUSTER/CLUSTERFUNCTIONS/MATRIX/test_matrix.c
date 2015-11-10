@@ -64,7 +64,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 
 	printf("Testing: setE with functional mtx\n");
 	rv=setE(mtx, 2, 5, 12); 
-	assert(rv==0);
+	assert(rv==-2);
 	rv= setE(mtx, 2, 3, 343.1);
 	assert(rv==0);
 	rv= setE(mtx,3,2,902.8);
@@ -134,7 +134,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	assert(rv==15);
 	resizeRow(&mtx3,3);
 	rv=printRandomEnergyFilesijk(mtx3);
-	assert(rv==0); 
+	assert(rv==-1); 
 
 	printf("Testing: deleteMatrix\n");
 	rv=deleteMatrix(NULL);
@@ -144,7 +144,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 
 	printf("Testing: duplicateMatrix");
 	matrix mtx5=duplicateMatrix(NULL);
-	assert(mtx5=NULL);
+	assert(mtx5==NULL);
 	mtx5=duplicateMatrix(mtx4);
 	assert(mtx5!=NULL);
 	printMatrix(mtx4);
@@ -178,7 +178,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	rv=DivideEachElementCol(&mtxrv,15,val);
 	assert(rv==-1);
 	rv=DivideEachElementCol(&mtxrv,2,2);
-	assert(rv=0);
+	assert(rv==0);
 	printMatrix(mtxrv); 
 
 	printf("Testing: setAll");
@@ -217,16 +217,16 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	
 	setE(mtxrv,2,2,13);
 	printf("Testing: FindRowOfMatchInCol"); //may be problem w/ cont_matrix mtx
-	FindRowOfMatchInCol(NULL,13,2);  
+	rv = FindRowOfMatchInCol(NULL,13,2);  
 	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,13,15);
+	rv = FindRowOfMatchInCol(mtxrv,13,15);
 	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,0,15);
+	rv = FindRowOfMatchInCol(mtxrv,0,15);
 	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,13,1);
+	rv = FindRowOfMatchInCol(mtxrv,13,1);
 	assert(rv==-1);
-	FindRowOfMatchInCol(mtxrv,13,2);
-	assert(rv==0);
+	rv = FindRowOfMatchInCol(mtxrv,13,2);
+	assert(rv==2);
 
 
 	setE(mtxrv,1,2,15);
@@ -245,14 +245,15 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	assert(rv==-1);
 	rv=matchExistCol(mtxrv,col,val);
 	assert(rv==0);
-	rv=matchExistCol(mtxrv,col,4);
+	rv=matchExistCol(mtxrv,3,4);
+	printMatrix(mtxrv);
 	assert(rv==1); //or at least !0
 
 	printf("Testing: matchExist");
 	rv=matchExist(NULL,val);
 	assert(rv==-1);
 	rv=matchExist(mtxrv,4);
-	assert(rv==0);
+	assert(rv==1);
 
 	//atexit(mem_term);
 	return 0;

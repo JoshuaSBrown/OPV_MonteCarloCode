@@ -279,7 +279,9 @@ int matchExist(const_matrix mtx, double match){
 
 int matchExistCol(const_matrix mtx, int col, double match){
 
-	if(!mtx || col<1 || col>=mtx->cols)
+	if(!mtx) return -1;
+	
+	if(col<1 || col>mtx->cols)
 		return -1;
 
 	int i;
@@ -310,8 +312,9 @@ int matchReplace(matrix mtx, double match, double replace){
 }
 
 int FindRowOfMatchInCol(const_matrix mtx, double match, int col){
-	if(!mtx || col<1 || col>mtx->cols)
+	if(!mtx || col<1 || col>mtx->cols){
 		return -1;
+	}
 
 	int i;
 	for(i=1;i<=mtx->rows; i++){

@@ -180,6 +180,7 @@ OrderMagLL newOrLL(int orderMag){
 	OrderMagLL OMLL= (OrderMagLL) malloc(sizeof(struct _OrderMagLL));
 	if(OMLL==NULL){
 		return NULL;
+	}
 	OMLL->orderMag=orderMag;
 	OMLL->size=0;
 	OMLL->start=NULL;

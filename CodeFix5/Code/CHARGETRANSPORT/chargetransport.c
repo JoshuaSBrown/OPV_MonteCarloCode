@@ -1631,8 +1631,9 @@ int initFutureSite( SNarray * snA, matrix * FutureSite,ChargeArray * chA, Parame
 		setE(*FutureSite,loop+1,1,future);
 	}
 
-	printf("InitFuture Site Printing Matrix FutureSite\n\n");
-	//printMatrix(*FutureSite);
+	printf("Finished initializing futuresite matrix\n");
+
+	printMatrix(*FutureSite);
 
 	return 0;
 }

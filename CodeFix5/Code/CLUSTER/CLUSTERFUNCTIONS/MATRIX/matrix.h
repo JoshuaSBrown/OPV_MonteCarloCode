@@ -24,7 +24,7 @@ matrix duplicateMatrix(const_matrix mtx);
 
 /* Deletes a matrix Returns 0 if successful
 	 and -1 if mtx is NULL.*/
-int deleteMatrix(matrix mtx);
+int deleteMatrix(matrix * mtx);
 
 int printMatrix(const_matrix mtx);
 

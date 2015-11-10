@@ -240,7 +240,7 @@ int initSite(const double electricEnergyX, const double electricEnergyY,\
 		printf("Percent Complete %ld\n",(int long)(100));
 
 		printf("Deleting Matrix As.\n");
-		deleteMatrix(As);
+		deleteMatrix(&As);
 	}
 
 	if ( seeds+traps >= sites/2 ) {
@@ -252,32 +252,40 @@ int initSite(const double electricEnergyX, const double electricEnergyY,\
 
 		i=0;
 
-		if (As == NULL || UnAs == NULL) {
-			printf("WARNING Malloc returned NULL for As of UnAs Matrix\n");
+		if (As == NULL ){
+			printf("ERROR Malloc returned NULL for As Matrix\n");
+		  exit(1);
 		}
-		//pick unoccupied sites
-		printf("Randomly determining which sites to correlate.\n");
-		percent=0;
-		while( i<(sites-(seeds+traps))) {
-			pN = getRandomSitePos( &ii, &jj, &kk, snA);
-			//printf("Value of pN->initE %d\n",pN->initE);
-			if ( getInitE(pN) == 0 ) {         
-				if (((double)i)/((double)(sites-(seeds+traps)))>percent) {
-					printf("Percent Complete %ld\n",(long int) (percent*100));
-					percent+=0.1;
-				}
-				//Choosing sites that have not already been assigned energy
-				//For these sites the correlation function will be used to calculate their 
-				//energy. 
-				setE(UnAs,i+1,1,(double)ii);
-				setE(UnAs,i+1,2,(double)jj);
-				setE(UnAs,i+1,3,(double)kk);
-				setInitE(pN,1);
-				i++;
-			}
+		if( UnAs == NULL) {
+			printf("WARNING Malloc returned NULL for UnAs Matrix\n");
 		}
-		printf("Percent Complete %ld\n",(long int)(100));
 		
+		//pick unoccupied sites
+		
+		if(UnAs!=NULL){
+			printf("Randomly determining which sites to correlate.\n");
+			percent=0;
+			while( i<(sites-(seeds+traps))) {
+				pN = getRandomSitePos( &ii, &jj, &kk, snA);
+				//printf("Value of pN->initE %d\n",pN->initE);
+				if ( getInitE(pN) == 0 ) {         
+					if (((double)i)/((double)(sites-(seeds+traps)))>percent) {
+						printf("Percent Complete %ld\n",(long int) (percent*100));
+						percent+=0.1;
+					}
+					//Choosing sites that have not already been assigned energy
+					//For these sites the correlation function will be used to calculate their 
+					//energy. 
+					setE(UnAs,i+1,1,(double)ii);
+					setE(UnAs,i+1,2,(double)jj);
+					setE(UnAs,i+1,3,(double)kk);
+					setInitE(pN,1);
+					i++;
+				}
+			}
+			printf("Percent Complete %ld\n",(long int)(100));
+		}
+
 		printf("Calculating Energies for Seeds\n");
 		percent=0;
 		m=0;
@@ -304,57 +312,59 @@ int initSite(const double electricEnergyX, const double electricEnergyY,\
 		printf("Percent Complete %ld\n",(long int)(100));
 
 		//Here we are cycling through the sites that have not been assigned energies
-		printf("Calculating Energies for correlated sites2\n");
-		percent=0;
-		for( index=0; index<(sites-(seeds+traps));index++) {
+		if(UnAs!=NULL){
+			printf("Calculating Energies for correlated sites2\n");
+			percent=0;
+			for( index=0; index<(sites-(seeds+traps));index++) {
 
-			//printf("index %d\n",index);
-			SiteEnergy=grn(E0, sigma);
-			CorRadtemp=CorRad;
-			//Calculate Correlation Energies for the UnAssigned positions
-			SumEcor=0;
-			SumCor=0;
-			
-			if (((double)index)/((double)(sites-(seeds+traps)))>percent) {
-				printf("Percent Complete %ld\n",(long int) (percent*100));
-				percent+=0.1;
-			}	
+				
+				printf("index %d\n",index);
+				SiteEnergy=grn(E0, sigma);
+				CorRadtemp=CorRad;
+				//Calculate Correlation Energies for the UnAssigned positions
+				SumEcor=0;
+				SumCor=0;
 
-			while (SumEcor==0) {
+				if (((double)index)/((double)(sites-(seeds+traps)))>percent) {
+					printf("Percent Complete %ld\n",(long int) (percent*100));
+					percent+=0.1;
+				}	
 
-				i=(int)getE(UnAs,index+1,1);
-				j=(int)getE(UnAs,index+1,2);
-				k=(int)getE(UnAs,index+1,3);
+				while (SumEcor==0) {
 
-				//Accounting for correlation from seeds
-				CorrCal(As, i, j, k, CorRadtemp, SiteEnergy, SiteDistance, snA, &SumCor, &SumEcor, &seed_dist,\
-						    SeedProt, PeriodicX, PeriodicY, PeriodicZ, lambda);
+					i=(int)getE(UnAs,index+1,1);
+					j=(int)getE(UnAs,index+1,2);
+					k=(int)getE(UnAs,index+1,3);
 
-				//Accounting for correlation from traps
-				if (traps!=0) {
-					CorrCal(AsTr, i,j,k , CorRadtemp, SiteEnergy, SiteDistance, snA, &SumCor, &SumEcor, &trap_dist,\
+					//Accounting for correlation from seeds
+					CorrCal(As, i, j, k, CorRadtemp, SiteEnergy, SiteDistance, snA, &SumCor, &SumEcor, &seed_dist,\
+							SeedProt, PeriodicX, PeriodicY, PeriodicZ, lambda);
+
+					//Accounting for correlation from traps
+					if (traps!=0) {
+						CorrCal(AsTr, i,j,k , CorRadtemp, SiteEnergy, SiteDistance, snA, &SumCor, &SumEcor, &trap_dist,\
 								SeedProt, PeriodicX, PeriodicY, PeriodicZ, lambda);
-					if(trap_dist<seed_dist && SumEcor2!=0){
-						SumEcor=SumEcor2;
-						SumCor=SumCor2;
+						if(trap_dist<seed_dist && SumEcor2!=0){
+							SumEcor=SumEcor2;
+							SumCor=SumCor2;
+						}
+					}
+					if (SumEcor==0) {
+						CorRadtemp=CorRadtemp*2;
+					}else {
+						setEnergy(getSN(snA,i,j,k),SiteEnergy+SumEcor/SumCor);
+						setInitE(getSN(snA,i,j,k),1);
 					}
 				}
-				if (SumEcor==0) {
-					CorRadtemp=CorRadtemp*2;
-				}else {
-					setEnergy(getSN(snA,i,j,k),SiteEnergy+SumEcor/SumCor);
-					setInitE(getSN(snA,i,j,k),1);
-				}
 			}
+			printf("Percent Complete %ld\n",(long int) (100));
 
 		}
-		printf("Percent Complete %ld\n",(long int) (100));
-
-		deleteMatrix(As);
-		deleteMatrix(UnAs);
+		deleteMatrix(&As);
+		deleteMatrix(&UnAs);
 	}
 
-	rv=deleteMatrix(AsTr);
+	rv=deleteMatrix(&AsTr);
 	
 	printf("Finished initializing.\n");
 	//initialize jumping possibility; that is initializing sum and p[6] inside this function
@@ -517,8 +527,8 @@ int initElec(const double electricEnergyX, const double electricEnergyY,\
 	snAelec = (SNarray) getElectrode_AdjacentSites(*elXb);
 	//printf("Length %d Width %d Height %d\n",getAlen(snAelec),getAwid(snAelec),getAhei(snAelec));
 		
-	deleteMatrix(Xb1);
-		deleteMatrix(Xb2);
+	deleteMatrix(&Xb1);
+		deleteMatrix(&Xb2);
 		
 		printf("Initializing jump rates to front electrode\n");
 		//Calculating jump rates for forward electrode
@@ -527,8 +537,8 @@ int initElec(const double electricEnergyX, const double electricEnergyY,\
 			 	RelativePerm, vX,SWidth, SHeight, PeriodicY, PeriodicZ,\
 				YElecOn, ZElecOn, 1);
 		
-		deleteMatrix(Xf1);
-		deleteMatrix(Xf2);
+		deleteMatrix(&Xf1);
+		deleteMatrix(&Xf2);
 
 
 	snAelec = (SNarray) getElectrode_HopRates(*elXb);
@@ -592,8 +602,8 @@ int initElec(const double electricEnergyX, const double electricEnergyY,\
 			 	RelativePerm, vY, SLength,SHeight, PeriodicX, PeriodicZ,\
 				XElecOn, ZElecOn, 0);
 		
-		deleteMatrix(Yl1);
-		deleteMatrix(Yl2);
+		deleteMatrix(&Yl1);
+		deleteMatrix(&Yl2);
 		
 		printf("Initializing jump rates to right electrode\n");
 		//Calculating jump rates for forward electrode
@@ -602,8 +612,8 @@ int initElec(const double electricEnergyX, const double electricEnergyY,\
 			 	RelativePerm, vY, SLength, SHeight, PeriodicX, PeriodicZ,\
 				XElecOn, ZElecOn, 1);
 	
-		deleteMatrix(Yr1);
-		deleteMatrix(Yr2);
+		deleteMatrix(&Yr1);
+		deleteMatrix(&Yr2);
 	}
 
 	if(ZElecOn==1){
@@ -662,8 +672,8 @@ int initElec(const double electricEnergyX, const double electricEnergyY,\
 			 	RelativePerm, vZ, SLength, SWidth, PeriodicX, PeriodicY,\
 				XElecOn, YElecOn, 0);
 		
-		deleteMatrix(Zb1);
-		deleteMatrix(Zb2);
+		deleteMatrix(&Zb1);
+		deleteMatrix(&Zb2);
 
 		printf("Initializing jump rates to top electrode\n");
 		//Calculating jump rates for forward electrode
@@ -672,8 +682,8 @@ int initElec(const double electricEnergyX, const double electricEnergyY,\
 			 	RelativePerm, vZ, SLength, SWidth, PeriodicX, PeriodicY,\
 				XElecOn, YElecOn, 1);
 		
-		deleteMatrix(Za1);
-		deleteMatrix(Za2);
+		deleteMatrix(&Za1);
+		deleteMatrix(&Za2);
 	}
 
   snAelec = (SNarray) getElectrode_AdjacentSites(*elXb);

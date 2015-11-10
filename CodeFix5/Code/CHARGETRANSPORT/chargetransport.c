@@ -1485,7 +1485,7 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		snAmini = (SNarray) getElectrode_AdjacentSites(elXb);
 		deleteSNarray(snAmini);
 		mtxmini = (matrix) getElectrode_HopRates(elXb);
-		deleteMatrix(mtxmini);
+		deleteMatrix(&mtxmini);
 		deleteElectrode(&elXb);
 		elXb = NULL;
 	}
@@ -1493,7 +1493,7 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		snAmini = (SNarray) getElectrode_AdjacentSites(elXf);
 		deleteSNarray(snAmini);
 		mtxmini = (matrix) getElectrode_HopRates(elXf);
-		deleteMatrix(mtxmini);
+		deleteMatrix(&mtxmini);
 		deleteElectrode(&elXf);
 		elXf = NULL;
 	}
@@ -1503,7 +1503,7 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		snAmini = (SNarray) getElectrode_AdjacentSites(elYl);
 		deleteSNarray(snAmini);
 		mtxmini = (matrix) getElectrode_HopRates(elYl);
-		deleteMatrix(mtxmini);
+		deleteMatrix(&mtxmini);
 		deleteElectrode(&elYl);
 		elYl = NULL;
 	}
@@ -1511,7 +1511,7 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		snAmini = (SNarray) getElectrode_AdjacentSites(elYr);
 		deleteSNarray(snAmini);
 		mtxmini = (matrix) getElectrode_HopRates(elYr);
-		deleteMatrix(mtxmini);
+		deleteMatrix(&mtxmini);
 		deleteElectrode(&elYr);
 		elYr = NULL;
 	}
@@ -1519,7 +1519,7 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		snAmini = (SNarray) getElectrode_AdjacentSites(elZb);
 		deleteSNarray(snAmini);
 		mtxmini = (matrix) getElectrode_HopRates(elZb);
-		deleteMatrix(mtxmini);
+		deleteMatrix(&mtxmini);
 		deleteElectrode(&elZb);
 		elZb = NULL;
 	}
@@ -1528,7 +1528,7 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		snAmini = (SNarray) getElectrode_AdjacentSites(elZa);
 		deleteSNarray(snAmini);
 		mtxmini = (matrix) getElectrode_HopRates(elZa);
-		deleteMatrix(mtxmini);
+		deleteMatrix(&mtxmini);
 		deleteElectrode(&elZa);
 		elZa = NULL;
 	}
@@ -2343,22 +2343,22 @@ int randomWalk( SNarray snA,int CheckptNum,\
 
 	printf("Deleting matrices\n");
 	deleteChargeA(*chA);
-	deleteMatrix(timeArray);
-	deleteMatrix(Xcurrent);
-	deleteMatrix(Ycurrent);
-	deleteMatrix(Zcurrent);
-	deleteMatrix(Xelec_Drain);
-	deleteMatrix(Yelec_Drain);
-	deleteMatrix(Zelec_Drain);
-	deleteMatrix(Xelec_Source);
-	deleteMatrix(Yelec_Source);
-	deleteMatrix(Zelec_Source);
-	deleteMatrix(Xvelocity);
-	deleteMatrix(Yvelocity);
-	deleteMatrix(Zvelocity);
-	deleteMatrix(System);
-	deleteMatrix(Sequence);
-	deleteMatrix(FutureSite);
+	deleteMatrix(&timeArray);
+	deleteMatrix(&Xcurrent);
+	deleteMatrix(&Ycurrent);
+	deleteMatrix(&Zcurrent);
+	deleteMatrix(&Xelec_Drain);
+	deleteMatrix(&Yelec_Drain);
+	deleteMatrix(&Zelec_Drain);
+	deleteMatrix(&Xelec_Source);
+	deleteMatrix(&Yelec_Source);
+	deleteMatrix(&Zelec_Source);
+	deleteMatrix(&Xvelocity);
+	deleteMatrix(&Yvelocity);
+	deleteMatrix(&Zvelocity);
+	deleteMatrix(&System);
+	deleteMatrix(&Sequence);
+	deleteMatrix(&FutureSite);
 	return 0;
 }
 
@@ -4461,28 +4461,28 @@ int SaveDataPoint(int * CurrentInc, int * NumAvgVel, int nc, int XElecOn, int YE
 					ElectricFieldX, ElectricFieldY, ElectricFieldZ);
 
 
-			deleteMatrix(*System);
-			deleteMatrix(*timeArray);
+			deleteMatrix(&*System);
+			deleteMatrix(&*timeArray);
 
-			deleteMatrix(*Xcurrent);
-			deleteMatrix(*Ycurrent);
-			deleteMatrix(*Zcurrent);
+			deleteMatrix(&*Xcurrent);
+			deleteMatrix(&*Ycurrent);
+			deleteMatrix(&*Zcurrent);
 			if(XElecOn==1){
-				deleteMatrix(*Xelec_Drain);
-				deleteMatrix(*Xelec_Source);
+				deleteMatrix(&*Xelec_Drain);
+				deleteMatrix(&*Xelec_Source);
 			}
 			if(YElecOn==1){
-				deleteMatrix(*Yelec_Drain);
-				deleteMatrix(*Yelec_Source);
+				deleteMatrix(&*Yelec_Drain);
+				deleteMatrix(&*Yelec_Source);
 			}
 			if(ZElecOn==1){
-				deleteMatrix(*Zelec_Drain);
-				deleteMatrix(*Zelec_Source);
+				deleteMatrix(&*Zelec_Drain);
+				deleteMatrix(&*Zelec_Source);
 			}
 
-			deleteMatrix(*Xvelocity);
-			deleteMatrix(*Yvelocity);
-			deleteMatrix(*Zvelocity);
+			deleteMatrix(&*Xvelocity);
+			deleteMatrix(&*Yvelocity);
+			deleteMatrix(&*Zvelocity);
 			*System = newMatrix(8,1);
 			//Keeps track of the time when each of the matrices are incremented
 			*timeArray = newMatrix(8,1);
@@ -4849,7 +4849,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			if(l==1){
 				l=0;
 			}
-			deleteMatrix(mtxPval);
+			deleteMatrix(&mtxPval);
 
 		}else{
 			position = (double) rand() /RAND_MAX;
@@ -4874,7 +4874,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 				l++;
 			}
 
-			deleteMatrix(mtxPval);
+			deleteMatrix(&mtxPval);
 
 		}
 	}else if(codeX==0 && codeY>0 && codeZ==0){
@@ -4906,7 +4906,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 				l--;
 			}
 
-			deleteMatrix(mtxPval);
+			deleteMatrix(&mtxPval);
 
 		}else{
 			//Not allowed to hop to the right or +y
@@ -4935,7 +4935,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 				l--;
 			}
 
-			deleteMatrix(mtxPval);
+			deleteMatrix(&mtxPval);
 
 		}
 	}else if(codeX==0 && codeY==0 && codeZ>0){
@@ -4967,7 +4967,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 				l--;
 			}
 
-			deleteMatrix(mtxPval);
+			deleteMatrix(&mtxPval);
 
 		}else{
 			//Cannot hop Above
@@ -4996,7 +4996,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 				l--;
 			}
 
-			deleteMatrix(mtxPval);
+			deleteMatrix(&mtxPval);
 
 		}
 	}else if(codeX>0 && codeY>0 && codeZ==0){
@@ -5051,7 +5051,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			}
 		}
 
-		deleteMatrix(mtxPval);
+		deleteMatrix(&mtxPval);
 
 
 	}else if(codeX==0 && codeY>0 && codeZ>0){
@@ -5108,7 +5108,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			}
 		}
 
-		deleteMatrix(mtxPval);
+		deleteMatrix(&mtxPval);
 
 	}else if(codeX>0 && codeY==0 && codeZ>0){
 		position = (double) rand() /RAND_MAX;
@@ -5164,7 +5164,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			l=l;
 		}
 
-		deleteMatrix(mtxPval);
+		deleteMatrix(&mtxPval);
 
 	}else{
 		position = (double) rand() /RAND_MAX;
@@ -5227,7 +5227,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			}
 		}
 
-		deleteMatrix(mtxPval);
+		deleteMatrix(&mtxPval);
 
 	}
 

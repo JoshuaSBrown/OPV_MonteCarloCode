@@ -23,7 +23,8 @@ matrix  newMatrix(int rows, int cols) {
   matrix m = (matrix ) malloc(sizeof(struct _matrix)+sizeof(double)*rows*cols);
 
 	if(m==NULL){
-		printf("ERROR out of memory!\n");
+		printf("Rows*Cols %d rows %d cols %d\n",rows*cols,rows,cols);
+		printf("ERROR out of memory cannot create matrix!\n");
 		return NULL;
 	}
   //set dimensions
@@ -93,11 +94,15 @@ matrix duplicateMatrix(const_matrix mtx){
 
 }
 
-int deleteMatrix( matrix mtx) {
-  if (!mtx) return -1;
+int deleteMatrix( matrix * mtx) {
+  
+	if (!mtx) return -1;
+	if (!(*mtx)) return -1;
 
   //mem_free mtx itself
-  free(mtx);
+  free(*mtx);
+
+	*mtx = NULL;
   return 0;
 }
 
@@ -192,7 +197,7 @@ int resizeRow(matrix * mtx, int Row){
 		}
 	}
 	
-	deleteMatrix(temp);
+	deleteMatrix(&temp);
 
 
 	*mtx = mtxnew;

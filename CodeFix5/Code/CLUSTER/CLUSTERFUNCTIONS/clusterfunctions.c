@@ -21,8 +21,18 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 		const int PeriodicX,const int PeriodicY,const int PeriodicZ){
 
 
-	if(snA==NULL || KT<0 || PeriodicX<0 || PeriodicX>1 || PeriodicY<0 || PeriodicY>1 || \
+	if(snA==NULL ){
+		printf("ERROR snA is NULL\n");
+		return NULL;
+	}
+	if( KT<0 ){
+		printf("ERROR kT value less than 0\n");
+		return NULL;
+	}
+
+	if( PeriodicX<0 || PeriodicX>1 || PeriodicY<0 || PeriodicY>1 || \
 			PeriodicZ<0 || PeriodicZ>1){
+		printf("ERROR Periodic boundary conditions are out of bounds\n");
 		return NULL;
 	}
 
@@ -42,6 +52,12 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 	//one node have 6 hopping rate for 6 neighbor node
 	double v[6];
 	matrix MasterM = newMatrix(getAtotal(snA),12);
+	printf("Size of snA %d\n",getAtotal(snA));
+
+	if(MasterM==NULL){
+		printf("ERROR Failed create MasterM matrix from newMatrix function\n");
+		return NULL;
+	}
 
 	//Calculating Marcus J0 coefficient assuming the Attempt to hop Rate
 	//is equivalent to the marcus coefficient at 300 K
@@ -54,6 +70,7 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 
 	//printf("MarcusJ0 %g hbar %g gamma %g SiteDistance %g\n",MarcusJ0,hbar,gamma,SiteDistance);
 	MarcusCoeff = pow(MarcusJ0,2)/hbar * pow(M_PI/(4*reOrgEnergy*KT),1/2)*exp(2*gamma*SiteDistance);
+
 
 	//MasterM values
 	//1 - Order of Magnitude of hop behind site i,j,k
@@ -84,8 +101,6 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 				i1=(i-1+getAlen(snA))%getAlen(snA);
 				SNj = getSN(snA, i1,j,k);
 				v[0] = MarcusCoeff*hoppingRate(getEnergy(SNj) - getEnergy(SNi) + electricEnergyX, KT, reOrgEnergy);
-
-				//printf("Value of rage v0 %g MarcusCoeff %g Energy SNj %g Energy SNi %g electricEnergyX %g KT %g reOrgEnergy %g\n",v[0],MarcusCoeff,getEnergy(SNj), getEnergy(SNi), electricEnergyX, KT, reOrgEnergy);
 
 				//Site in front of site SNi
 				i1=(i+1)%getAlen(snA);
@@ -132,7 +147,6 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 
 				for(l=0;l<6;l++){
 
-					//printf("Index %d v[%d] %g log10(v[%d]) %g  round(log10(v[%d])) %g\n",getIndex(snA,i,j,k),l,v[l],l,log10(v[l]),l,round(log10(v[l])));
 					rv=setE(MasterM,getIndex(snA,i,j,k)+1,(l+1),round(log10(v[l])));
 					//Also record the actual rates
 					rv=setE(MasterM,getIndex(snA,i,j,k)+1,6+(l+1), v[l]);
@@ -925,9 +939,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 	//the cluster spans the length of the sample 
 	if (IsCluster!=0){
 		deleteLL(&LL);
-		deleteMatrix(AvailableNodes);
-		deleteMatrix(NearLeftElec);
-		deleteMatrix(NearRightElec);
+		deleteMatrix(&AvailableNodes);
+		deleteMatrix(&NearLeftElec);
+		deleteMatrix(&NearRightElec);
 		return 0;
 		//Here we are sure it is a cluster
 	}else{
@@ -1007,9 +1021,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Lef){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1017,9 +1031,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Rig){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1027,9 +1041,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Abo){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1037,9 +1051,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Bel){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1047,18 +1061,18 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1145,9 +1159,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Lef){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1155,9 +1169,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Rig){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1165,9 +1179,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Abo){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1175,9 +1189,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Bel){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1185,18 +1199,18 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1283,9 +1297,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Lef){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1293,9 +1307,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Rig){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1303,9 +1317,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Abo){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1313,9 +1327,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Bel){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1323,18 +1337,18 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1421,9 +1435,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Lef){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1431,9 +1445,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Rig){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1441,9 +1455,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Abo){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1451,9 +1465,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Bel){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1461,18 +1475,18 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1559,9 +1573,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Lef){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1569,9 +1583,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Rig){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1579,9 +1593,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Abo){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1589,9 +1603,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Bel){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1599,18 +1613,18 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1696,9 +1710,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Lef){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1706,9 +1720,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Rig){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1716,9 +1730,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Abo){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1726,27 +1740,27 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Bel){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1830,9 +1844,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Lef){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1840,9 +1854,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Rig){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1850,9 +1864,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Abo){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1860,9 +1874,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 							if (RElec==Bel){
 								//This means delete the Cluster
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1870,18 +1884,18 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 						if(getFlagFro(tempNode)==1){
 							if (RElec==Fro){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
 						if(getFlagBeh(tempNode)==1){
 							if( RElec==Beh){
 								deleteLL(&LL);
-								deleteMatrix(AvailableNodes);
-								deleteMatrix(NearLeftElec);
-								deleteMatrix(NearRightElec);
+								deleteMatrix(&AvailableNodes);
+								deleteMatrix(&NearLeftElec);
+								deleteMatrix(&NearRightElec);
 								return 1;
 							}
 						}
@@ -1963,9 +1977,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Lef){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1973,9 +1987,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Rig){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1983,9 +1997,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Abo){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -1993,27 +2007,27 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 								if (RElec==Bel){
 									//This means delete the Cluster
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
 							if(getFlagFro(tempNode)==1){
 								if (RElec==Fro){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
 							if(getFlagBeh(tempNode)==1){
 								if( RElec==Beh){
 									deleteLL(&LL);
-									deleteMatrix(AvailableNodes);
-									deleteMatrix(NearLeftElec);
-									deleteMatrix(NearRightElec);
+									deleteMatrix(&AvailableNodes);
+									deleteMatrix(&NearLeftElec);
+									deleteMatrix(&NearRightElec);
 									return 1;
 								}
 							}
@@ -2028,9 +2042,9 @@ int FeelPercolation(ClusterLL ClLL, const_SNarray snA, int PeriodicY, int Period
 	}
 
 	deleteLL(&LL);
-	deleteMatrix(AvailableNodes);
-	deleteMatrix(NearLeftElec);
-	deleteMatrix(NearRightElec);
+	deleteMatrix(&AvailableNodes);
+	deleteMatrix(&NearLeftElec);
+	deleteMatrix(&NearRightElec);
 	return 0;
 }
 
@@ -3210,12 +3224,12 @@ int CalculateSumAndP(const int TotalOrders, const_SNarray snA, ArbArray * ClArLL
 
 
 				//Delete Matrices
-				deleteMatrix(mtxHopOpt);
-				deleteMatrix(mtxProb);
-				deleteMatrix(mtxProbNeigh);
-				deleteMatrix(mtxTimes);
-				deleteMatrix(mtxDwellTime);
-				deleteMatrix(mtxProbNeighDwell);
+				deleteMatrix(&mtxHopOpt);
+				deleteMatrix(&mtxProb);
+				deleteMatrix(&mtxProbNeigh);
+				deleteMatrix(&mtxTimes);
+				deleteMatrix(&mtxDwellTime);
+				deleteMatrix(&mtxProbNeighDwell);
 
 				TempClLL = getNextClusterLL(TempClLL);
 
@@ -3425,7 +3439,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 
 	}
 
-	deleteMatrix(mtxProbNew);
+	deleteMatrix(&mtxProbNew);
 	return mtxProb;
 }
 
@@ -3709,7 +3723,7 @@ matrix CalculateDwellTimeAndRateN(ClusterLL *  TempClLL,matrix * mtxTimes, const
 	setCluster_time((*TempClLL),tcluster);
 	DivideEachElement(&mtxDwellTime,total);
 
-	deleteMatrix(mtxRates);
+	deleteMatrix(&mtxRates);
 	return mtxDwellTime;
 }
 
@@ -3804,16 +3818,8 @@ int ConnectClusterElec( ArbArray * ClArLL,\
 		return -1;
 	}
 
-	if(elXB==NULL || elXF==NULL){
-		printf("WARNING elXF or elXB non existant in Connect ClusterElec\n");
-		return -1;
-	}
-	if(elYL==NULL || elYR==NULL){
-		printf("WARNING elYL or elYR non existant in Connect ClusterElec\n");
-		return -1;
-	}
-	if(elZB==NULL || elZA==NULL){
-		printf("WARNING elZA or elZB non existant in Connect ClusterElec\n");
+	if(elXB==NULL && elXF==NULL && elYL==NULL && elYR==NULL && elZB==NULL && elZA==NULL){
+		printf("WARNING All of the electrodes are NULL\n");
 		return -1;
 	}
 
@@ -3827,12 +3833,24 @@ int ConnectClusterElec( ArbArray * ClArLL,\
 
 		if(TempClLL!=NULL){
 			while(TempClLL!=NULL){
-				setCluster_elecXF(&TempClLL, elXF);		
-				setCluster_elecXB(&TempClLL, elXB);		
-				setCluster_elecYR(&TempClLL, elYR);		
-				setCluster_elecYL(&TempClLL, elYL);		
-				setCluster_elecZB(&TempClLL, elZB);		
-				setCluster_elecZA(&TempClLL, elZA);		
+				if(getCluster_elecidXF(TempClLL)!=0){
+					setCluster_elecXF(&TempClLL, elXF);	
+				}
+				if(getCluster_elecidXB(TempClLL)!=0){
+					setCluster_elecXB(&TempClLL, elXB);		
+				}
+				if(getCluster_elecidYR(TempClLL)!=0){
+					setCluster_elecYR(&TempClLL, elYR);		
+				}
+				if(getCluster_elecidYL(TempClLL)!=0){
+					setCluster_elecYL(&TempClLL, elYL);		
+				}
+				if(getCluster_elecidZB(TempClLL)!=0){
+					setCluster_elecZB(&TempClLL, elZB);		
+				}
+				if(getCluster_elecidZA(TempClLL)!=0){
+					setCluster_elecZA(&TempClLL, elZA);		
+				}
 				TempClLL=getNextClusterLL(TempClLL);
 			}
 		}
@@ -3907,6 +3925,11 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX,\
 	matrix MasterM = CalculateAllHops(snA, electricEnergyX, electricEnergyY, electricEnergyZ,\
 			kT,reOrgEnergy, SiteDistance, AttemptToHop, gamma,\
 			PeriodicX, PeriodicY, PeriodicZ);
+	
+	if (MasterM==NULL){
+		printf("ERROR Failed to create MasterM matrix exiting!\n");
+		exit(1);
+	}
 	//Compare mid points
 	//Some cases exist where there is a hop off the cluster that is on the same
 	//order of magnitude to hops with in the cluster. If the hop back to the 
@@ -3920,6 +3943,11 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX,\
 	int orderHigh;
 	int rv;
 	ArbArray mpA = MPsort(&orderLow, &orderHigh, &MidPtsTotal, MasterM, snA, PeriodicX, PeriodicY, PeriodicZ);
+	
+	if(mpA==NULL){
+		printf("ERROR unable to create mid point array after calling MPsort!\n");
+		exit(1);
+	}
 
 	printf("\nSorting Mid Points into Link Lists\n");
 	//First need to create link lists Each list contains
@@ -3984,7 +4012,7 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX,\
 	ConnectClusterSN(TotalOrders, snA, ClArLL);
 
 	printf("Deleting MasterM matrix\n");
-	deleteMatrix(MasterM);
+	deleteMatrix(&MasterM);
 	rv = ArbArrayCheck(ClArLL);
 
 	printf("Deleting ArLL without deleting mid points\n");
@@ -5027,7 +5055,7 @@ int LoadCluster( char * FileName, int * OrderL, SNarray * snA, double *electricE
 				}
 
 
-				deleteMatrix(mtx);
+				deleteMatrix(&mtx);
 
 		}
 	
@@ -5442,7 +5470,7 @@ int LoadCluster_Data( char * FileName, int * OrderL, SNarray * snA, double elect
 				}
 
 
-				deleteMatrix(mtx);
+				deleteMatrix(&mtx);
 
 		}
 	
@@ -5856,7 +5884,7 @@ int LoadCluster_Only( char * FileName, int * OrderL, SNarray * snA, double elect
 				}
 
 
-				deleteMatrix(mtx);
+				deleteMatrix(&mtx);
 
 		}
 	

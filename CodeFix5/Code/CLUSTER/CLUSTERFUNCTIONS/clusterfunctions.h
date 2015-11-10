@@ -117,6 +117,8 @@ int CalculatePvalNodes(ClusterLL * TempClLL, matrix mtxProb, matrix mtxDwellTime
 int ConnectClusterSN(int TotalOrders, SNarray snA, ArbArray ClArLL);
 
 /* Connects the appropriate clusters with the correct electrodes
+	 is this really necessary if we know it is next to the electrode
+	 do we really need to connect to it?
 */
 int ConnectClusterElec( ArbArray * ClArLL,\
 												Electrode elXB, Electrode elXF,\

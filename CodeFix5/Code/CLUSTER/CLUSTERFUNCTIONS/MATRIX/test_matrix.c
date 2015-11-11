@@ -19,7 +19,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	rv = printMatrix(mtx);
 	assert(rv==-1);
 	printf("Testing: deleteMatrix with mtx as null \n");
-	rv = deleteMatrix(mtx);
+	rv = deleteMatrix(&mtx);
 	assert(rv==-1);
 	printf("Testing: setAll with mtx as null \n");
 	rv = setAll(mtx, val);
@@ -40,7 +40,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	rv = setE(mtx,row, col, val);
 	assert(rv==-1);
 	printf("Testing: deleteMatrix with mtx as null \n");
-	rv=deleteMatrix(mtx);
+	rv=deleteMatrix(&mtx);
 	assert(rv==-1);
 
 	printf("Testing: functions with functional mtx\n");
@@ -82,8 +82,10 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	assert(rv==-2);
 
 	printf("Testing: getE with functional mtx\n");
-	double drv; 
+	double drv;
 	drv= getE(mtx, 2, 3);
+	printMatrix(mtx);
+	printf("drv %g\n",drv);
 	assert(drv==343.1);
 	drv= getE(mtx,3,2);
 	//printf("%g\n",drv);
@@ -104,20 +106,25 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	matrix mtx4 = NULL;
 	rv = resizeRow(&mtx4,3); //why the ampersand?
 	assert(rv==-1);
+	printf("Test 1 past\n");
 	mtx4 = newMatrix(5,3);
 	printMatrix(mtx4);
 	rv = resizeRow(&mtx4,4);
 	assert(rv==0);
+	printf("Test 2 past\n");
 	rv = getRows(mtx4);
 	printf("rows %d\n",rv);
 	assert(rv==4);
+	printf("Test 3 past\n");
 	rv = resizeRow(&mtx4,0);
 	assert(rv==-1);
+	printf("Test 4 past\n");
 	setE(mtx4,1,1,34);
 	setE(mtx4,2,1,31);
 	printMatrix(mtx4);
 	rv = resizeRow(&mtx4,6);
 	assert(rv==0);
+	printf("Test 5 past\n");
 	/*setE(mtx4,6,2,-12.3);
 	printMatrix(mtx4);
 */
@@ -139,7 +146,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	printf("Testing: deleteMatrix\n");
 	rv=deleteMatrix(NULL);
 	assert(rv=-1);
-	rv=deleteMatrix(mtx);
+	rv=deleteMatrix(&mtx);
 	assert(rv==0);
 
 	printf("Testing: duplicateMatrix");
@@ -156,6 +163,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	mtxrv=newMatrixSet(1,0,4);
 	assert(mtxrv==NULL);
 	mtxrv=newMatrixSet(row,col,14);
+	assert(mtxrv!=NULL);
 	printf("Expect matrix of 14's: ");
 	printMatrix(mtxrv);
 
@@ -166,6 +174,7 @@ int main() {//still need DivideEachElement in Matrix and FindRowOfmatchincol
 	assert(rv==-1);
 	rv=setAllRowsInCol(NULL,2,val);
 	assert(rv==-1);
+	printf("\nRows in matrix %d cols %d\nValue of row %d and col %d\n",getRows(mtxrv),getCols(mtxrv),row,col);
 	rv=setAllRowsInCol(mtxrv,2,2);
 	assert(rv==0);
 	printMatrix(mtxrv);

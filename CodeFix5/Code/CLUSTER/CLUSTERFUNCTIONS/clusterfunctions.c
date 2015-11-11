@@ -146,7 +146,6 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 				}
 
 				for(l=0;l<6;l++){
-
 					rv=setE(MasterM,getIndex(snA,i,j,k)+1,(l+1),round(log10(v[l])));
 					//Also record the actual rates
 					rv=setE(MasterM,getIndex(snA,i,j,k)+1,6+(l+1), v[l]);
@@ -155,6 +154,7 @@ matrix CalculateAllHops(const_SNarray snA,const double electricEnergyX, \
 		}
 	}
 
+	printf("Returning with Master Matrix\n");
 	return MasterM;
 }
 

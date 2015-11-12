@@ -1,7 +1,7 @@
 //Number of nodes along the x-axis, y-axis and z-axis
-SLength 200
-SWidth 200
-SHeight 200
+SLength 60
+SWidth 40
+SHeight 43
 
 //Defines whether sides are periodic or not
 // 0 - means non-periodic
@@ -64,7 +64,7 @@ ZFermiB 0
 ZFermiA 0
 
 //Voltage across a single system in x, y and z [V]
-VoltageX 5.0
+VoltageX 1.0
 VoltageY 0.0
 VoltageZ 0.0
 

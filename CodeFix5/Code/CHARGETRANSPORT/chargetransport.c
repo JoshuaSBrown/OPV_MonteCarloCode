@@ -49,8 +49,6 @@ int HopToElecX(SNarray snA, Electrode elXb, Charge * one, int * future, int EndY
 	}
 
 	SNarray snAelec = (SNarray) getElectrode_AdjacentSites(elXb);
-	printf("Length %d Width %d Height %d\n",getAlen(snAelec),getAwid(snAelec),getAhei(snAelec));
-
 
 	int SLength = getAlen(snA);
 	int SWidth = getAwid(snA);
@@ -70,8 +68,6 @@ int HopToElecX(SNarray snA, Electrode elXb, Charge * one, int * future, int EndY
 	int i;
 	int j;
 	int k;
-
-	double position;
 
 	if(xx<0){
 		factorX = -xx/SLength+1;
@@ -99,14 +95,9 @@ int HopToElecX(SNarray snA, Electrode elXb, Charge * one, int * future, int EndY
 	//   codeZ = 1 exclude bottom hop
 	//				 = 2 exclude top hop
 
-
-	printf("Determining code\n");
 	int codeX = 0;
 	int codeY = 0;
 	int codeZ = 0;
-
-	//This is the random number used to determine which direction a charge hops
-	position = (double)rand() / RAND_MAX;
 
 	if(xx==0){
 		//Posibility to jump to (-x) electrode
@@ -153,10 +144,8 @@ int HopToElecX(SNarray snA, Electrode elXb, Charge * one, int * future, int EndY
 	//Need to grab the correct site
 	snAelec = (SNarray) getElectrode_AdjacentSites(elXb);
 	SiteNode site = getSN(snAelec,0,j,k);
-	printSN(site);
 	l = HoppingToSurroundingSites(site,codeX,codeY,codeZ);
 
-	printf("Assinging future id\n");
 	if(l==0){
 		//Hopped to electrode behind
 		*future = getAtotal(snA) + 0;
@@ -208,8 +197,6 @@ int HopToElecY(SNarray snA, Electrode elYl, Charge * one, int * future, int EndX
 	int j;
 	int k;
 
-	double position;
-
 	if(xx<0){
 		factorX = -xx/SLength+1;
 		i = (xx+SLength*factorX)%SLength;
@@ -241,7 +228,6 @@ int HopToElecY(SNarray snA, Electrode elYl, Charge * one, int * future, int EndX
 	int codeZ = 0;
 
 	//This is the random number used to determine which direction a charge hops
-	position = (double)rand() / RAND_MAX;
 
 	if(yy==0){
 		//Posibility to jump to (-x) electrode
@@ -340,8 +326,6 @@ int HopToElecZ(SNarray snA, Electrode elZb, Charge * one, int * future, int EndX
 	int j;
 	int k;	
 
-	double position;
-
 	if(xx<0){
 		factorX = -xx/SLength+1;
 		i = (xx+SLength*factorX)%SLength;
@@ -373,7 +357,6 @@ int HopToElecZ(SNarray snA, Electrode elZb, Charge * one, int * future, int EndX
 	int codeZ = 0;
 
 	//This is the random number used to determine which direction a charge hops
-	position = (double)rand() / RAND_MAX;
 
 	if(zz==0){
 		//Posibility to jump to (-z) electrode
@@ -419,7 +402,6 @@ int HopToElecZ(SNarray snA, Electrode elZb, Charge * one, int * future, int EndX
 	//Need to grab the correct site
 	SNarray snAelec = (SNarray) getElectrode_AdjacentSites(elZb);
 	SiteNode site = getSN(snAelec,i,j,0);
-	printSN(site);
 	l = HoppingToSurroundingSites(site,codeX,codeY,codeZ);
 
 	if(l==0){
@@ -593,9 +575,7 @@ int SiteHop(SNarray snA, Charge * one, SiteNode site, int * future, const int En
 
 	//Initially, the flag is set to 0 
 	//means the charge is able to hop
-	int flag = 0; 
 	double position;
-	int rv;
 	int l;
 	//Below values define location of the charge in the
 	//sample when the periodicity is removed
@@ -615,7 +595,6 @@ int SiteHop(SNarray snA, Charge * one, SiteNode site, int * future, const int En
 	SHeight = getAhei(snA);
 	//First Check is to see if all the neighboring sites are occupied. 
 	//If the site is not located at a boundary
-	//If they are all occupied set the flag to 1
 	xx = getCx(*one);
 	yy = getCy(*one);
 	zz = getCz(*one);
@@ -647,11 +626,7 @@ int SiteHop(SNarray snA, Charge * one, SiteNode site, int * future, const int En
 	position = (double)rand() / RAND_MAX;
 
 	if(x!=0 && x!=(SLength-1) && y!=0 && y!=(SWidth-1) && z!=0 && z!=(SHeight-1)){
-		rv = OccAllNei(snA, x, y, z);
-		if (rv==1){
-			//All neighboring sites are occupied
-			flag=1;
-		}
+		OccAllNei(snA, x, y, z);
 
 		//Choose a site regardless function:MakeHop will ensure that the site is unoccupied
 		//when the charge tries to move
@@ -887,14 +862,14 @@ int ClusterHop(SNarray snA, Charge * ch,  double * tim , int *newID){
 
 	double timeflag;
 
-	SiteNode sn;
-
 	flag1 = 0;
 	flag2 = 0;
 
 	factorX = 0;
 	factorY = 0;
 	factorZ = 0;
+
+	SiteNode sn;
 
 	if(getCx(*ch)<0){
 		factorX = -getCx(*ch)/getAlen(snA)+1;
@@ -1360,7 +1335,6 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		initFutureSite( snA, FutureSite, chA, PF,\
 				*elXb, *elYl, *elZb );
 
-
 		if(FutureSite==NULL || Sequence==NULL || chA==NULL){
 			return -1;
 		}
@@ -1559,7 +1533,6 @@ int initFutureSite( SNarray * snA, matrix * FutureSite,ChargeArray * chA, Parame
 	int YElecOn;
 	int ZElecOn;
 	int NCh;
-	int rv;
 
 	//Declaring local variables
 	int loop;
@@ -1624,14 +1597,12 @@ int initFutureSite( SNarray * snA, matrix * FutureSite,ChargeArray * chA, Parame
 		}else if( z==0 && ZElecOn==1){
 			HopToElecZ(*snA, elZb, &one, &future, EndX, EndY);
 		}else{
-			rv=SiteHop(*snA, &one, site, &future, EndX, EndY,EndZ,\
+			SiteHop(*snA, &one, site, &future, EndX, EndY,EndZ,\
 					XElecOn,YElecOn,ZElecOn, PeriodicX, PeriodicY, PeriodicZ);
 		}
 			
 		setE(*FutureSite,loop+1,1,future);
 	}
-
-	printf("Finished initializing futuresite matrix\n");
 
 	printMatrix(*FutureSite);
 
@@ -1750,7 +1721,6 @@ int randomWalk( SNarray snA,int CheckptNum,\
 
 	long double SaveTime;
 	double ran;
-	double q;
 
 	int factorX;
 	int factorY;
@@ -1770,8 +1740,6 @@ int randomWalk( SNarray snA,int CheckptNum,\
 	Charge one;
 	Charge two;
 	SiteNode site;
-
-	q = 1.602E-19;
 
 	NumAvgVel = 0;
 
@@ -2199,7 +2167,6 @@ int randomWalk( SNarray snA,int CheckptNum,\
 						//approximation
 
 						if( x==0  && XElecOn==1 ){
-							printf("Here hopping to elec\n");
 							HopToElecX(snA, elXb, &one, &future, EndY, EndZ);
 							getLoc(&x,&y,&z,future,snA);
 							tim = 1/getsum(getSN(snA,x,y,z));
@@ -2428,8 +2395,6 @@ int CheckPt_exist(char * File, int buffersize){
 	int CheckFileExist;
 	//Determines if there is a checkpoint file
 	//What is the highest number of the checkpointfile
-	int num;
-	int keep;
 
 	//Initialize file to Null pointer
 	File[0] = '\0';
@@ -2443,8 +2408,6 @@ int CheckPt_exist(char * File, int buffersize){
 		if(d) {
 
 			printf("CHECKPOINT directory exists!\n");
-			num = 0;
-			keep = 0;
 			while((dir = readdir(d))!=NULL && CheckFileExist==0){
 
 				strcpy(FileName, dir->d_name);
@@ -4810,6 +4773,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 	double value;
 	double position;
 	int l;
+	
 
 	if(codeX==0 && codeY==0 && codeZ==0){
 		position = (double)rand() / RAND_MAX;
@@ -4956,7 +4920,6 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			setE(mtxPval,5,1,value);
 
 			DivideEachElement(&mtxPval,value);
-
 			l=1;
 			//Cycle through the pvals until the pval
 			//is equal or above the random number
@@ -4967,7 +4930,7 @@ int HoppingToSurroundingSites(SiteNode site, int codeX, int codeY, int codeZ){
 			if(l<=4){
 				l--;
 			}
-
+		
 			deleteMatrix(&mtxPval);
 
 		}else{

@@ -441,6 +441,8 @@ ArbArray SortOrderMag(const int TotalOrders,const int orderLow, const_ArbArray m
 
 	//int tempOrder;
 	int element, rv, tempOrder, order, Mid_ID;
+	double percent=0;
+	double total = (double) getElementsUsed(mpA);
 
 	//printf("Setting Default values to LL\n");
 	for(element=0;element<TotalOrders;element++){
@@ -448,9 +450,13 @@ ArbArray SortOrderMag(const int TotalOrders,const int orderLow, const_ArbArray m
 		//printf("OrderLow %d Order %d\n",orderLow,order);
 		setDefaultArbElem(ArLL,element,order);
 	}
-	//printf("Sorting into LL\n");
 	//cycle through mid points and assign to correct link list
-	for(Mid_ID=0;Mid_ID<getElementsUsed(mpA);Mid_ID++){
+	for(Mid_ID=0;Mid_ID<((int)total);Mid_ID++){
+
+		if(percent<=((double)(Mid_ID))/total){
+			printf("Percent complete %3.0f\n",percent*100);
+			percent+=0.05;
+		}
 		tempOrder=getMPOrder(mpA, Mid_ID);
 		element=tempOrder-orderLow;
 		//Check to see if a LL already exists for that order of Magnitude
@@ -466,7 +472,6 @@ ArbArray SortOrderMag(const int TotalOrders,const int orderLow, const_ArbArray m
 
 		rv = addToOrLL(ArLL, element, getMP(mpA,Mid_ID) );
 	}
-
 //	printArbArray(ArLL);
 
 	return ArLL;

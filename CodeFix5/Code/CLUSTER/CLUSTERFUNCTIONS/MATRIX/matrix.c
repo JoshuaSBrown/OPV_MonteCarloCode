@@ -58,7 +58,6 @@ matrix  newMatrix(int rows, int cols) {
 					ELEM(m,i,j)=0.000;
 				}
 			}
-
 			rowsNotAllocated = rowsNotAllocated-rows1;
 			rows1 = rowsNotAllocated;
 
@@ -182,7 +181,7 @@ matrix duplicateMatrix(const_matrix mtx){
 		(*mtxNew2) = (*mtxNew2)->Extra;
 		mtx2 = mtx2->Extra;
 
-		matrix mtxtemp = (matrix) malloc(sizeof(struct _matrix)+sizeof(double)*(mtx2->rows)*(mtx2->cols));
+		mtxtemp = (matrix) malloc(sizeof(struct _matrix)+sizeof(double)*(mtx2->rows)*(mtx2->cols));
 		if(mtxtemp==NULL){
 			printf("ERROR no memory to duplicate matrix\n");
 			return NULL;
@@ -254,7 +253,7 @@ int printMatrix(const_matrix mtx) {
 		}
 		mtxtemp=mtxtemp->Extra;
 	}
-return 0;
+	return 0;
 }
 
 int printRandomEnergyFilesijk(const_matrix mtx) {
@@ -404,9 +403,6 @@ int resizeRow(matrix * mtx, int Row){
 			(*mtxprev)->Extra = mtxnew;
 
 		}
-
-		matrix temp = duplicateMatrix((*mtxtemp));
-
 
 	}else{
 		//Decreasing
@@ -839,14 +835,21 @@ int DivideEachElement(matrix * mtx, double val){
 
 	int i;
 	int j;
-	matrix * mtxtemp = mtx;
-	while((*mtxtemp)!=NULL){
-		for(i=1;i<=(*mtxtemp)->rows; i++){
-			for(j=1;j<=(*mtxtemp)->cols;j++){
-				setE((*mtxtemp),i,j,ELEM((*mtxtemp),i,j)/val);					
+
+	for(i=1;i<=(*mtx)->rows;i++){
+		for(j=1;j<=(*mtx)->cols;j++){
+			setE((*mtx),i,j,ELEM((*mtx),i,j)/val);
+		}
+	}
+
+	matrix mtxtemp = (*mtx)->Extra;
+	while((mtxtemp)!=NULL){
+		for(i=1;i<=(mtxtemp)->rows; i++){
+			for(j=1;j<=(mtxtemp)->cols;j++){
+				setE((mtxtemp),i,j,ELEM((mtxtemp),i,j)/val);					
 			}
 		}
-		(*mtxtemp)=(*mtxtemp)->Extra;
+		(mtxtemp)=(mtxtemp)->Extra;
 	}
 	return 0;
 }

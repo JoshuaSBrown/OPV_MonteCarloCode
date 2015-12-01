@@ -1850,7 +1850,7 @@ int randomWalk( SNarray snA,int CheckptNum,\
 							FileName);
 					if(Movie<MovieFrames){
 						printf("Should have entered the printMovie Routine\n");
-						printMovie(&Movie,FileName,snA);
+						printMovie(&Movie,t,FileName,snA,PF);
 					}
 				}
 
@@ -2016,7 +2016,7 @@ int randomWalk( SNarray snA,int CheckptNum,\
 
 					if(Movie<MovieFrames){
 						printf("Should have entered the printMovie Routine\n");
-						printMovie(&Movie,FileName,snA);
+						printMovie(&Movie,t,FileName,snA,PF);
 					}
 					//printMatrix(System);
 					//printMatrix(timeArray);
@@ -4076,7 +4076,7 @@ int Save_CheckPt(char * FileName, int * CheckptNum, SNarray snA,\
 }
 
 
-int printMovie(int * Movie, char * FileName, SNarray snA){
+int printMovie(int * Movie,long double t, char * FileName, SNarray snA, ParameterFrame PF){
 
 	int i;
 	int j;
@@ -4100,7 +4100,7 @@ int printMovie(int * Movie, char * FileName, SNarray snA){
 		printf("Error! unable to write to .xyz movie file!\n");
 	}else{
 
-		fprintf(Mout,"%d\n\n",getAtotal(snA));
+		fprintf(Mout,"%d\t%g\t%d\t%d\t%d\t%g\n\n",getAtotal(snA),t,PFget_Len(PF),PFget_Wid(PF),PFget_Hei(PF),PFget_SiteDist(PF));
 
 		for(i=0;i<getAlen(snA);i++){
 			for(j=0;j<getAwid(snA);j++){

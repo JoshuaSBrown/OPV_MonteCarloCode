@@ -166,7 +166,7 @@ int Save_CheckPt(char * FileName, int * CheckptNum, SNarray snA, ChargeArray chA
 
 /* prints xys movie files
 */
-int printMovie(int * Movie, char * FileName, SNarray snA);
+int printMovie(int * Movie, long double t,char * FileName, SNarray snA);
 
 /* Prints the currents flowing in the x,y and z direction durint each time
 	 interval. As well as the number of charges reaching the x,y and z source

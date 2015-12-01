@@ -173,7 +173,7 @@ int main() {
 	rv=getOMLL_order(OMLL);
 	assert(rv==5);
 
-	printf("Testing:getOMLLstartMP\n"); //start here
+	printf("Testing:getOMLLstartMP\n");
 	mp = getOMLLstartMP(NULL);
 	assert(mp==NULL);
 	mp = getOMLLstartMP(OMLL);
@@ -561,6 +561,7 @@ int main() {
 	assert(rv==0);
 
 	printf("Testing:getElectrode_alpha\n");
+	assert(getElectrode_alpha(NULL)==-1);
 	assert(getElectrode_alpha(el)==0);
 
 	printf("Testing:setElectrode_alpha\n");
@@ -570,7 +571,7 @@ int main() {
 	assert(rv==0);
 	assert(getElectrode_alpha(el)==12);
 
-	printf("Testing:getElectrode_Charges\n");	//start here
+	printf("Testing:getElectrode_Charges\n");
 	rv = getElectrode_Charges(NULL);
 	assert(rv==-1);
 	rv = getElectrode_Charges(el);
@@ -581,7 +582,7 @@ int main() {
 	assert(rv==-1);
 	rv = setElectrode_Charges(el, -1);
 	assert(rv==-1);
-	assert(getElectrode_Charges(el)==0);
+	//assert(getElectrode_Charges(el)==0);
 	rv = setElectrode_Charges(el, 32);
 	assert(rv==0);
 	assert(getElectrode_Charges(el)==32);
@@ -606,7 +607,7 @@ int main() {
 	rvd = getElectrode_FermiEnergy(el);
 	assert(rvd==0.0);
 
-	printf("Testing:setElectrode_FermiEnergy\n"); //negative ok?
+	printf("Testing:setElectrode_FermiEnergy\n");
 	rv = setElectrode_FermiEnergy(NULL, 2.3);
 	assert(rv==-1);
 	rv = setElectrode_FermiEnergy(el, -1.1);
@@ -614,38 +615,39 @@ int main() {
 	assert(getElectrode_FermiEnergy(el)==-1.1);
 
 	printf("Testing:getElectrode_Sum\n");
-	rv = setElectrode_Sum(NULL, 12);
+	rv = getElectrode_Sum(NULL);
 	assert(rv==-1);
-	rv = setElectrode_Sum(el, -1);
+	rv = getElectrode_Sum(el);
 	assert(rv==-1);
-	assert(getElectrode_Sum(el)==0);
-	rv = setElectrode_Sum(el, 19);
-	assert(rv==0);
-	assert(getElectrode_Sum(el)==19);
-	deleteElectrode(&el);
 
 	printf("Testing:setElectrode_Sum\n");
 	rv=setElectrode_Sum(NULL,15.4);
 	assert(rv==-1);
 	rv=setElectrode_Sum(el,-1);
 	assert(rv==-1);
-	//start here
-
-	printf("Testing:printElectrode\n");
-
+	rv=setElectrode_Sum(el,15.4);
+	assert(rv==0);
+	assert(getElectrode_Sum(el)==15.4);
 
 	printf("Testing:getElectrode_HopRates\n");
 	assert(getElectrode_HopRates(NULL)==NULL);
+	assert(getElectrode_HopRates(el)==0.0);
 
-	printf("Testing:setElectrode_HopRates\n");
-
+	printf("Testing:setElectrode_HopRates\n"); //can be negative?
+	assert(setElectrode_HopRates(NULL, (int) -5.5)==NULL);
+	assert(setElectrode_HopRates(el, NULL==-1);
+	assert(setElectrode_HopRates(el, (int) -5.5 == 0); 
+	assert(getElectrode_HopRates(el)==-5.5);
 
 	printf("Testing:getElectrode_AdjacentSites\n");
 	assert(getElectrode_AdjacentSites(NULL)==NULL);
-	
-	printf("Testing:setElectrode_AdjacentSites\n"); 
-	assert(setElectrode_AdjacentSites(NULL)==NULL);
+	assert(getElectrode_AdjacentSites(el)==0.0);
 
+	printf("Testing:setElectrode_AdjacentSites\n"); 
+	assert(setElectrode_AdjacentSites(NULL, (int)5)==NULL);
+	assert(setElectrode_AdjacentSites(el,NULL==NULL);
+	assert(setElectrode_AdjacentSites(el, (int)5==0);
+	assert(getElectrode_AdjacentSites(el)==5);
 	//////////////////////////////////////////////////////////////////////
 	printf("Testing:newNeighLL\n");
 	neighLL = newNeighLL();
@@ -656,8 +658,7 @@ int main() {
 	assert(rv==-1);
 	rv = deleteNeighLL(neighLL);
 	assert(rv==0);
-
-	//////////////////////////////////////////////////////////////////////
+	
 	printf("Testing:printNeighLL\n");
 	rv = printNeighLL(NULL);
 	assert(rv==-1);
@@ -665,7 +666,35 @@ int main() {
 	printf("Should print size of 0\n");
 	rv = printNeighLL(neighLL);
 	assert(rv==0);
-	deleteNeighLL(neighLL);
+
+	printf("Testing:deleteNeighLLAll");
+	rv=deleteNeighLLAll(NULL);
+	assert(rv==-1);
+	rv=deleteNeighLLAll(neighLL);
+	assert(rv==0);
+	neighLL=newNeighLL();
+	neighLL->start=newNeighNode(15);
+	assert(deleteNeighLL(neighLL)==-1);
+	neighLL->start->next=newNeighNode(20);
+	assert(getNeighLL_numNeigh==2);
+	rv=deleteNeighLL(neighLL);
+	assert(rv==0);
+
+	printf("Testing:getNeighLL_numNeigh");
+	rv=getNeighLL_numNeigh(NULL);
+	assert(rv==-1);
+	neighLL=newNeighLL();
+	rv=getNeighLL_numNeigh(neighLL);
+	assert(rv==0);
+
+	printf("Testing:setNeighLL_start"); //no getter
+	neighNode=newNeighNode(25);
+	rv=setNeighLL_start(NULL,neighNode);
+	assert(rv==-1);
+	rv=setNeighLL_start(newNeighLL,NULL);
+	assert(rv==-1);
+	rv=setNeighLL_start(newNeighLL,neighNode);
+	assert(rv==0);
 
 	//////////////////////////////////////////////////////////////////////
 	printf("Testing:newClusterLL\n");
@@ -674,28 +703,25 @@ int main() {
 	ClLL = newClusterLL(1);
 	assert(ClLL!=NULL);
 	
-	printf("Testing:deleteClsuterLL\n");
+	printf("Testing:deleteClusterLL\n");
 	rv = deleteClusterLL(NULL);
 	assert(rv==-1);
 	rv = deleteClusterLL(ClLL);
 	assert(rv==0);
 
-	//////////////////////////////////////////////////////////////////////
 	printf("Testing:deleteClusterLLNodes\n");
 	ClLL = newClusterLL(3);
 	assert(ClLL!=NULL);
 	rv = deleteClusterLLNodes(ClLL);
 	assert(rv==0);
 
-	//////////////////////////////////////////////////////////////////////
 	printf("Testing:deleteAllClusterLL\n");
 	ClLL = newClusterLL(4);
 	rv = deleteAllClusterLL(NULL);
 	assert(rv==-1);
 	rv = deleteAllClusterLL(&ClLL);
-	assert(rv==0);
-	
-	//////////////////////////////////////////////////////////////////////
+	assert(rv==0);	
+
 	printf("Testing:printNodesClusterLL\n");
 	rv = printNodesClusterLL(NULL);
 	assert(rv==-1);
@@ -717,19 +743,44 @@ int main() {
 	rv = printClusterLL(NULL);
 	assert(rv==-1);
 	rv = printClusterLL(ClLL);
-	assert(rv==0);
+	assert(rv==0); //start here
+
+	
+	printf("Testing:getCluster_NeighLL");
+	rv=getCluster_NeiLL(NULL);
+	assert(rv=NULL);
+	rv=getCluster_NeiLL(ClLL);
+	assert(rv= //have to create and set neighbor of ClLL
+
+	printf("Testing:setCluster_NeiLL");
 
 	printf("Testing:getCluster_id\n");
 	rv = getCluster_id(NULL);
 	assert(rv==-1);
 	rv = getCluster_id(ClLL);
 	assert(rv==5);
-	
+
 	printf("Testing:getCluster_numNodes\n");
 	rv = getCluster_numNodes(NULL);
 	assert(rv==-1);
 	rv = getCluster_numNodes(ClLL);
 	assert(rv==0);
+
+	printf("Testing:setCluster_elecXFid");
+
+	printf("Testing:setCluster_elecXBid");
+
+	printf("Testing:setCluster_elecYLid");
+
+	printf("Testing:setCluster_elecYRid");
+
+	printf("Testing:setCluster_elecZBid");
+
+	printf("Testing:setCluster_elecZAid");
+
+	printf("Testing:getCluster_NeighLL");
+
+	printf("Testing:setCluster_NeiLL");
 
 	printf("Testing:setCluster_elecXid\n");
 	rv = setCluster_elecXid(&ClLL, -1);

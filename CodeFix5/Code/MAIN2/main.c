@@ -207,14 +207,16 @@ int main(void){
 							exit(1);
 						}
 
-						FindCluster( &OrderL, snA, electricEnergyX,\
-								electricEnergyY, electricEnergyZ,\
-								&ClArLL, KT, PF);
+						if(PFget_ClusterAlg(PF)!=0){
+							FindCluster( &OrderL, snA, electricEnergyX,\
+									electricEnergyY, electricEnergyZ,\
+									&ClArLL, KT, PF);
 
-						SaveCluster( &FileName[0], OrderL, snA, electricEnergyX,\
-												 electricEnergyY, electricEnergyZ, ClArLL,\
-												 KT, PF, elXb, elXf, elYl, elYr, elZb, elZa);
+							SaveCluster( &FileName[0], OrderL, snA, electricEnergyX,\
+													 electricEnergyY, electricEnergyZ, ClArLL,\
+													 KT, PF, elXb, elXf, elYl, elYr, elZb, elZa);
 
+						}
 						PrintFile_xyz(OrderL,snA, &ClArLL, &FileName[0]);
 						printFileEnergy(snA, &FileName[0],\
 														electricEnergyX, electricEnergyY, electricEnergyZ, PF);

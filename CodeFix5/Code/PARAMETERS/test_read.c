@@ -5,6 +5,7 @@
 
 int main(void){
 
+	int method;
 
 	int SLength;
 	int SWidth;
@@ -88,9 +89,14 @@ int main(void){
 
 	int MovieFrames;
 
+	double Vcv;
+	double Tcv;
+
 	ParameterFrame PF = newParamFrame();
-	
+
 	printf("\nTesting: newParamFrame\n\n");
+	printf("Testing:PFget_method\n");
+	printf("method %d\n",PFget_method(PF));
 	printf("Testing: PFget_Len\n");
 	printf("SLength %d\n",PFget_Len(PF));
 	printf("Testing: PFget_Wid\n");
@@ -218,8 +224,11 @@ int main(void){
 	printf("Testing: PFget_RelativePerm\n");
 	printf("RelativePerm %f\n",PFget_RelativePerm(PF));
 	printf("MovieFrames %d\n",PFget_MovieFrames(PF));
+	printf("Vcv %d\n",PFget_Vcv(PF));
+	printf("Tcv %d\n",PFget_Tcv(PF));
 
-	ReadParameter(&SLength, &SWidth, &SHeight,\
+	ReadParameter(&method,\
+			&SLength, &SWidth, &SHeight,\
 			&PeriodicX, &PeriodicY, &PeriodicZ,\
 			&EndX, &EndY, &EndZ,\
 			&XElecOn, &YElecOn, &ZElecOn,\
@@ -240,9 +249,11 @@ int main(void){
 			&TempStart, &TemperatureStep,\
 			&TemperatureInc, &reOrgEnergy,\
 			&AttemptToHop, &gamma,\
-			&RelativePerm, &MovieFrames);
-
+			&RelativePerm, &MovieFrames,\
+			&Tcv, &Vcv);
 	printf("\nTesting: ReadParameter\n\n");
+
+	printf("Method %d\n",method);
 	printf("SLength %d\n",SLength);
 	printf("SWidth %d\n",SWidth);
 	printf("SHeight %d\n",SHeight);
@@ -306,11 +317,14 @@ int main(void){
 	printf("AttemptToHop %g\n",AttemptToHop);
 	printf("gamma %f\n",gamma);
 	printf("RelativePerm %f\n",RelativePerm);
+	printf("Vcv %f\n",Vcv);
+	printf("Tcv %f\n",Tcv);
 
 	deleteParamFrame(&PF);
 
 	ParameterFrame PF2 = newParamFrame_File();
 	printf("\nTesting: newParamFrame_File\n\n");
+	printf("Method %d\n",PFget_method(PF2));
 	printf("SLength %d\n",PFget_Len(PF2));
 	printf("SWidth %d\n",PFget_Wid(PF2));
 	printf("SHeight %d\n",PFget_Hei(PF2));
@@ -375,6 +389,8 @@ int main(void){
 	printf("gamma %f\n",PFget_gamma(PF2));
 	printf("RelativePerm %f\n",PFget_RelativePerm(PF2));
 	printf("MovieFrames %d\n",PFget_MovieFrames(PF2));
+	printf("Vcv %d\n",PFget_Vcv(PF2));
+	printf("Tcv %d\n",PFget_Tcv(PF2));
 
 	deleteParamFrame(&PF2);
 	return 0;

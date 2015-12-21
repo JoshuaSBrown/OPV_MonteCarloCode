@@ -1,7 +1,12 @@
+//defines whether the method 
+// 0 - means not CELIV
+// 1 - CELIV
+method 1 
+
 //Number of nodes along the x-axis, y-axis and z-axis
-SLength 60
-SWidth 40
-SHeight 43
+SLength 20
+SWidth 30
+SHeight 20
 
 //Defines whether sides are periodic or not
 // 0 - means non-periodic
@@ -35,7 +40,7 @@ alphaZb 2
 alphaZa 2
 
 //Define the work function of the electrodes [eV]
-workX 2
+workX 15 
 workY 2
 workZ 2
 
@@ -64,7 +69,7 @@ ZFermiB 0
 ZFermiA 0
 
 //Voltage across a single system in x, y and z [V]
-VoltageX 1.0
+VoltageX 5.0
 VoltageY 0.0
 VoltageZ 0.0
 
@@ -88,13 +93,13 @@ D 20E14
 TCount 1
 
 //Number of charges injected per time step
-NCh 5
+NCh 50
 
 //Total number of charges passed through the system
 Ntot TCount*NCh
 
 //Time between injections of charges [s]
-TStep 1E-12
+TStep 1E-13
 
 //Number of time steps that pass before data is averaged
 Nstep_av 10
@@ -104,6 +109,9 @@ Time_check 30
 
 //Number of iterations with different random seeds
 Rcount 1
+
+//Turn on Cluster Algorithm 2, Leave off 0, whatever is optimal 1
+ClusterAlg 0
 
 //Defines the cutoff radius for the correlation function
 //CutOffDistance CutOff*lambda
@@ -128,7 +136,7 @@ E0 -5.2
 sigma 0.07
 
 //What fraction of sites act as traps
-fracTrap 0.000
+fracTrap 0.0
 //Average site energy of trap [eV]
 Etrap -4.9
 //Standard deviation of trap energy
@@ -153,3 +161,10 @@ Er 3.9
 //Movie Frames 
 MovieFrames 1500
 
+//***********if CELIV***************
+
+//final time
+Tcv 30  
+
+//final voltage
+Vcv 10

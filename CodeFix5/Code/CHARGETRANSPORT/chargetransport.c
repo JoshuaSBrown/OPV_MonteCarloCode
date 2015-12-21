@@ -2727,6 +2727,8 @@ int Load_CheckPt(long double * t, SNarray * snA, ChargeArray * chA, matrix * Seq
 			fgets(bufRead,256,CheckIn);
 			//fscanf(CheckIn,"%s",bufRead);
 			fscanf(CheckIn,"%s %d",bufRead,&intvar);	
+			PFset_method(*PF,intvar);
+			fscanf(CheckIn,"%s %d",bufRead,&intvar);	
 			PFset_Len(*PF,intvar);
 			fscanf(CheckIn,"%s %d",bufRead,&intvar);	
 			PFset_Wid(*PF,intvar);
@@ -2888,6 +2890,11 @@ int Load_CheckPt(long double * t, SNarray * snA, ChargeArray * chA, matrix * Seq
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
+			fscanf(CheckIn,"%s %d",bufRead,&intvar);
+			PFset_ClusterAlg(*PF,intvar);
+			fgets(bufRead,256,CheckIn);
+			fgets(bufRead,256,CheckIn);
+			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fscanf(CheckIn,"%s %lf",bufRead,&doublevar);
@@ -2963,6 +2970,13 @@ int Load_CheckPt(long double * t, SNarray * snA, ChargeArray * chA, matrix * Seq
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fscanf(CheckIn,"%s %d",bufRead,&intvar);
+			
+			fscanf(CheckIn,"%s %d",bufRead,&intvar);	
+			PFset_Vcv(*PF,intvar);
+			
+			fscanf(CheckIn,"%s %d",bufRead,&intvar);	
+			PFset_Tcv(*PF,intvar);
+			
 
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
@@ -3749,6 +3763,11 @@ int Load_CheckPt_PF( char * FileName, ParameterFrame *PF ){
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
+			fscanf(CheckIn,"%s %d",bufRead,&intvar);
+			PFset_ClusterAlg(*PF,intvar);
+			fgets(bufRead,256,CheckIn);
+			fgets(bufRead,256,CheckIn);
+			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fgets(bufRead,256,CheckIn);
 			fscanf(CheckIn,"%s %lf",bufRead,&doublevar);
@@ -3872,6 +3891,7 @@ int Save_CheckPt(char * FileName, int * CheckptNum, SNarray snA,\
 
 		//Print parameter data first
 		fprintf(CheckOut,"//Number of nodes along the x-axis, y-axis and z-axis\n");
+		fprintf(CheckOut,"Method %d\n", PFget_method(PF));
 		fprintf(CheckOut,"SLength %d\n",getAlen(snA));
 		fprintf(CheckOut,"SWidth %d\n",getAwid(snA));
 		fprintf(CheckOut,"SHeight %d\n\n",getAhei(snA));
@@ -3977,6 +3997,9 @@ int Save_CheckPt(char * FileName, int * CheckptNum, SNarray snA,\
 		fprintf(CheckOut,"//Number of iterations with different random seeds\n");
 		fprintf(CheckOut,"Rcount %d\n\n",PFget_Rcount(PF));
 
+		fprintf(CheckOut,"//Turn on Cluster Algorithm 2, Leave off 0, whatever is optimal 1\n");
+		fprintf(CheckOut,"ClusterAlg %d\n\n",PFget_ClusterAlg(PF));
+		
 		fprintf(CheckOut,"//Defines the cutoff radius for the correlation function\n");
 		fprintf(CheckOut,"//CutOffDistance CutOff*lambda\n");
 		fprintf(CheckOut,"//lambda is used in the correlation function\n");
@@ -4018,8 +4041,10 @@ int Save_CheckPt(char * FileName, int * CheckptNum, SNarray snA,\
 		fprintf(CheckOut,"reOrgEnergy %f\n",PFget_reOrg(PF));
 		fprintf(CheckOut,"//Tunneling constant [1/nm]\n");
 		fprintf(CheckOut,"gamma %f\n",PFget_gamma(PF)/1E9);
-		fprintf(CheckOut,"MovieFrames %d\n\n",PFget_MovieFrames(PF));
-		fprintf(CheckOut,"Global Time\tTime Increments\tCharges in System\tActive Charges\n%Lg\t%ld\t%d\t%d\n\n",t,n,nc,nca);
+		fprintf(CheckOut,"MovieFrames %d\n",PFget_MovieFrames(PF));
+		fprintf(CheckOut,"Vcv %d\n",PFget_Vcv(PF));
+		fprintf(CheckOut,"Tcv %d\n\n",PFget_Tcv(PF));
+		fprintf(CheckOut,"Global Time\tTime Increments\tCharges in System\tActive Charges\n%Lg\t%ld\t%d\t%d\n\n",t,n,nc,nca);	
 
 		//Printing sites and energies
 		fprintf(CheckOut,"%d\n\n",getAtotal(snA));
@@ -4100,7 +4125,7 @@ int printMovie(int * Movie,long double t, char * FileName, SNarray snA, Paramete
 		printf("Error! unable to write to .xyz movie file!\n");
 	}else{
 
-		fprintf(Mout,"%d\t%g\t%d\t%d\t%d\t%g\n\n",getAtotal(snA),t,PFget_Len(PF),PFget_Wid(PF),PFget_Hei(PF),PFget_SiteDist(PF));
+		fprintf(Mout,"%d\t%Lg\t%d\t%d\t%d\t%g\n\n",getAtotal(snA),t,PFget_Len(PF),PFget_Wid(PF),PFget_Hei(PF),PFget_SiteDist(PF));
 
 		for(i=0;i<getAlen(snA);i++){
 			for(j=0;j<getAwid(snA);j++){
@@ -4425,28 +4450,28 @@ int SaveDataPoint(int * CurrentInc, int * NumAvgVel, int nc, int XElecOn, int YE
 					ElectricFieldX, ElectricFieldY, ElectricFieldZ);
 
 
-			deleteMatrix(&*System);
-			deleteMatrix(&*timeArray);
+			deleteMatrix(System);
+			deleteMatrix(timeArray);
 
-			deleteMatrix(&*Xcurrent);
-			deleteMatrix(&*Ycurrent);
-			deleteMatrix(&*Zcurrent);
+			deleteMatrix(Xcurrent);
+			deleteMatrix(Ycurrent);
+			deleteMatrix(Zcurrent);
 			if(XElecOn==1){
-				deleteMatrix(&*Xelec_Drain);
-				deleteMatrix(&*Xelec_Source);
+				deleteMatrix(Xelec_Drain);
+				deleteMatrix(Xelec_Source);
 			}
 			if(YElecOn==1){
-				deleteMatrix(&*Yelec_Drain);
-				deleteMatrix(&*Yelec_Source);
+				deleteMatrix(Yelec_Drain);
+				deleteMatrix(Yelec_Source);
 			}
 			if(ZElecOn==1){
-				deleteMatrix(&*Zelec_Drain);
-				deleteMatrix(&*Zelec_Source);
+				deleteMatrix(Zelec_Drain);
+				deleteMatrix(Zelec_Source);
 			}
 
-			deleteMatrix(&*Xvelocity);
-			deleteMatrix(&*Yvelocity);
-			deleteMatrix(&*Zvelocity);
+			deleteMatrix(Xvelocity);
+			deleteMatrix(Yvelocity);
+			deleteMatrix(Zvelocity);
 			*System = newMatrix(8,1);
 			//Keeps track of the time when each of the matrices are incremented
 			*timeArray = newMatrix(8,1);

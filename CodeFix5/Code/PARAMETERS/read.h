@@ -24,7 +24,7 @@ double GrabDouble(unsigned int position, char * buf);
 //e.g.
 //
 //variable 33
-int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
+int ReadParameter(int * method, int * SLength, int * SWidth, int * SHeight,\
 		int * PeriodicX, int * PeriodicY, int * PeriodicZ,\
 		int * EndX, int * EndY, int * EndZ,\
 		int * XElecOn, int * YElecOn, int *ZElecOn,\
@@ -38,14 +38,15 @@ int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
 		double * VincX, double * VincY, double * VincZ,\
 		double * SiteDistance, double * D, int * TCount,\
 		int * NCh, int * Ntot, double * TStep, int * N_av,\
-		int * Nstep_av, int * Time_check, int * Rcount, double * CutOff,\
+		int * Nstep_av, int * Time_check, int * Rcount,int * ClusterAlg, double * CutOff,\
 		double * lambda, int * SeedProt, int * Attempts,\
 		double * fracSeed, double * E0, double * sigma,\
 		double * fracTrap, double * Etrap, double * Tsigma,\
 		double * TempStart, int * TemperatureStep,\
 		double * TemperatureInc, double * reOrgEnergy,\
 		double * AttemptToHop, double * gamma,\
-		double * RelativePerm, int * MovieFrames);
+		double * RelativePerm, int * MovieFrames,\
+		double * Tcv, double * Vcv);
 
 int deleteParamFrame(ParameterFrame * PF);
 
@@ -53,6 +54,7 @@ ParameterFrame newParamFrame_File(void);
 
 ParameterFrame newParamFrame(void);
 
+int PFset_method(ParameterFrame Pf, int method);
 int PFset_Len(ParameterFrame PF,int SLength);
 int PFset_Wid(ParameterFrame PF,int SWidth);
 int PFset_Hei(ParameterFrame PF,int SHeight);
@@ -117,7 +119,9 @@ int PFset_AttemptToHop(ParameterFrame PF,double AttemptHop);
 int PFset_gamma(ParameterFrame PF,double gamma);
 int PFset_RelativePerm(ParameterFrame PF,double RelativePerm);
 int PFset_MovieFrames(ParameterFrame PF, int MovieFrames);
+double PFset_Tcv(ParameterFrame PF, double Tcv);
 
+int PFget_method(ParameterFrame PF);
 int PFget_Len(ParameterFrame PF);
 int PFget_Wid(ParameterFrame PF);
 int PFget_Hei(ParameterFrame PF);
@@ -182,5 +186,6 @@ double PFget_AttemptToHop(ParameterFrame PF);
 double PFget_gamma(ParameterFrame PF);
 double PFget_RelativePerm(ParameterFrame PF);
 int PFget_MovieFrames(ParameterFrame PF);
-
+int PFget_Tcv(ParameterFrame PF);
+int PFget_Vcv(ParameterFrame PF);
 #endif

@@ -7,7 +7,8 @@
 #include "read.h"
 
 struct _ParameterFrame{
-
+	
+	int method;
 	int SLength;
 	int SWidth;
 	int SHeight;
@@ -54,6 +55,7 @@ struct _ParameterFrame{
 	int Nstep_av;
 	int Time_check;
 	int Rcount;
+	int ClusterAlg;
 	double CutOff;
 	double lambda;
 	int SeedProt;
@@ -72,6 +74,8 @@ struct _ParameterFrame{
 	double gamma;
 	double RelativePerm;
 	int MovieFrames;
+	double Tcv;
+	double Vcv;
 };
 
 int deleteParamFrame(ParameterFrame * PF){
@@ -95,6 +99,7 @@ ParameterFrame newParamFrame(void){
 	}
 
 	//initialize all variables to 0
+	PF->method=0;
 	PF->SLength=0;
 	PF->SWidth=0;
 	PF->SHeight=0;
@@ -141,6 +146,7 @@ ParameterFrame newParamFrame(void){
 	PF->Nstep_av=0;
 	PF->Time_check=0;
 	PF->Rcount=0;
+	PF->ClusterAlg=0;
 	PF->CutOff=0;
 	PF->lambda=0;
 	PF->SeedProt=0;
@@ -159,7 +165,8 @@ ParameterFrame newParamFrame(void){
 	PF->gamma=0;
 	PF->RelativePerm=0;
 	PF->MovieFrames=0;
-
+	PF->Tcv=0;
+	PF->Vcv=0;
 	return PF;
 }
 
@@ -211,8 +218,17 @@ ParameterFrame newParamFrame_File(void){
 	if(buffer){
 		puts(buffer);
 
+		check = match(buffer, "\nmethod");
+		if(check!=-1){
+			position = (unsigned int)check;
+			intval = GrabInt(position, &buffer[0] );
+			printf("method %d\n",intval);
+			PF->method = intval;
+		}else{
+			printf("ERROR when reading file can not find method!\n");
+			exit(1);
+		}
 		check = match(buffer, "\nSLength");
-
 		if(check!=-1){
 			position = (unsigned int)check;
 			intval = GrabInt(position, &buffer[0] );
@@ -742,6 +758,18 @@ ParameterFrame newParamFrame_File(void){
 			exit(1);
 		}
 
+		check = match(buffer, "\nClusterAlg");
+		if(check!=-1){
+			position = (unsigned int)check;
+			intval = GrabInt(position, &buffer[0] );
+			printf("ClusterAlg %d\n",intval);
+			PF->ClusterAlg = intval;
+		}else{
+			printf("ERROR when reading file can not find Rcount!\n");
+			exit(1);
+		}
+
+
 		check = match(buffer, "\nCutOff");
 		if(check!=-1){
 			position = (unsigned int)check;
@@ -970,6 +998,29 @@ ParameterFrame newParamFrame_File(void){
 			exit(1);
 		}
 
+		check = match(buffer,"\nVcv");
+		if(check!=-1){
+			position = (unsigned int)check;
+			intval = GrabInt(position, &buffer[0] );
+			printf("Vcv %d\n",intval);
+			PF->Vcv = intval;
+		}else{
+			printf("ERROR when reading file can not find Vcv\n");
+			exit(1);
+		}
+		
+		check = match(buffer,"\nTcv");
+		if(check!=-1){
+			position = (unsigned int)check;
+			intval = GrabInt(position, &buffer[0] );
+			printf("Tcv %d\n",intval);
+			PF->Tcv = intval;
+		}else{
+			printf("ERROR when reading file can not find Tcv!\n");
+			exit(1);
+		}
+						
+
 		free(buffer);
 		fclose(handler);
 		return PF;
@@ -978,7 +1029,8 @@ ParameterFrame newParamFrame_File(void){
 	return NULL;
 }
 
-int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
+int ReadParameter(int * method,\
+		int * SLength, int * SWidth, int * SHeight,\
 		int * PeriodicX, int * PeriodicY, int * PeriodicZ,\
 		int * EndX, int * EndY, int * EndZ,\
 		int * XElecOn, int * YElecOn, int *ZElecOn,\
@@ -992,14 +1044,15 @@ int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
 		double * VincX, double * VincY, double * VincZ,\
 		double * SiteDistance, double * D, int * TCount,\
 		int * NCh, int * Ntot, double * TStep, int * N_av,\
-		int * Nstep_av, int * Time_check, int * Rcount, double * CutOff,\
+		int * Nstep_av, int * Time_check, int * Rcount,int * ClusterAlg, double * CutOff,\
 		double * lambda, int * SeedProt, int * Attempts,\
 		double * fracSeed, double * E0, double * sigma,\
 		double * fracTrap, double * Etrap, double * Tsigma,\
 		double * TempStart, int * TemperatureStep,\
 		double * TemperatureInc, double * reOrgEnergy,\
 		double * AttemptToHop, double * gamma,\
-		double * RelativePerm, int * MovieFrames){
+		double * RelativePerm, int * MovieFrames,\
+		double * Vcv, double * Tcv){
 
 			char *buffer = NULL;
 			int position;
@@ -1040,6 +1093,10 @@ int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
 
 			if(buffer!=NULL){
 				puts(buffer);
+					
+				position = match(buffer, "\nmethod");
+				*method = GrabInt(position, &buffer[0] );
+				printf("method %d\n",*method);
 
 				position = match(buffer, "\nSLength");
 				*SLength = GrabInt(position, &buffer[0] );
@@ -1229,6 +1286,10 @@ int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
 				*Rcount = GrabInt(position, &buffer[0] );
 				printf("Rcount %d\n",*Rcount);
 
+				position = match(buffer, "\nClusterAlg");
+				*ClusterAlg = GrabInt(position, &buffer[0] );
+				printf("ClusterAlg %d\n",*ClusterAlg);
+
 				position = match(buffer, "\nCutOff");
 				*CutOff = GrabDouble(position, &buffer[0] );
 				printf("CutOff %g\n",*CutOff);
@@ -1296,6 +1357,16 @@ int ReadParameter(int * SLength, int * SWidth, int * SHeight,\
 				position = match(buffer,"\nMovieFrames");
 				*MovieFrames = GrabInt(position, & buffer[0]);
 				printf("MovieFrames %d\n",*MovieFrames);
+
+				position = match(buffer, "\nTcv");
+				*SLength = GrabInt(position, &buffer[0] );
+				printf("Tcv %f\n",*Tcv);
+
+				position = match(buffer, "\nVcv");
+				*Vcv = GrabInt(position, &buffer[0] );
+				printf("Vcv %f\n",*Vcv);
+
+
 
 				//converting gamma from [1/nm] to [1/m]
 				(*gamma) = (*gamma)*1E9;
@@ -1411,6 +1482,13 @@ double GrabDouble(unsigned int position,char * buf ){
 
 }
 
+int PFset_method(ParameterFrame PF, int method){
+	if(PF == NULL || method !=0 || method !=1){
+		return -1;
+	}
+	PF->method = method;
+	return 0;
+}
 
 int PFset_Len(ParameterFrame PF,int SLength ){
 
@@ -1917,6 +1995,17 @@ int PFset_Rcount(ParameterFrame PF,int Rcount ){
 
 	return 0;
 }
+int PFset_ClusterAlg(ParameterFrame PF,int ClusterAlg ){
+
+	if(PF==NULL){
+		return -1;
+	}
+
+	PF->ClusterAlg = ClusterAlg;
+
+	return 0;
+}
+
 
 int PFset_CutOff(ParameterFrame PF,double CutOff ){
 
@@ -2116,6 +2205,28 @@ int PFset_MovieFrames(ParameterFrame PF, int MovieFrames){
 
 }
 
+double PFset_Vcv(ParameterFrame PF, double Vcv){
+	if(PF==NULL){
+		return -1;
+	}
+	PF->Vcv=Vcv;
+	return 0;
+}
+
+double PFset_Tcv(ParameterFrame PF, double Tcv){
+	if(PF==NULL || Tcv<0){
+		return -1;
+	}
+	PF->Tcv=Tcv;
+	return 0;
+}
+
+int PFget_method(ParameterFrame PF){
+	if(PF==NULL){
+		return -1;
+	}
+	return PF->method; 
+}
 int PFget_Len(ParameterFrame PF){
 
 	if(PF==NULL ){
@@ -2535,6 +2646,15 @@ int PFget_Rcount(ParameterFrame PF ){
 	return PF->Rcount;
 }
 
+int PFget_ClusterAlg(ParameterFrame PF ){
+
+	if(PF==NULL){
+		return -1;
+	}
+
+	return PF->ClusterAlg;
+}
+
 double PFget_CutOff(ParameterFrame PF){
 
 	if(PF==NULL){
@@ -2693,4 +2813,18 @@ int PFget_MovieFrames(ParameterFrame PF){
 		return -1;
 	}
 	return PF->MovieFrames;
+}
+
+int PFget_Vcv(ParameterFrame PF){
+	if(PF==NULL){
+		return -1;
+	}
+	return PF->Vcv;
+}
+
+int PFget_Tcv(ParameterFrame PF){
+	if(PF==NULL){
+		return -1;
+	}
+	return PF->Tcv;
 }

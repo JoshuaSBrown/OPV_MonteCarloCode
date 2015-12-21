@@ -159,8 +159,8 @@ int main(void){
 	//printMatrix(FutureSite);
 	//printChargeA(chA);
 
-	deleteMatrix(Sequence);
-	deleteMatrix(FutureSite);
+	deleteMatrix(&Sequence);
+	deleteMatrix(&FutureSite);
 	deleteChargeA(chA);
 	deleteParamFrame(&PF);
 	deleteSNarray(snA);

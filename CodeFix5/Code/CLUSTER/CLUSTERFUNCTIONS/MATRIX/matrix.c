@@ -146,6 +146,7 @@ matrix  newMatrixSet(int rows, int cols, double set) {
 matrix duplicateMatrix(const_matrix mtx){
 
 	if(mtx==NULL){
+		printf("ERROR matrix NULL!\n");
 		return NULL;
 	}
 
@@ -663,6 +664,7 @@ int getCols(const_matrix mtx){
 
 double getE(const_matrix mtx, int row, int col) {
 	if(!mtx){
+		printf("ERROR matrix NULL!\n");
 		return -1;
 	}
 
@@ -851,6 +853,12 @@ int DivideEachElement(matrix * mtx, double val){
 		}
 		(mtxtemp)=(mtxtemp)->Extra;
 	}
+
+	if((*mtx)==NULL){
+		printf("Error mtx is NULL\n");
+		exit(1);
+	}
+
 	return 0;
 }
 
@@ -869,12 +877,12 @@ int DivideEachElementCol(matrix * mtx, int col, double val){
 
 
 	int i;
-	matrix * mtxtemp = mtx;
-	while((*mtxtemp)!=NULL){
-		for(i=1;i<=(*mtxtemp)->rows;i++){
-			setE((*mtxtemp),i,col,ELEM((*mtxtemp),i,col)/val);	
+	matrix mtxtemp = (*mtx);
+	while(mtxtemp!=NULL){
+		for(i=1;i<=mtxtemp->rows;i++){
+			setE(mtxtemp,i,col,ELEM(mtxtemp,i,col)/val);	
 		}
-		(*mtxtemp)=(*mtxtemp)->Extra;
+		mtxtemp=mtxtemp->Extra;
 	}
 
 	return 0;

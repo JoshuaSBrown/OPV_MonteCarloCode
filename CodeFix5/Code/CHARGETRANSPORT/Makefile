@@ -3,10 +3,13 @@ CC = gcc
 CFLAGS = -lm -Wall -Wextra -std=gnu99 -pedantic -g 
 
 # Targets
-ALL : test_chargetransport
+ALL : test_chargetransport test_chargetransport2
 
 test_chargetransport : test_chargetransport.c chargetransport.o matrix.o charge.o linklist.o clusterfunctions.o clustersitenode.o cluster.o sitenode.o montecarlo.o functions.o read.o
 	$(CC) $(CFLAGS) test_chargetransport.c chargetransport.o charge.o matrix.o linklist.o clusterfunctions.o clustersitenode.o cluster.o sitenode.o functions.o montecarlo.o read.o -o test_chargetransport
+
+test_chargetransport2 : test_chargetransport2.c chargetransport.o matrix.o charge.o linklist.o clusterfunctions.o clustersitenode.o cluster.o sitenode.o montecarlo.o functions.o read.o
+	$(CC) $(CFLAGS) test_chargetransport2.c chargetransport.o charge.o matrix.o linklist.o clusterfunctions.o clustersitenode.o cluster.o sitenode.o functions.o montecarlo.o read.o -o test_chargetransport2
 
 chargetransport.o : chargetransport.c
 	$(CC) $(CFLAGS) -c chargetransport.c -o chargetransport.o

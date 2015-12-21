@@ -3186,7 +3186,10 @@ int CalculateSumAndP(const int TotalOrders, const_SNarray snA, ArbArray * ClArLL
 				//will hop to a site within the cluster irrespective of
 				//time but based on spacial orientation
 				mtxProb = CalculateProb( TempClLL, mtxHopOpt, snA, attempts );
-
+				if(mtxProb==NULL){
+					printf("mtxProb NULL 2\n");
+					exit(1);
+				}
 				PneighTotal = 0;
 				tempNode= getStartNode(TempClLL);
 				inc = 1;
@@ -3332,6 +3335,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 
 	//The second column of mtxProb will contain the IDs of the respective sites
 	//We need to reinitialize the 2nd column to the ID's of the CNTs
+	printf("getCluster_numNodes(TempClLL) %d\n",getCluster_numNodes(TempClLL));
 	matrix mtxProb = newMatrixSet( getCluster_numNodes(TempClLL),2, (1/((double)getCluster_numNodes(TempClLL))));
 	matrix mtxProbNew = newMatrix(6,1);
 	Node tempNode;
@@ -3445,6 +3449,7 @@ matrix CalculateProb(const_ClusterLL TempClLL, matrix mtxHopOpt, const_SNarray s
 	}
 
 	deleteMatrix(&mtxProbNew);
+	
 	return mtxProb;
 }
 
@@ -3627,10 +3632,10 @@ matrix CalculateDwellTimeAndRateN(ClusterLL *  TempClLL,matrix * mtxTimes, const
 	Node tempNode = getStartNode((*TempClLL));
 	total=0;
 
-	Val = -1.0;
+	Val = 0.0;
 
 	while(tempNode!=NULL){
-
+ 	
 		dwelltemp=0;
 		Node_ID = getNode_id(tempNode);	
 		getLoc( &i, &j, &k, Node_ID, snA);
@@ -3703,8 +3708,8 @@ matrix CalculateDwellTimeAndRateN(ClusterLL *  TempClLL,matrix * mtxTimes, const
 			if(getFlagAbo(tempNode)!=1){
 				tempVal = getE(MasterM, Node_ID+1,12);
 				Val+=tempVal*getE(mtxProbNeigh,inc,1);
+				//printf("Node_ID %d Matrix val %g Time %g 11\n",Node_ID, getE(MasterM, Node_ID+1,11),1/tempVal);
 				setE(mtxRates,inc,1,tempVal+getE(mtxRates,inc,1));
-				//printf("Node_ID %d Matrix val %g Time %g 12\n",Node_ID, getE(MasterM, Node_ID+1,12),1/tempVal);
 				setE((*mtxTimes),inc2,1,1/tempVal);
 				inc2++;
 			}		
@@ -3716,14 +3721,13 @@ matrix CalculateDwellTimeAndRateN(ClusterLL *  TempClLL,matrix * mtxTimes, const
 		inc++;
 	}
 
-	if(Val<0){
-		printf("ERROR Val is less than 0 this will result in tcluster that is negative\n");
+	if(Val<=0){
+		printf("ERROR Val is less than or equal to 0 this will result in tcluster that is negative or 0\n");
 		printf("Val %g\n",Val);
 		exit(1);
 	}
 
 	*rateN = SumOfCol(mtxRates,1);
-	printf("Val %g\n",Val);
 	tcluster = 1/Val*1/20;
 	setCluster_time((*TempClLL),tcluster);
 	DivideEachElement(&mtxDwellTime,total);
@@ -3931,10 +3935,6 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX,\
 			kT,reOrgEnergy, SiteDistance, AttemptToHop, gamma,\
 			PeriodicX, PeriodicY, PeriodicZ);
 	
-	if (MasterM==NULL){
-		printf("ERROR Failed to create MasterM matrix exiting!\n");
-		exit(1);
-	}
 	//Compare mid points
 	//Some cases exist where there is a hop off the cluster that is on the same
 	//order of magnitude to hops with in the cluster. If the hop back to the 
@@ -3949,10 +3949,6 @@ int FindCluster( int * OrderL, SNarray snA, double electricEnergyX,\
 	int rv;
 	ArbArray mpA = MPsort(&orderLow, &orderHigh, &MidPtsTotal, MasterM, snA, PeriodicX, PeriodicY, PeriodicZ);
 	
-	if(mpA==NULL){
-		printf("ERROR unable to create mid point array after calling MPsort!\n");
-		exit(1);
-	}
 
 	printf("\nSorting Mid Points into Link Lists\n");
 	//First need to create link lists Each list contains

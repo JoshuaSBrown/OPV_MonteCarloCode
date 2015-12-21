@@ -241,8 +241,8 @@ int main(void){
 
 	//Testing ClusterHop & MakeHop
 	
-	deleteMatrix(Sequence1);
-	deleteMatrix(Sequence);
+	deleteMatrix(&Sequence1);
+	deleteMatrix(&Sequence);
 	deleteElectrode(&elXf);
 	deleteChargeA(chA);
 	///////////////////////////////////////////////////////////////////
@@ -338,7 +338,7 @@ int main(void){
 	printf("Deleting ch\n");
 	deleteCharge(ch);
 	printf("Deleting MasterM2\n");
-	deleteMatrix(MasterM2);
+	deleteMatrix(&MasterM2);
 	printf("Deleting ArClLL2\n");
 	deleteArbArray(&ArClLL2);	
 	printf("Deleting Arb2\n");
@@ -405,7 +405,7 @@ int main(void){
 	printf("Total Distance moved %d, %d, %d\n",TotalX2,TotalY2,TotalZ2);
 
 	deleteCharge(ch);
-	deleteMatrix(MasterM2);
+	deleteMatrix(&MasterM2);
 	deleteArbArray(&ArClLL2);	
 	deleteArbArray(&Arb2);	
 	deleteSNarray(snA2);

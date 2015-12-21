@@ -1,12 +1,12 @@
 //defines whether the method 
 // 0 - means not CELIV
 // 1 - CELIV
-method 1 
+method 0 
 
 //Number of nodes along the x-axis, y-axis and z-axis
-SLength 20
-SWidth 30
-SHeight 20
+SLength 200
+SWidth 200
+SHeight 200
 
 //Defines whether sides are periodic or not
 // 0 - means non-periodic
@@ -40,7 +40,7 @@ alphaZb 2
 alphaZa 2
 
 //Define the work function of the electrodes [eV]
-workX 15 
+workX 2 
 workY 2
 workZ 2
 
@@ -69,7 +69,7 @@ ZFermiB 0
 ZFermiA 0
 
 //Voltage across a single system in x, y and z [V]
-VoltageX 5.0
+VoltageX 0.1
 VoltageY 0.0
 VoltageZ 0.0
 
@@ -79,7 +79,7 @@ VStepY 0
 VStepZ 0
 
 //Voltage ramp increment x, y and z [V]
-VincX 0.050
+VincX 1.0
 VincY 0
 VincZ 0
 
@@ -93,19 +93,19 @@ D 20E14
 TCount 1
 
 //Number of charges injected per time step
-NCh 50
+NCh 4000
 
 //Total number of charges passed through the system
 Ntot TCount*NCh
 
 //Time between injections of charges [s]
-TStep 1E-13
+TStep 1E-12
 
 //Number of time steps that pass before data is averaged
 Nstep_av 10
 
 //Amount of time before a checkpoint file is created in minutes
-Time_check 30
+Time_check 240
 
 //Number of iterations with different random seeds
 Rcount 1
@@ -159,7 +159,7 @@ gamma 2
 Er 3.9
 
 //Movie Frames 
-MovieFrames 1500
+MovieFrames 1
 
 //***********if CELIV***************
 

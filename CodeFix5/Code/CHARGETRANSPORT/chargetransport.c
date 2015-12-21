@@ -1290,7 +1290,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		//create new energies
 		clusterfileExist = CheckPt_Cluster(Vx, Vy, Vz, Temperature, r);
 
-		if(clusterfileExist==0){
+		if(clusterfileExist==0 && PFget_ClusterAlg!=0){
 			//The cluster file exists already so lets just load what was saved
 			LoadCluster_Data( &FileName[0], &OrderL, snA, electricEnergyX,\
 												electricEnergyY, electricEnergyZ, ClArLL, KT);
@@ -1339,7 +1339,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 			return -1;
 		}
 
-		if(clusterfileExist==-1){
+		if(clusterfileExist==-1 && PFget_ClusterAlg(PF)!=0){
 			//Go ahead and calculate clusters and save
 			FindCluster( &OrderL, (*snA), electricEnergyX,\
 									 electricEnergyY, electricEnergyZ,\
@@ -1360,6 +1360,9 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 			PrintNeighFile_xyz(OrderL, (*snA), ClArLL, &FileName[0]);
 			printMatrix(*FutureSite);
 
+		}else{
+			printFileEnergy((*snA), &FileName[0], electricEnergyX,\
+					 						electricEnergyY, electricEnergyZ,PF);
 		}
 
 
@@ -1410,17 +1413,19 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 			setElectrode_Charges(*elZa,Num_elZa);
 		}
 
-		if(clusterfileExist==0){
-			//The .cluster file exists we have already loaded the site information
-			//We only want to load cluster information
-			LoadCluster_Only( &FileName[0], &OrderL, snA, electricEnergyX,\
-												electricEnergyY, electricEnergyZ, ClArLL, KT);
+		if(PFget_ClusterAlg(PF)!=0){
+
+			if(clusterfileExist==0 ){
+				//The .cluster file exists we have already loaded the site information
+				//We only want to load cluster information
+				LoadCluster_Only( &FileName[0], &OrderL, snA, electricEnergyX,\
+													electricEnergyY, electricEnergyZ, ClArLL, KT);
+			}
+			
+			ConnectClusterElec( ClArLL,\
+													(*elXb), (*elXf), (*elYl), (*elYr),\
+													(*elZb), (*elZa) );
 		}
-		
-		ConnectClusterElec( ClArLL,\
-												(*elXb), (*elXf), (*elYl), (*elYr),\
-												(*elZb), (*elZa) );
-	
 	}else{
 		printf("ERROR found in Pre_randomWalk value of checkptstatus %d\n",CheckPtStatus);
 		exit(1);

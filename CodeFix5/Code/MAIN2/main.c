@@ -219,7 +219,7 @@ int main(void){
 						printf("Printing Visit Freq files\n");
 						printVisitFreq(snA,&FileName[0]);
 
-						Post_randomWalk(ClArLL, snA, elXb, elXf, elYl, elYr, elZb, elZa);
+						Post_randomWalk(ClArLL, snA, elXb, elXf, elYl, elYr, elZb, elZa,PF);
 
 					}
 

@@ -1280,9 +1280,6 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 	//Calculating full Marcus Coefficient;
 	MarcusCoeff = pow(MarcusJ0,2)/hbar * pow(M_PI/(4*reOrgEnergy*KT),1/2)*exp(-2*gamma*SiteDistance);
 
-	//printf("MarcusCoeff %g\n",MarcusCoeff);
-	//exit(1);
-
 	//This means we are starting from scratch
 	if(CheckPtStatus==0){
 
@@ -1290,7 +1287,7 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 		//create new energies
 		clusterfileExist = CheckPt_Cluster(Vx, Vy, Vz, Temperature, r);
 
-		if(clusterfileExist==0 && PFget_ClusterAlg!=0){
+		if(clusterfileExist==0 && PFget_ClusterAlg(PF)!=0){
 			//The cluster file exists already so lets just load what was saved
 			LoadCluster_Data( &FileName[0], &OrderL, snA, electricEnergyX,\
 												electricEnergyY, electricEnergyZ, ClArLL, KT);
@@ -1444,14 +1441,14 @@ int Pre_randomWalk(const int CheckPtStatus,char * FileNameCheckPtVersion,char * 
 }
 
 int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf,\
-		Electrode elYl, Electrode elYr, Electrode elZb, Electrode elZa){
+		Electrode elYl, Electrode elYr, Electrode elZb, Electrode elZa,ParameterFrame PF){
 
 
 	if(snA==NULL){
 		printf("ERROR snA found to be NULL\n");
 		return -1;
 	}
-	if(ClArLL==NULL){
+	if(ClArLL==NULL && PFget_ClusterAlg(PF)!=0){
 		printf("ERROR ClArLL found to be NULL\n");
 		return -1;
 	}
@@ -1512,8 +1509,10 @@ int Post_randomWalk(ArbArray ClArLL, SNarray snA, Electrode elXb, Electrode elXf
 		elZa = NULL;
 	}
 
-	printf("Deleteting Cluster Arbitrary Array Link List\n");
-	deleteArbArray(&ClArLL);
+	if(PFget_ClusterAlg(PF)!=0){
+		printf("Deleteting Cluster Arbitrary Array Link List\n");
+		deleteArbArray(&ClArLL);
+	}
 	printf("Deleting SiteNode array\n");
 	deleteSNarray(snA);
 

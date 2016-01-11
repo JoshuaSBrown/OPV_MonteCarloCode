@@ -22,7 +22,7 @@ matrix  newMatrix(int rows, int cols) {
 
 	int i;
 	int j;
-  
+ 	//printf("new Matrix\n"); 
 	//allocate a matrix structure
 	int rows1 = rows;
 	int rowsNotAllocated = rows;
@@ -40,7 +40,7 @@ matrix  newMatrix(int rows, int cols) {
 		if( m!=NULL ){
 			
 			totalAllocated+=rows1;
-			printf("m not null value of rows1 %d total Allocated %d\n",rows1,totalAllocated);
+			//printf("m not null value of rows1 %d total Allocated %d\n",rows1,totalAllocated);
 			if(Flag == 0){
 				Flag = 1;
 				mtx = m;
@@ -81,7 +81,7 @@ matrix  newMatrix(int rows, int cols) {
 
 matrix  newMatrixSet(int rows, int cols, double set) {
  if(rows <= 0 || cols <= 0 ) return NULL;
-
+	//printf("newMatrixSet\n");
 	int i;
 	int j;
   
@@ -101,7 +101,7 @@ matrix  newMatrixSet(int rows, int cols, double set) {
 
 		if( m!=NULL ){
 			
-			printf("m not null value of rows1 %d\n",rows1);
+			//printf("m not null value of rows1 %d\n",rows1);
 			if(Flag == 0){
 				Flag = 1;
 				mtx = m;
@@ -144,36 +144,35 @@ matrix  newMatrixSet(int rows, int cols, double set) {
 }
 
 matrix duplicateMatrix(const_matrix mtx){
-
+	printf("duplicateMatrix\n");
 	if(mtx==NULL){
 		printf("ERROR matrix NULL!\n");
 		return NULL;
 	}
 
-	matrix mtxNew = (matrix) malloc(sizeof(struct _matrix)+sizeof(double)*(mtx->rows)*(mtx->cols));
-	matrix * mtxNew2;
-	matrix mtxtemp;
-	matrix mtx2;
+	matrix mtxNew = newMatrix(getRows(mtx),getCols(mtx));
+//	matrix * mtxNew2;
+//	matrix mtxtemp;
+//	matrix mtx2;
 
 	if(mtxNew==NULL){
-		printf("rows %d cols %d\n",mtx->rows,mtx->cols);
+		printf("rows %d cols %d\n",getRows(mtx),getCols(mtx));
 		printf("ERROR no memory to duplicate matrix\n");
 		return NULL;
 	}
 	//set Dimenions
-	mtxNew->rows = mtx->rows;
-	mtxNew->cols = mtx->cols;
 
 	int i;
 	int j;
 	double val;
-	for( i= 1;i<=mtxNew->rows;i++){
-		for(j=1;j<=mtxNew->cols;j++){
+	for( i= 1;i<=getRows(mtx);i++){
+		for(j=1;j<=getCols(mtx);j++){
 			val = getE(mtx,i,j);
+			printf("i %d j %d val %g\n",i,j,val);
 			setE(mtxNew,i,j,val);
 		}
 	}
-
+/*
 	mtxNew->Extra = NULL;
 	mtxNew2 = &mtxNew;
 	mtx2 = mtx;
@@ -206,7 +205,7 @@ matrix duplicateMatrix(const_matrix mtx){
 	(*mtxNew2)->Extra = NULL;
 	
 	}
-
+*/
 	return mtxNew;
 
 }
@@ -215,7 +214,7 @@ int deleteMatrix( matrix * mtx) {
   
 	if (!mtx) return -1;
 	if (!(*mtx)) return -1;
-
+	//printf("deleteMatrix\n");
 	matrix mtx2;
   while( (*mtx)->Extra!=NULL){
 			mtx2 = (*mtx);
@@ -329,7 +328,7 @@ int resizeRow(matrix * mtx, int Row){
 	if(!(*mtx)) return -1;
 	if(Row<=0 ) return -1;
 	//Find if we are adding or removing from the matrix
-	
+	//printf("ResizeRow\n");	
 	//If flag equals 1 means decreasing the size of the
 	//matrix if it is 0 it means we are increasing the size
 	int i;
@@ -576,7 +575,7 @@ int resizeRow(matrix * mtx, int Row){
 
 int setAll(matrix mtx, double val){
 	if(!mtx) return -1;
-  
+ 	//printf("setAll\n"); 
 	//set all data to val
   int i;
 	int j;
@@ -615,6 +614,7 @@ int setE(matrix mtx, int row, int col, double val) {
   if(!mtx) {
 		return -1;
 	}
+	//printf("SetE\n");
 	matrix mtxtemp;
 	matrix mtxprev;
 	int rowtemp;
@@ -667,7 +667,7 @@ double getE(const_matrix mtx, int row, int col) {
 		printf("ERROR matrix NULL!\n");
 		return -1;
 	}
-
+	//printf("getE\n");
 	int rowtemp;
 	int totalRows = getRows(mtx);
 	int totalCols = mtx->cols;
@@ -699,7 +699,7 @@ int matchExist(const_matrix mtx, double match){
 	if(!mtx){
 		return -1;
 	}
-	
+	//printf("matchExist\n");
 	int i;
 	int j;
 	matrix mtxtemp = mtx;
@@ -725,6 +725,8 @@ int matchExistCol(const_matrix mtx, int col, double match){
 		return -1;
 	}
 
+	//printf("matchExistCol\n");
+
 	int i;
 	matrix mtxtemp=mtx;
 	while(mtxtemp!=NULL){
@@ -742,6 +744,7 @@ int matchReplace(matrix mtx, double match, double replace){
 	if(!mtx){
 		return -1;
 	}
+	//printf("matchReplace\n");
 	int i;
 	int j;
 	
@@ -764,6 +767,7 @@ int FindRowOfMatchInCol(const_matrix mtx, double match, int col){
 	if(!mtx || col<1 || col>mtx->cols){
 		return -1;
 	}
+	//printf("FindRowOfMatchInCol\n");
 
 	int i;
 	int matchRow = 1;
@@ -787,7 +791,7 @@ double SumOfRow(matrix mtx, int row){
 	if(!mtx){
 		return -1;
 	}
-
+	//printf("SumOfRow\n");
 	int totalRows = getRows(mtx);
 	if( row<1 || row>totalRows){
 		return -1;
@@ -815,7 +819,8 @@ double SumOfRow(matrix mtx, int row){
 double SumOfCol(matrix mtx, int col){
 	if(!mtx || col<1 || col>mtx->cols)
 		return -1;
-
+	
+	//printf("SumOfCol\n");
 	int i;
 	double val=0;
 	matrix mtxtemp = mtx;
@@ -834,6 +839,7 @@ int DivideEachElement(matrix * mtx, double val){
 	
 	if(!(*mtx))
 		return -1;
+	//printf("DivideEachElement\n");	
 
 	int i;
 	int j;
@@ -866,7 +872,7 @@ int DivideEachElementCol(matrix * mtx, int col, double val){
 	if(mtx==NULL){
 		return -1;
 	}
-	
+	//printf("DivideEachElementCol\n");	
 	if(!(*mtx)){
 		return -1;
 	}

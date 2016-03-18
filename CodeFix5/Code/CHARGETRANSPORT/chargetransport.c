@@ -1814,9 +1814,17 @@ int randomWalk( SNarray snA,int CheckptNum,\
 		//simply increment the time
 
 		printf("nca %d nc %d elXb %d elXf %d\n",nca,nc,getElectrode_Charges(elXb),getElectrode_Charges(elXf));
-		ChargeCheck = nc+getElectrode_Charges(elXb);
-		ChargeCheck = ChargeCheck+getElectrode_Charges(elYr);
-		ChargeCheck = ChargeCheck+getElectrode_Charges(elZa);
+		ChargeCheck = nc;
+		if(XElecOn==1){
+			ChargeCheck = ChargeCheck	+ getElectrode_Charges(elXb);
+		}
+		if(YElecOn==1){
+			ChargeCheck = ChargeCheck+getElectrode_Charges(elYl);
+		}
+		if(ZElecOn==1){
+			ChargeCheck = ChargeCheck+getElectrode_Charges(elZb);
+		}
+			
 		if( ChargeCheck != nca){
 			printf("Charges lost somehow!\n");
 			exit(1);

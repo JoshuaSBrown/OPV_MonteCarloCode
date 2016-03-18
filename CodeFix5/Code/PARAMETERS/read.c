@@ -234,6 +234,11 @@ ParameterFrame newParamFrame_File(void){
 			intval = GrabInt(position, &buffer[0] );
 			printf("SLength %d\n",intval);
 			PF->SLength = intval;
+			if(intval<=1){
+				printf("ERROR SLength set to a value less than 2!\n");
+				printf("SLength must be at least 2 SiteNodes wide.\n");
+				exit(1);
+			}
 		}else{
 			printf("ERROR when reading file can not find SLength!\n");
 			exit(1);
@@ -245,6 +250,11 @@ ParameterFrame newParamFrame_File(void){
 			intval = GrabInt(position, &buffer[0] );
 			printf("SWidth %d\n",intval);
 			PF->SWidth = intval;
+			if(intval<=1){
+				printf("ERROR SWidth set to a value less than 2!\n");
+				printf("SWidth must be at least 2 SiteNodes wide.\n");
+				exit(1);
+			}
 		}else{
 			printf("ERROR when reading file can not find SWidth!\n");
 			exit(1);
@@ -256,6 +266,11 @@ ParameterFrame newParamFrame_File(void){
 			intval = GrabInt(position, &buffer[0] );
 			printf("SHeight %d\n",intval);
 			PF->SHeight = intval;
+			if(intval<=1){
+				printf("ERROR SHeight set to a value less than 2!\n");
+				printf("SHeight must be at least 2 SiteNodes wide.\n");
+				exit(1);
+			}
 		}else{
 			printf("ERROR when reading file can not find SHeight!\n");
 			exit(1);
@@ -804,8 +819,8 @@ ParameterFrame newParamFrame_File(void){
 			if(intval<0){
 				printf("ERROR SeedProt is negative\n");
 				exit(1);
-			}else if(intval>1){
-				printf("ERROR SeedProt is greater than 1\n");
+			}else if(intval>2){
+				printf("ERROR SeedProt is greater than 2\n");
 				exit(1);
 			}
 			PF->SeedProt = intval;
@@ -1101,14 +1116,29 @@ int ReadParameter(int * method,\
 				position = match(buffer, "\nSLength");
 				*SLength = GrabInt(position, &buffer[0] );
 				printf("SLength %d\n",*SLength);
+				if(*SLength<=1){
+					printf("ERROR SLength set to a value less than 2!\n");
+					printf("SLength must be at least 2 SiteNodes wide.\n");
+					exit(1);
+				}
 
 				position = match(buffer, "\nSWidth");
 				*SWidth = GrabInt(position, &buffer[0] );
 				printf("SWidth %d\n",*SWidth);
+				if(*SWidth<=1){
+					printf("ERROR SWidth set to a value less than 2!\n");
+					printf("SWidth must be at least 2 SiteNodes wide.\n");
+					exit(1);
+				}
 
 				position = match(buffer, "\nSHeight");
 				*SHeight = GrabInt(position, &buffer[0] );
 				printf("SHeight %d\n",*SHeight);
+				if(*SHeight<=1){
+					printf("ERROR SHeight set to a value less than 2!\n");
+					printf("SHeight must be at least 2 SiteNodes wide.\n");
+					exit(1);
+				}
 
 				position = match(buffer, "\nPeriodicX");
 				*PeriodicX = GrabInt(position, &buffer[0] );

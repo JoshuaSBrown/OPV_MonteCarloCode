@@ -144,7 +144,7 @@ matrix  newMatrixSet(int rows, int cols, double set) {
 }
 
 matrix duplicateMatrix(const_matrix mtx){
-	printf("duplicateMatrix\n");
+	//printf("duplicateMatrix\n");
 	if(mtx==NULL){
 		printf("ERROR matrix NULL!\n");
 		return NULL;
@@ -156,7 +156,7 @@ matrix duplicateMatrix(const_matrix mtx){
 //	matrix mtx2;
 
 	if(mtxNew==NULL){
-		printf("rows %d cols %d\n",getRows(mtx),getCols(mtx));
+		//printf("rows %d cols %d\n",getRows(mtx),getCols(mtx));
 		printf("ERROR no memory to duplicate matrix\n");
 		return NULL;
 	}
@@ -168,7 +168,7 @@ matrix duplicateMatrix(const_matrix mtx){
 	for( i= 1;i<=getRows(mtx);i++){
 		for(j=1;j<=getCols(mtx);j++){
 			val = getE(mtx,i,j);
-			printf("i %d j %d val %g\n",i,j,val);
+			//printf("i %d j %d val %g\n",i,j,val);
 			setE(mtxNew,i,j,val);
 		}
 	}

@@ -1716,6 +1716,8 @@ int randomWalk( SNarray snA,int CheckptNum,\
 	int Zdrain;
 	int Zsource;
 
+	int ChargeCheck;
+
 	int CurrentInc;
 	int TotalCollected;
 	int ElecExit;
@@ -1812,8 +1814,10 @@ int randomWalk( SNarray snA,int CheckptNum,\
 		//simply increment the time
 
 		printf("nca %d nc %d elXb %d elXf %d\n",nca,nc,getElectrode_Charges(elXb),getElectrode_Charges(elXf));
-
-		if( nc+getElectrode_Charges(elXb) != nca){
+		ChargeCheck = nc+getElectrode_Charges(elXb);
+		ChargeCheck = ChargeCheck+getElectrode_Charges(elYr);
+		ChargeCheck = ChargeCheck+getElectrode_Charges(elZa);
+		if( ChargeCheck != nca){
 			printf("Charges lost somehow!\n");
 			exit(1);
 		}
@@ -1855,6 +1859,8 @@ int randomWalk( SNarray snA,int CheckptNum,\
 					if(Movie<MovieFrames){
 						printf("Should have entered the printMovie Routine\n");
 						printMovie(&Movie,t,FileName,snA,PF);
+						
+						
 					}
 				}
 
@@ -2306,6 +2312,9 @@ int randomWalk( SNarray snA,int CheckptNum,\
 	printf("Printing Transport Data\n");
 
 	printf("Length of rows of System %d\n",getRows(System));
+	
+	Movie = Movie+1;
+
 	printTransportData(System, timeArray, Xcurrent, Ycurrent, Zcurrent,\
 			Xelec_Drain, Yelec_Drain, Zelec_Drain,\
 			Xelec_Source, Yelec_Source, Zelec_Source,\
@@ -4445,15 +4454,15 @@ int SaveDataPoint(int * CurrentInc, int * NumAvgVel, int nc, int XElecOn, int YE
 
 			//Matrices have gotten to a size where they should be printed
 			//to a file and emptied to free memory
-
 			printTransportData(*System, *timeArray, *Xcurrent, *Ycurrent, *Zcurrent,\
-					*Xelec_Drain, *Yelec_Drain, *Zelec_Drain,\
-					*Xelec_Source, *Yelec_Source, *Zelec_Source,\
-					*Xvelocity, *Yvelocity, *Zvelocity,\
-					XElecOn, YElecOn, ZElecOn, FileName,\
-					ElectricFieldX, ElectricFieldY, ElectricFieldZ);
+						*Xelec_Drain, *Yelec_Drain, *Zelec_Drain,\
+						*Xelec_Source, *Yelec_Source, *Zelec_Source,\
+						*Xvelocity, *Yvelocity, *Zvelocity,\
+						XElecOn, YElecOn, ZElecOn, FileName,\
+						ElectricFieldX, ElectricFieldY, ElectricFieldZ);
 
 
+		
 			deleteMatrix(System);
 			deleteMatrix(timeArray);
 

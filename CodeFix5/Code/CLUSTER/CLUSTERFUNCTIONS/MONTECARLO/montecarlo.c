@@ -35,7 +35,7 @@ int CorrCal(const_matrix A,const int i,const int j,const int k,const double Rad,
 	if(Rad<0 || SiteDistance<=0 || lambda<=0){
 		return -1;
 	}
-	if(SeedProt>1 || SeedProt<0){
+	if(SeedProt>2 || SeedProt<0){
 		return -1;
 	}
 	if(PeriodicX<0 || PeriodicX>1 ||\
@@ -165,7 +165,7 @@ int CorrCal(const_matrix A,const int i,const int j,const int k,const double Rad,
 	
 		//This is in the case that the energy of site (i,j,k) is adjusted
 	  //based on the closest seed within Rad
-		if((int)SeedProt==1){
+		if((int)SeedProt==1 || (int)SeedProt==2){
 		
 			for(ii=lx; ii<=hx; ii++){
 				for(jj=ly; jj<=hy;jj++){
@@ -205,8 +205,9 @@ int CorrCal(const_matrix A,const int i,const int j,const int k,const double Rad,
 				}
 			}
 		}
+
 	}
-	if ((int)SeedProt==1){
+	if ((int)SeedProt==1 || (int)SeedProt==2){
 	
 		if(inc>1){
 
@@ -252,6 +253,9 @@ int CorrCal(const_matrix A,const int i,const int j,const int k,const double Rad,
 			*SumCor=1;
 		}
 	}
+	
+	
+	
 	deleteMatrix(&M);
 
 	return 0;

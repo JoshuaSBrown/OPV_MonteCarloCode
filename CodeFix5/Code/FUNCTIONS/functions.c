@@ -170,8 +170,12 @@ int initSite(const double electricEnergyX, const double electricEnergyY,\
 				setE(As,i+1,2,(double)jj);
 				setE(As,i+1,3,(double)kk);
 				//printf("Assigned locations to array\n");
-				SiteEnergy = grn(E0, sigma);
-				
+				if(SeedProt<2){
+					SiteEnergy = grn(E0, sigma);
+				}else if(SeedProt==2){
+					SiteEnergy = E0;
+				}
+
 				setEnergy(pN,SiteEnergy);
 				setInitE(pN,1);
 				i++;

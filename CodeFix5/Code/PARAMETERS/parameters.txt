@@ -4,9 +4,9 @@
 method 0 
 
 //Number of nodes along the x-axis, y-axis and z-axis
-SLength 20
-SWidth 20
-SHeight 10
+SLength 50
+SWidth 50
+SHeight 50
 
 //Defines whether sides are periodic or not
 // 0 - means non-periodic
@@ -93,7 +93,7 @@ D 20E14
 TCount 1
 
 //Number of charges injected per time step
-NCh 4
+NCh 1000
 
 //Total number of charges passed through the system
 Ntot TCount*NCh
@@ -117,19 +117,22 @@ ClusterAlg 0
 //CutOffDistance CutOff*lambda
 //lambda is used in the correlation function
 CutOff 4 
-lambda 1E-9
+lambda 1E-8
 
 //Seed Protocol is used to determine how the energies are
 //spead out between the sites. 
 // 0 - means averaged by surrounding seeds
 // 1 - means averaged with closest seeds
-SeedProt 1
+// 2 - means averaged by closest seed but energy of seed
+//		 sites are all the same, Using Average site energy E0
+//		 to describe the seed energies.
+SeedProt 2
 //How many numerical iterations should be used to approximate
 //cluster behavior (Default to 15% should be less than 5% error)
 Attempts 15
 
 //What fraction of sites act as seeds
-fracSeed 0.005
+fracSeed 0.001
 //Average site energy [eV]
 E0 -5.2
 //Standard deviation of the site energy
@@ -159,7 +162,7 @@ gamma 2
 Er 3.9
 
 //Movie Frames 
-MovieFrames 1
+MovieFrames 10
 
 //***********if CELIV***************
 
